@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getSession,} from "next-auth/react";
+import {getSession, signIn, signOut} from "next-auth/react";
 
 export interface ErrorResponse {
     data: string;
@@ -22,22 +22,31 @@ const service = axios.create({
 service.interceptors.request.use(
     async (config) => {
         const session = await getSession();
-        // console.log("config");
-        // console.log(session?.accessToken);
         if (config.headers && session) {
             config.headers["Authorization"] = `Bearer ${session?.accessToken}`;
-            config.headers["account_id"] = session?.accountId;
+            config.headers["UserID"] = session.userId;
         }
 
         return config;
     },
     (error) => {
-        // Do something with request error
         // eslint-disable-next-line no-console
-        //console.log(error); // for debug
         console.log("we are fucked");
         Promise.reject(error);
     }
 );
 
+// Add a response interceptor
+service.interceptors.response.use((response) => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+}, async (error) => {
+    if (error.response.status === 403) {
+        signOut();
+    }
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
+});
 export default service;

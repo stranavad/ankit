@@ -6,6 +6,6 @@ declare module "next-auth" {
      */
     interface Session {
         accessToken: string | unknown;
-        accountId: number;
+        userId: number;
     }
 }

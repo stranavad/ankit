@@ -1,0 +1,21 @@
+.gridHeader {
+  padding: 10px;
+  height: 50px;
+  align-items: center;
+}
+
+.wrapper {
+  margin: auto;
+  max-width: 800px;
+}
+
+.createSpaceContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,0 +1,41 @@
+body, * {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Console", Courier, monospace;
+}
+
+body {
+  background-color: lightgray;
+}
+
+.heading-2 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.form-input {
+  margin-bottom: 25px;
+}
+
+.unstyled-text-field, {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  input, input:focus-visible {
+    font-size: 22px;
+    border: none;
+    outline: none;
+    font-weight: bold;
+  }
+}
+
+
+/* MARGINGS */
+.mb-1 {
+  margin-bottom: 5px;
+}
+
+.mb-2 {
+  margin-bottom: 10px;
+}

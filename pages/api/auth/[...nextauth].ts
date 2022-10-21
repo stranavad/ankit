@@ -33,14 +33,13 @@ export default NextAuth({
                     userId: user.user.id,
                 }
             });
-        }
+        },
     },
     callbacks: {
         async signIn({account}) {
             if (!account) {
                 return false;
             }
-            // console.log(account);
             const acccountToUpdate = await prisma.account.findUnique({
                 where: {
                     provider_providerAccountId: {
@@ -70,11 +69,11 @@ export default NextAuth({
             await prisma.$disconnect();
             return true;
         },
-        async jwt({token, account}) {
+        async jwt({token, account, user}) {
             // Persist the OAuth access_token to the token right after signin
             if (account) {
                 token.accessToken = account.access_token;
-                token.accountId = account.id;
+                token.userId = user?.id;
             }
             return token;
         },
@@ -82,7 +81,7 @@ export default NextAuth({
             // Send properties to the client, like an access_token from a provider.
             session.accessToken = token?.accessToken;
             // @ts-ignore
-            session.accountId = token?.accountId;
+            session.userId = token.userId;
             return session;
         },
     },
