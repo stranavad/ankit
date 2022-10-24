@@ -1,10 +1,10 @@
 import {ApplicationSpace} from "@/types/space";
 import Grid from "@mui/material/Unstable_Grid2";
 import SpaceItem from "@/components/SpaceItem";
-import {useEffect, useState, useCallback} from "react";
-import {getSpaces, deleteSpace, createSpace} from "@/api/space";
+import {useEffect, useState, useCallback, ChangeEvent} from "react";
+import {getSpaces, deleteSpace, createSpace, GetSpacesParams} from "@/api/space";
 import styles from "./index.module.scss";
-import {Button, TextField, Typography} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import debounce from "lodash/debounce";
 import AModal from "@/components/Modal";
 import {useSession} from "next-auth/react";
@@ -38,22 +38,22 @@ const tableHeaders: TableHeader[] = [
 const Spaces = () => {
     const [spaces, setSpaces] = useState<ApplicationSpace[]>([]);
     const [createSpaceModal, setCreateSpaceModal] = useState<boolean>(false);
+    const [search, setSearch] = useState<string>("");
 
     const {data} = useSession();
 
-    const loadSpaces = () => {
-        getSpaces().then((response) => setSpaces(response.data));
+    const loadSpaces = (params: GetSpacesParams = {search}) => {
+        getSpaces({search: params?.search}).then((response) => setSpaces(response.data));
     };
 
+    useEffect(() => loadSpaces({search}), []);
 
-    useEffect(loadSpaces, []);
-
-    const debouncedLoadSpaces = useCallback(debounce(loadSpaces, 500), []);
+    const debouncedLoadSpaces = useCallback(debounce((params: GetSpacesParams = {search}) => loadSpaces(params), 500), []);
 
 
     const removeSpace = (spaceId: number) => {
         setSpaces(data => data.filter(({id}) => id !== spaceId));
-        deleteSpace(spaceId).then(debouncedLoadSpaces);
+        deleteSpace(spaceId).then(() => debouncedLoadSpaces());
     };
 
     const storeSpace = (data: CreateData) => {
@@ -64,6 +64,11 @@ const Spaces = () => {
         });
     };
 
+    const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+        debouncedLoadSpaces({search: e.target.value});
+    };
+
 
     return (
         <>
@@ -72,6 +77,7 @@ const Spaces = () => {
             </AModal>
             <div className={styles.wrapper}>
                 <div className={styles.createSpaceContainer}>
+                    <TextField value={search} onChange={onChangeSearch} placeholder="search"/>
                     <Button onClick={() => setCreateSpaceModal(true)} variant="contained">
                         Create space
                     </Button>

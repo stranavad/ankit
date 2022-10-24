@@ -23,10 +23,16 @@ body {
   align-items: center;
 
   input, input:focus-visible {
-    font-size: 22px;
+    font-size: 14px;
     border: none;
     outline: none;
     font-weight: bold;
+  }
+
+  &.large {
+    input, input:focus-visible {
+      font-size: 22px
+    }
   }
 }
 

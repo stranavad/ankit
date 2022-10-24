@@ -1,11 +1,10 @@
 import type {NextPage} from "next";
-import Spaces from "@/components/Spaces";
 
 const Home: NextPage = () => {
 
     return (
         <>
-            <Spaces/>
+            <h1>Dashboard</h1>
         </>
     );
 };

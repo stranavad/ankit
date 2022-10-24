@@ -1,12 +1,18 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
-import {ApplicationSpace} from "@/types/space";
+import {ApplicationSpace, DetailSpace} from "@/types/space";
 
 
-export const getSpaces = (): AxiosPromise<ApplicationSpace[]> => {
+export interface GetSpacesParams {
+    accepted?: boolean | null;
+    search?: string | null;
+}
+
+export const getSpaces = (params: GetSpacesParams): AxiosPromise<ApplicationSpace[]> => {
     return request({
         url: "/space",
         method: "get",
+        params
     });
 };
 
@@ -31,3 +37,28 @@ export const deleteSpace = (spaceId: number): AxiosPromise<string> => {
     });
 };
 
+/* UPDATE SPACE */
+export const updateSpace = (data: { name?: string, description?: string }, spaceId: number): AxiosPromise<ApplicationSpace> => {
+    return request({
+        url: `/space/${spaceId}`,
+        method: "put",
+        data
+    });
+};
+
+/* UPDATE SPACE */
+export const updateSpaceMember = (data: { name: string }, spaceId: number): AxiosPromise<ApplicationSpace> => {
+    return request({
+        url: `/space/${spaceId}/member`,
+        method: "put",
+        data
+    });
+};
+
+/* HAS ACCESS TO SPACE */
+export const getSpaceById = (id: number): AxiosPromise<DetailSpace> => {
+    return request({
+        url: `/space/${id}`,
+        method: "get"
+    });
+};

@@ -56,17 +56,16 @@ model Account {
 }
 
 model Member {
-  id         Int      @id @default(autoincrement())
-  name       String
-  role       String
-  accepted   Boolean  @default(false)
-  spaceId    Int?
-  created    DateTime @default(now())
-  updated    DateTime @default(now())
-  userId     Int
-  space      Space?   @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  spaceOwner Space?   @relation("owner")
+  id       Int      @id @default(autoincrement())
+  name     String
+  role     String
+  accepted Boolean  @default(false)
+  spaceId  Int?
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+  userId   Int
+  space    Space?   @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, spaceId])
   @@index([spaceId], map: "Member_spaceId_fkey")
@@ -79,7 +78,5 @@ model Space {
   personal    Boolean  @default(false)
   created     DateTime @default(now())
   updated     DateTime @default(now())
-  ownerId     Int      @unique
-  owner       Member   @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
   members     Member[]
 }
