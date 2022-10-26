@@ -42,11 +42,11 @@ service.interceptors.response.use((response) => {
     // Do something with response data
     return response;
 }, async (error) => {
-    if (error.response.status === 403) {
+    if (error.response?.status === 403) {
         signOut();
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error);
+    // return Promise.reject(error);
 });
 export default service;

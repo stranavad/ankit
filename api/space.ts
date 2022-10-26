@@ -1,6 +1,8 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
 import {ApplicationSpace, DetailSpace} from "@/types/space";
+import {RoleType} from "@/types/role";
+import {ApplicationMember} from "@/types/member";
 
 
 export interface GetSpacesParams {
@@ -60,5 +62,20 @@ export const getSpaceById = (id: number): AxiosPromise<DetailSpace> => {
     return request({
         url: `/space/${id}`,
         method: "get"
+    });
+};
+
+/* ADD MEMBER TO SPACE */
+interface AddMemberToSpaceData {
+    userId: number;
+    username: string;
+    role?: RoleType;
+}
+
+export const addMemberToSpace = (data: AddMemberToSpaceData, id: number): AxiosPromise<ApplicationMember[]> => {
+    return request({
+        url: `/space/${id}/member`,
+        method: "post",
+        data
     });
 };
