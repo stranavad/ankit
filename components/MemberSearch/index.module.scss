@@ -1,0 +1,36 @@
+.menuList {
+  width: 350px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  .menuItem {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .userInfo {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .userImage {
+        border-radius: 50%;
+      }
+
+      .userName {
+        margin-left: 10px;
+        font-weight: bolder;
+      }
+    }
+
+    .userAdd {
+      right: 0;
+      border: none;
+      background: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

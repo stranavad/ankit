@@ -5,7 +5,6 @@ import {ApplicationUser} from "@/types/user";
 
 export interface SearchUsersData {
     search: string;
-    in: number[];
     notIn: number[];
 }
 

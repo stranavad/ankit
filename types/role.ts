@@ -5,6 +5,21 @@ export enum RoleType {
     OWNER = "owner",
 }
 
+export enum RoleName {
+    VIEW = "Viewer",
+    EDIT = "Editor",
+    ADMIN = "Administrator",
+    OWNER = "Owner"
+}
+
+export const Roles: { [key in RoleType]: RoleName } = {
+    "view": RoleName.VIEW,
+    "edit": RoleName.EDIT,
+    "admin": RoleName.ADMIN,
+    "owner": RoleName.OWNER
+};
+
+
 export function parseRole(role: string): RoleType {
     switch (role) {
     case RoleType.VIEW:

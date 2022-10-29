@@ -12,7 +12,7 @@ export interface GetSpacesParams {
 
 export const getSpaces = (params: GetSpacesParams): AxiosPromise<ApplicationSpace[]> => {
     return request({
-        url: "/space",
+        url: "/spaces",
         method: "get",
         params
     });
@@ -25,7 +25,7 @@ interface CreateSpaceData {
 
 export const createSpace = (data: CreateSpaceData): AxiosPromise<ApplicationSpace> => {
     return request({
-        url: "/space",
+        url: "/spaces",
         method: "post",
         data,
     });
@@ -34,7 +34,7 @@ export const createSpace = (data: CreateSpaceData): AxiosPromise<ApplicationSpac
 /* DELETE SPACE*/
 export const deleteSpace = (spaceId: number): AxiosPromise<string> => {
     return request({
-        url: `/space/${spaceId}`,
+        url: `/spaces/${spaceId}`,
         method: "delete",
     });
 };
@@ -42,7 +42,7 @@ export const deleteSpace = (spaceId: number): AxiosPromise<string> => {
 /* UPDATE SPACE */
 export const updateSpace = (data: { name?: string, description?: string }, spaceId: number): AxiosPromise<ApplicationSpace> => {
     return request({
-        url: `/space/${spaceId}`,
+        url: `/spaces/${spaceId}`,
         method: "put",
         data
     });
@@ -51,7 +51,7 @@ export const updateSpace = (data: { name?: string, description?: string }, space
 /* UPDATE SPACE */
 export const updateSpaceMember = (data: { name: string }, spaceId: number): AxiosPromise<ApplicationSpace> => {
     return request({
-        url: `/space/${spaceId}/member`,
+        url: `/spaces/${spaceId}/member`,
         method: "put",
         data
     });
@@ -60,7 +60,7 @@ export const updateSpaceMember = (data: { name: string }, spaceId: number): Axio
 /* HAS ACCESS TO SPACE */
 export const getSpaceById = (id: number): AxiosPromise<DetailSpace> => {
     return request({
-        url: `/space/${id}`,
+        url: `/spaces/${id}`,
         method: "get"
     });
 };
@@ -74,8 +74,38 @@ interface AddMemberToSpaceData {
 
 export const addMemberToSpace = (data: AddMemberToSpaceData, id: number): AxiosPromise<ApplicationMember[]> => {
     return request({
-        url: `/space/${id}/member`,
+        url: `/spaces/${id}/member`,
         method: "post",
         data
+    });
+};
+
+
+/* GET SPACE MEMBERS */
+export const getSpaceMembers = (id: number): AxiosPromise<ApplicationMember[]> => {
+    return request({
+        url: `/spaces/${id}/member`,
+        method: "get"
+    });
+};
+
+/* REMOVE MEMBER FROM SPACE */
+export const removeMemberFromSpace = (spaceId: number, memberId: number): AxiosPromise<ApplicationMember[]> => {
+    return request({
+        url: `/spaces/${spaceId}/member/${memberId}`,
+        method: "delete"
+    });
+};
+
+/* GET CURRENT SPACE INFO */
+interface GetCurrentSpaceResponse {
+    space: DetailSpace,
+    member: ApplicationMember
+}
+
+export const getCurrentSpace = (id: number): AxiosPromise<GetCurrentSpaceResponse> => {
+    return request({
+        url: `/spaces/${id}/current`,
+        method: "get"
     });
 };

@@ -1,16 +1,19 @@
 import "@/styles/index.scss";
+import "@/styles/globals.scss";
 import type {AppProps} from "next/app";
 import {SessionProvider} from "next-auth/react";
 import SecurePage from "@/pages/_secure";
-import Menu from "@/components/Menu";
+import CurrentSpaceProvider from "@/components/CurrentSpaceProvider";
 
-// @ts-ignore
-function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
+interface AppPropsExtended extends AppProps {
+    pageProps: AppProps["pageProps"] & { session: any };
+}
+
+function MyApp({Component, pageProps: {session, ...pageProps}}: AppPropsExtended) {
     return (
         <SessionProvider session={session}>
-            <Menu/>
             <div className="main-wrapper">
-                <SecurePage><Component {...pageProps} /></SecurePage>
+                <SecurePage><CurrentSpaceProvider><Component {...pageProps} /></CurrentSpaceProvider></SecurePage>
             </div>
         </SessionProvider>
     );

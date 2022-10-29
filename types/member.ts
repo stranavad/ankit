@@ -6,4 +6,6 @@ export interface ApplicationMember {
     role: RoleType;
     accepted: boolean;
     email: string;
+    // TODO image is not always defined
+    image: string | null;
 }

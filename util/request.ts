@@ -1,16 +1,16 @@
 import axios from "axios";
-import {getSession, signIn, signOut} from "next-auth/react";
+import {getSession, signOut} from "next-auth/react";
 
 export interface ErrorResponse {
     data: string;
     status: number;
 }
 
-export interface DataResponse {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any;
-    status: number;
-}
+// export interface DataResponse {
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     data: any;
+//     status: number;
+// }
 
 // Create axios instance
 const service = axios.create({
@@ -47,6 +47,6 @@ service.interceptors.response.use((response) => {
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    // return Promise.reject(error);
+    return Promise.reject(error);
 });
 export default service;

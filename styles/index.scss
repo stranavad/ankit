@@ -36,7 +36,6 @@ body {
   }
 }
 
-
 /* MARGINGS */
 .mb-1 {
   margin-bottom: 5px;
@@ -44,4 +43,12 @@ body {
 
 .mb-2 {
   margin-bottom: 10px;
+}
+
+
+.popper-container {
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0px 0px 5px #00000033
 }

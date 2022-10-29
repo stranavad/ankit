@@ -4,16 +4,13 @@ import SpaceItem from "@/components/SpaceItem";
 import {useEffect, useState, useCallback, ChangeEvent} from "react";
 import {getSpaces, deleteSpace, createSpace, GetSpacesParams} from "@/api/space";
 import styles from "./index.module.scss";
-import {Button, TextField} from "@mui/material";
 import debounce from "lodash/debounce";
 import AModal from "@/components/Modal";
 import {useSession} from "next-auth/react";
 import CreateSpaceForm, {CreateData} from "@/components/Spaces/createSpaceForm";
+import {TableHeader} from "@/types/table";
+import TextInput from "@/components/base/TextInput";
 
-interface TableHeader {
-    title: string;
-    size: number;
-}
 
 const tableHeaders: TableHeader[] = [
     {
@@ -43,7 +40,7 @@ const Spaces = () => {
     const {data} = useSession();
 
     const loadSpaces = (params: GetSpacesParams = {search}) => {
-        getSpaces({search: params?.search}).then((response) => setSpaces(response.data));
+        getSpaces({search: params?.search || undefined}).then((response) => setSpaces(response.data));
     };
 
     useEffect(() => loadSpaces({search}), []);
@@ -77,10 +74,10 @@ const Spaces = () => {
             </AModal>
             <div className={styles.wrapper}>
                 <div className={styles.createSpaceContainer}>
-                    <TextField value={search} onChange={onChangeSearch} placeholder="search"/>
-                    <Button onClick={() => setCreateSpaceModal(true)} variant="contained">
+                    <TextInput value={search} onChange={onChangeSearch} placeholder="search"/>
+                    <button onClick={() => setCreateSpaceModal(true)}>
                         Create space
-                    </Button>
+                    </button>
                 </div>
                 <Grid container spacing={2} className={styles.gridHeader}>
                     {tableHeaders.map((header, index) => (

@@ -6,7 +6,6 @@ import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// @ts-ignore
 export default NextAuth({
     adapter: PrismaAdapter(prisma),
     providers: [
@@ -80,8 +79,7 @@ export default NextAuth({
         async session({session, token}) {
             // Send properties to the client, like an access_token from a provider.
             session.accessToken = token?.accessToken;
-            // @ts-ignore
-            session.userId = token.userId;
+            session.userId = token.userId as number;
             return session;
         },
     },
