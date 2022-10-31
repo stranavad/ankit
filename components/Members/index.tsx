@@ -2,13 +2,13 @@ import {ApplicationMember} from "@/types/member";
 import {useContext, useEffect, useState} from "react";
 import MemberItem from "@/components/MemberItem";
 import {addMemberToSpace, getSpaceMembers, removeMemberFromSpace} from "@/api/space";
-import {SpaceContext} from "@/components/CurrentSpaceProvider";
 import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
 import classNames from "classnames";
 import styles from "./index.module.scss";
 import {RoleType} from "@/types/role";
 import {updateMemberRole} from "@/api/member";
+import {SpaceContext} from "@/util/context";
 
 const Members = () => {
     const [members, setMembers] = useState<ApplicationMember[]>([]);

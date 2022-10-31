@@ -1,7 +1,6 @@
 import {ChangeEvent, useContext, useRef, useState} from "react";
 import {ApplicationUser} from "@/types/user";
 import {searchUsers} from "@/api/user";
-import {SpaceContext} from "@/components/CurrentSpaceProvider";
 import {ClickAwayListener, PopperUnstyled} from "@mui/base";
 import styles from "./index.module.scss";
 import Image from "next/image";
@@ -9,6 +8,7 @@ import TextInput from "@/components/base/TextInput";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import Popper from "@/components/base/Popper";
 import classNames from "classnames";
+import {SpaceContext} from "@/util/context";
 
 const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) => {
     const [open, setOpen] = useState<boolean>(false);

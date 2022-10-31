@@ -1,6 +1,6 @@
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
-import {ReactElement, useEffect} from "react";
+import {ReactElement} from "react";
 
 interface SecureProps {
     children: ReactElement;
@@ -12,14 +12,9 @@ function SecurePage({children}: SecureProps) {
     const router = useRouter();
     const {status} = useSession();
 
-    useEffect(() => {
-        if (
-            status === "unauthenticated" &&
-            !unprotectedRoutes.includes(router.pathname)
-        ) {
-            router.push("/");
-        }
-    }, [status]);
+    if(status === "unauthenticated" && !unprotectedRoutes.includes(router.pathname)){
+        return <h2>Unauthenticated, return back</h2>
+    }
 
     return children;
 }

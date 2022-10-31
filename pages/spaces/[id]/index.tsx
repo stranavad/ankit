@@ -1,7 +1,8 @@
 import type {NextPage} from "next";
 import {useContext} from "react";
-import CurrentSpaceProvider, {SpaceContext} from "@/components/CurrentSpaceProvider";
+import CurrentSpaceProvider from "@/components/CurrentSpaceProvider";
 import Link from "next/link";
+import {SpaceContext} from "@/util/context";
 
 const SpacePage: NextPage = () => {
     const {space} = useContext(SpaceContext);

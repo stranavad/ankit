@@ -1,6 +1,6 @@
 import {RoleType} from "@/types/role";
 import {useContext} from "react";
-import {SpaceContext} from "@/components/CurrentSpaceProvider";
+import {SpaceContext} from "@/util/context";
 
 export const enum Permission {
     ADD_MEMBER = "add member",

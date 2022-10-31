@@ -1,49 +1,15 @@
-import {createContext, ReactElement, useEffect, useMemo, useState} from "react";
+import {ReactElement, useEffect, useMemo, useState} from "react";
 import {DetailSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
 import {getCurrentSpace} from "@/api/space";
 import {useRouter} from "next/router";
+import {defaultMember, defaultSpace, SpaceContext, SpaceContextData} from "@/util/context";
 import {RoleType} from "@/types/role";
-
-export interface SpaceContextData {
-    space: DetailSpace,
-    member: ApplicationMember,
-    fetch: () => void,
-    updateSpace: (data: DetailSpace) => void,
-    updateMember: (data: ApplicationMember) => void
-
-}
-
-const defaultSpace: DetailSpace = {
-    id: 0,
-    name: "name",
-    description: "description",
-    username: "username",
-    accepted: true,
-    personal: true,
-    role: RoleType.VIEW
-};
-
-const defaultMember: ApplicationMember = {
-    id: 0,
-    name: "member name",
-    role: RoleType.VIEW,
-    accepted: true,
-    email: "mail@gmail.com",
-    image: null,
-};
-
-export const SpaceContext = createContext<SpaceContextData>({
-    space: defaultSpace,
-    member: defaultMember,
-    fetch: () => undefined,
-    updateSpace: () => undefined,
-    updateMember: () => undefined,
-});
 
 interface CurrentSpaceProviderProps {
     children: ReactElement;
 }
+
 
 const CurrentSpaceProvider = ({children}: CurrentSpaceProviderProps) => {
     const [space, setSpace] = useState<DetailSpace>(defaultSpace);

@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import classNames from "classnames";
 import {useRouter} from "next/router";
-import {ReactElement} from "react";
+import {ReactElement, useState} from "react";
 import TextInput from "@/components/base/TextInput";
+import {SearchContext, SearchContextData} from "@/util/context";
+import useDebounce from "@/util/debounce";
 
 export interface SidebarItem {
     title: string;
@@ -18,8 +20,16 @@ interface SidebarProps {
 }
 
 const Sidebar = ({items, children}: SidebarProps) => {
+    const [search, setSearch] = useState<string>("");
+    const debouncedSearch = useDebounce<string>(search);
+
+    const searchContextData: SearchContextData = {
+        search,
+        debouncedSearch,
+        clear: () => setSearch('')
+    }
+
     const router = useRouter();
-    console.log(router.pathname);
     const user = {
         image: "https://lh3.googleusercontent.com/a/ALm5wu2wmy5E615eNlSSOHs1Nemf-SfwSYZpD2yYeSCawpg=s96-c",
         name: "Vojtech Ruzicka"
@@ -48,10 +58,12 @@ const Sidebar = ({items, children}: SidebarProps) => {
             <div className={styles.verticalWrapper}>
                 <div className={styles.topMenu}>
                     <h3>Space name</h3>
-                    <TextInput value="search" onChange={() => undefined}/>
+                    <TextInput value={search} onChange={(e) => setSearch(e.target.value)}/>
                 </div>
                 <div className={styles.childrenWrapper}>
-                    {children}
+                    <SearchContext.Provider value={searchContextData}>
+                        {children}
+                    </SearchContext.Provider>
                 </div>
             </div>
         </div>
