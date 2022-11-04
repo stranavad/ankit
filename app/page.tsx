@@ -1,12 +1,11 @@
-import type {NextPage} from "next";
+"use client";
 import Link from "next/link";
 import {signIn, useSession} from "next-auth/react";
-import Sidebar from "@/components/Sidebar";
 import {useContext} from "react";
 import {SearchContext} from "@/util/context";
 
 
-const Home: NextPage = () => {
+const Home = () => {
     const {data} = useSession();
 
     const {debouncedSearch} = useContext(SearchContext);
@@ -15,7 +14,7 @@ const Home: NextPage = () => {
         <>
             <h1>{debouncedSearch}</h1>
             <h1>{data?.user?.email}</h1>
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href={"/dashboard"}>Dashboard</Link>
             <button onClick={() => signIn("google")}>Sign in</button>
         </>
     );

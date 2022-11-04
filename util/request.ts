@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getSession, signOut} from "next-auth/react";
+import {getSession} from "next-auth/react";
 
 export interface ErrorResponse {
     data: string;
@@ -43,7 +43,7 @@ service.interceptors.response.use((response) => {
     return response;
 }, async (error) => {
     if (error.response?.status === 403) {
-        signOut();
+        // signOut();
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

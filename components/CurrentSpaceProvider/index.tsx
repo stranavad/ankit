@@ -2,21 +2,17 @@ import {ReactElement, useEffect, useMemo, useState} from "react";
 import {DetailSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
 import {getCurrentSpace} from "@/api/space";
-import {useRouter} from "next/router";
 import {defaultMember, defaultSpace, SpaceContext, SpaceContextData} from "@/util/context";
-import {RoleType} from "@/types/role";
 
 interface CurrentSpaceProviderProps {
     children: ReactElement;
+    spaceId: number;
 }
 
 
-const CurrentSpaceProvider = ({children}: CurrentSpaceProviderProps) => {
+const CurrentSpaceProvider = ({children, spaceId}: CurrentSpaceProviderProps) => {
     const [space, setSpace] = useState<DetailSpace>(defaultSpace);
     const [member, setMember] = useState<ApplicationMember>(defaultMember);
-
-    const router = useRouter();
-    const spaceId = Number(router.query.id);
 
     let oldSpaceId: null | number = null;
 
@@ -30,6 +26,10 @@ const CurrentSpaceProvider = ({children}: CurrentSpaceProviderProps) => {
             });
     };
 
+    // useEffect(() => {
+    //     fetch();
+    // }, [])
+
     useEffect(() => {
         oldSpaceId !== spaceId && fetch();
         oldSpaceId = spaceId;
@@ -39,7 +39,7 @@ const CurrentSpaceProvider = ({children}: CurrentSpaceProviderProps) => {
         space,
         member,
         fetch,
-        updateMember: (data) => setMember(member),
+        updateMember: (data) => setMember(data),
         updateSpace: (space) => setSpace(space)
     }), [space, member]);
 

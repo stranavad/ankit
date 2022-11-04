@@ -2,6 +2,7 @@ body, * {
   margin: 0;
   padding: 0;
   font-family: "Lucida Console", Courier, monospace;
+  color: var(--dark-text)
 }
 
 body {
@@ -10,7 +11,20 @@ body {
 
 
 :root {
-  --primary-color: #001F3B
+  --primary-color: #001F3B;
+  --dark-text: #545454;
+  --light-text: #efefef;
+
+  /* BACKGROUNDS */
+  --dark-background: #091423;
+
+  --border-radius-small: 5px;
+  --border-radius-medium: 10px;
+}
+
+.link {
+  color: var(--dark-text);
+  text-decoration: none;
 }
 
 .heading-2 {
@@ -55,5 +69,5 @@ body {
   border-radius: 5px;
   background-color: white;
   padding: 10px;
-  box-shadow: 0px 0px 5px #00000033
+  box-shadow: 0 0 5px #00000033
 }

@@ -3,7 +3,6 @@ import AnkitLogo from "@/public/ankit_logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import classNames from "classnames";
-import {useRouter} from "next/router";
 import {ReactElement, useState} from "react";
 import TextInput from "@/components/base/TextInput";
 import {SearchContext, SearchContextData} from "@/util/context";
@@ -26,10 +25,10 @@ const Sidebar = ({items, children}: SidebarProps) => {
     const searchContextData: SearchContextData = {
         search,
         debouncedSearch,
-        clear: () => setSearch('')
-    }
+        clear: () => setSearch("")
+    };
 
-    const router = useRouter();
+    // const router = useRouter();
     const user = {
         image: "https://lh3.googleusercontent.com/a/ALm5wu2wmy5E615eNlSSOHs1Nemf-SfwSYZpD2yYeSCawpg=s96-c",
         name: "Vojtech Ruzicka"
@@ -38,12 +37,12 @@ const Sidebar = ({items, children}: SidebarProps) => {
         <div className={styles.mainWrapper}>
             <div className={styles.container}>
                 <div className={styles.imageContainer}>
-                    <Image src={AnkitLogo}/>
+                    <Image src={AnkitLogo} alt="Ankit logo"/>
                 </div>
                 <div className={styles.items}>
                     {items.map((item, index) => (
                         <Link href={item.path} key={index}>
-                            <div className={classNames(styles.item, {[styles.active]: router.pathname === item.path})}>
+                            <div className={classNames(styles.item, {[styles.active]: true})}>
                                 <span>{item.title}</span>
                             </div>
                         </Link>
@@ -51,7 +50,7 @@ const Sidebar = ({items, children}: SidebarProps) => {
                 </div>
                 <div className={styles.settings}>
                     <Image src={user.image}
-                        width="50px" height="50px" style={{borderRadius: "50%"}}/>
+                           width="50" height="50" style={{borderRadius: "50%"}} alt="User image"/>
                     <span className={styles.name}>{user.name}</span>
                 </div>
             </div>

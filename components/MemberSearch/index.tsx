@@ -1,7 +1,6 @@
 import {ChangeEvent, useContext, useRef, useState} from "react";
 import {ApplicationUser} from "@/types/user";
 import {searchUsers} from "@/api/user";
-import {ClickAwayListener, PopperUnstyled} from "@mui/base";
 import styles from "./index.module.scss";
 import Image from "next/image";
 import TextInput from "@/components/base/TextInput";
@@ -36,7 +35,6 @@ const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) =
         });
     };
 
-    const handleClose = () => setOpen(false);
 
     if (!checkSpacePermission(Permission.ADD_MEMBER)) {
         return null;
@@ -53,8 +51,8 @@ const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) =
                         <div className={styles.menuItem} key={user.id}>
                             {/* TODO add default image */}
                             <div className={styles.userInfo}>
-                                <Image src={user.image as string} width="40px" height="40px"
-                                    className={styles.userImage}/>
+                                <Image src={user.image as string} width="40" height="40"
+                                       className={styles.userImage} alt="user image"/>
                                 <span className={styles.userName}>{user.name}</span>
                             </div>
                             <button className={styles.userAdd} onClick={() => onUserClick(user)}>add</button>

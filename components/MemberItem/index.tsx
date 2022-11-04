@@ -16,7 +16,8 @@ const MemberItem = ({member, removeMember, updateRole}: MemberItemProps) => {
     return (
         <div className={styles.container}>
             <div className="basis-1/12 flex items-center">
-                {member.image && <Image src={member.image} width="40px" height="40px" className={styles.image}/>}
+                {member.image &&
+					<Image src={member.image} width="40" height="40" className={styles.image} alt="user image"/>}
             </div>
             <div className="basis-4/12">
                 {member.name}

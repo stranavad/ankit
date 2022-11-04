@@ -1,6 +1,8 @@
-.gridHeader {
-  padding: 10px;
+.tableHeader {
   height: 50px;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -18,4 +20,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* SPACE ITEM*/
+.spaceLink {
+  color: var(--dark-text);
+  text-decoration: none;
 }
