@@ -14,7 +14,7 @@ export interface ErrorResponse {
 
 // Create axios instance
 const service = axios.create({
-    baseURL: "http://localhost:3001/",
+    baseURL: "https://database.nubestech.cz:4443/",
     timeout: 20000, // Request timeout
 });
 

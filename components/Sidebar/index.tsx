@@ -13,12 +13,23 @@ export interface SidebarItem {
     path: string;
 }
 
+const items: SidebarItem[] = [
+    {
+        title: "Hello",
+        path: "/spaces"
+    },
+    {
+        title: "Hello",
+        path: "/shello"
+    }
+];
+
 interface SidebarProps {
     items: SidebarItem[];
     children: ReactElement;
 }
 
-const Sidebar = ({items, children}: SidebarProps) => {
+const Sidebar = ({children}: SidebarProps) => {
     const [search, setSearch] = useState<string>("");
     const debouncedSearch = useDebounce<string>(search);
 

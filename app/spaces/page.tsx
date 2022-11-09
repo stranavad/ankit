@@ -1,17 +1,15 @@
 "use client";
 import {ApplicationSpace} from "@/types/space";
 import {useEffect, useState, useContext} from "react";
-import {getSpaces, deleteSpace, createSpace} from "@/api/space";
+import {getSpaces, deleteSpace, createSpace, acceptSpaceInvitation} from "@/api/space";
 import styles from "./index.module.scss";
 import Modal from "@/components/base/Modal";
 import {useSession} from "next-auth/react";
 import CreateSpaceForm, {CreateData} from "@/components/CreateSpace";
 import {TableHeader} from "@/types/table";
 import {SearchContext} from "@/util/context";
-import Link from "next/link";
 import GridItem from "@/components/base/Grid/GridItem";
-import Button from "@/components/base/Button";
-import GridLine from "@/components/base/Grid/GridLine";
+import Link from "next/link";
 
 
 const tableHeaders: TableHeader[] = [
@@ -36,16 +34,25 @@ const tableHeaders: TableHeader[] = [
 
 const Spaces = () => {
     const [spaces, setSpaces] = useState<ApplicationSpace[]>([]);
+    const [invitedSpaces, setInvitedSpaces] = useState<ApplicationSpace[]>([]);
     const [createSpaceModal, setCreateSpaceModal] = useState<boolean>(false);
 
     const {data} = useSession();
     const {debouncedSearch} = useContext(SearchContext);
 
     const loadSpaces = () => {
-        getSpaces({search: debouncedSearch || undefined}).then((response) => setSpaces(response.data));
+        getSpaces({search: debouncedSearch || undefined, accepted: true}).then((response) => setSpaces(response.data));
     };
 
-    useEffect(loadSpaces, []);
+    const loadInvitedSpaces = () => {
+        getSpaces({accepted: false}).then((response) => setInvitedSpaces(response.data));
+    };
+
+
+    useEffect(() => {
+        loadSpaces();
+        loadInvitedSpaces();
+    }, []);
     useEffect(loadSpaces, [debouncedSearch]);
 
     const removeSpace = (spaceId: number) => {
@@ -61,44 +68,76 @@ const Spaces = () => {
         });
     };
 
+    const acceptInvitation = (accept: boolean, spaceId: number) => {
+        acceptSpaceInvitation(spaceId, accept).then(() => {
+            loadInvitedSpaces();
+            loadSpaces();
+        });
+    };
 
     return (
         <>
             <Modal open={createSpaceModal} onClose={() => setCreateSpaceModal(false)}>
                 <CreateSpaceForm memberName={data?.user?.name || ""} store={storeSpace}/>
             </Modal>
-            <div className={styles.wrapper}>
+            <div className="content">
                 <div className={styles.createSpaceContainer}>
-                    <Button variant="filled" onClick={() => setCreateSpaceModal(true)}>
+                    <button className="filled" onClick={() => setCreateSpaceModal(true)}>
                         Create space
-                    </Button>
+                    </button>
                 </div>
-                <div className={styles.tableHeader}>
-                    {tableHeaders.map((header, index) => (
-                        <GridItem key={index} size={header.size}>
-                            <h5>{header.title}</h5>
-                        </GridItem>
+                <div className="grid">
+                    <div className="header">
+                        {tableHeaders.map((header, index) => (
+                            <GridItem key={index} size={header.size}>
+                                <h5>{header.title}</h5>
+                            </GridItem>
+                        ))}
+                    </div>
+                    {spaces.map((space) => (
+                        <div className="line" key={space.id}>
+                            <GridItem size={5}>
+                                <Link href={`/spaces/${space.id}`} className="link">
+                                    <h3>{space.name}</h3>
+                                </Link>
+                            </GridItem>
+                            <GridItem size={3}>
+                                <h5>{space.role}</h5>
+                            </GridItem>
+                            <GridItem size={3}>
+                                <h5>{space.username}</h5>
+                            </GridItem>
+                            <GridItem size={1}>
+                                <button className="text" onClick={() => removeSpace(space.id)}
+                                        disabled={space.personal}>Delete
+                                </button>
+                            </GridItem>
+                        </div>
                     ))}
                 </div>
-                {spaces.map((space) => (
-                    <GridLine key={space.id}>
-                        <GridItem size={5}>
-                            <Link href={`/spaces/${space.id}`} className="link">
-                                <h3>{space.name}</h3>
-                            </Link>
-                        </GridItem>
-                        <GridItem size={3}>
-                            <h5>{space.role}</h5>
-                        </GridItem>
-                        <GridItem size={3}>
-                            <h5>{space.username}</h5>
-                        </GridItem>
-                        <GridItem size={1}>
-                            <Button variant="text" onClick={() => removeSpace(space.id)}
-                                    disabled={space.personal}>Delete</Button>
-                        </GridItem>
-                    </GridLine>
-                ))}
+                {invitedSpaces.length ? (
+                    <div className="grid">
+                        <h2>Invitations</h2>
+                        {invitedSpaces.map((space) => (
+                            <div className="line" key={space.id}>
+                                <GridItem size={9}>
+                                    <h3>{space.name}</h3>
+                                </GridItem>
+
+                                <GridItem size={2}>
+                                    <button className="text" onClick={() => acceptInvitation(true, space.id)}
+                                            disabled={space.personal}>Accept
+                                    </button>
+                                </GridItem>
+                                <GridItem size={1}>
+                                    <button className="text" onClick={() => acceptInvitation(false, space.id)}
+                                            disabled={space.personal}>Decline
+                                    </button>
+                                </GridItem>
+                            </div>
+                        ))}
+                    </div>
+                ) : <></>}
             </div>
         </>
     );

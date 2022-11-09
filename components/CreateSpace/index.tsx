@@ -1,7 +1,6 @@
 import {useState} from "react";
 import styles from "./index.module.scss";
 import TextInput from "@/components/base/TextInput";
-import Button from "@/components/base/Button";
 
 interface CreateSpaceFormProps {
     memberName: string;
@@ -25,8 +24,9 @@ const Index = ({store, memberName: defaultMemberName}: CreateSpaceFormProps) => 
                            className={styles.input}/>
                 <TextInput value={memberName} onChange={({target}) => setMemberName(target.value)}
                            className={styles.input}/>
-                <Button variant="text" disabled={!spaceName || !memberName}
-                        onClick={() => store({spaceName, memberName})} textColor="var(--light-text)">create</Button>
+                <button className="text" disabled={!spaceName || !memberName} style={{color: "var(--light-text)"}}
+                        onClick={() => store({spaceName, memberName})}>create
+                </button>
             </div>
         </>
     );

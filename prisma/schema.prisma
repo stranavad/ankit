@@ -2,9 +2,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator js {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Session {
@@ -24,7 +30,7 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  Member        Member[]
+  members       Member[]
   sessions      Session[]
 }
 
@@ -60,15 +66,16 @@ model Member {
   name     String
   role     String
   accepted Boolean  @default(false)
-  spaceId  Int?
+  spaceId  Int
   created  DateTime @default(now())
   updated  DateTime @default(now())
   userId   Int
-  space    Space?   @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  space    Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, spaceId])
   @@index([spaceId], map: "Member_spaceId_fkey")
+  @@index([userId])
 }
 
 model Space {

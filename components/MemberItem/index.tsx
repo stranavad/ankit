@@ -1,10 +1,11 @@
 import {ApplicationMember} from "@/types/member";
-import styles from "./index.module.scss";
 import Image from "next/image";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import RolePicker from "@/components/RolePicker";
 import {RoleType} from "@/types/role";
-import Button from "@/components/base/Button";
+import GridItem from "@/components/base/Grid/GridItem";
+import {useContext} from "react";
+import {SpaceContext} from "@/util/context";
 
 interface MemberItemProps {
     member: ApplicationMember;
@@ -13,23 +14,29 @@ interface MemberItemProps {
 }
 
 const MemberItem = ({member, removeMember, updateRole}: MemberItemProps) => {
+    const {member: currentMember} = useContext(SpaceContext);
+    const rolePickerDisabled = member.role === RoleType.OWNER || !checkSpacePermission(Permission.UPDATE_ROLE, currentMember.role) || (member.role === RoleType.ADMIN && currentMember.role !== RoleType.OWNER);
     return (
-        <div className={styles.container}>
-            <div className="basis-1/12 flex items-center">
-                {member.image &&
-					<Image src={member.image} width="40" height="40" className={styles.image} alt="user image"/>}
-            </div>
-            <div className="basis-4/12">
-                {member.name}
-            </div>
-            <div className="basis-1/4">
-                <RolePicker role={member.role} updateRole={(data) => updateRole(data, member.id)}/>
-            </div>
-            <div className="basis-1/4">
-                {checkSpacePermission(Permission.DELETE_MEMBER) && (
-                    <Button onClick={() => removeMember(member)} variant="filled">Delete</Button>
-                )}
-            </div>
+        <div className="line">
+            <GridItem size={1}>
+                {member.image ?
+                    <Image src={member.image} width="40" height="40" className="user-image"
+                           alt="user image"/> : <></>}
+            </GridItem>
+            <GridItem size={5}>
+                <h3>
+                    {member.name}
+                </h3>
+            </GridItem>
+            <GridItem size={4}>
+                <RolePicker role={member.role} updateRole={(data) => updateRole(data, member.id)}
+                            disabled={rolePickerDisabled}/>
+            </GridItem>
+            <GridItem size={2}>
+                {checkSpacePermission(Permission.DELETE_MEMBER, useContext(SpaceContext).member.role) ? (
+                    <button className="text" onClick={() => removeMember(member)}>Delete</button>
+                ) : <></>}
+            </GridItem>
         </div>
     );
 };

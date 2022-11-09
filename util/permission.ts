@@ -1,19 +1,18 @@
 import {RoleType} from "@/types/role";
-import {useContext} from "react";
-import {SpaceContext} from "@/util/context";
 
 export const enum Permission {
     ADD_MEMBER = "add member",
-    DELETE_MEMBER = "delete member"
+    DELETE_MEMBER = "delete member",
+    UPDATE_ROLE = "update role",
 }
 
 const permissions: { [key in Permission]: RoleType } = {
     "add member": RoleType.ADMIN,
-    "delete member": RoleType.OWNER
+    "delete member": RoleType.OWNER,
+    "update role": RoleType.ADMIN,
 };
 
-export const checkSpacePermission = (permission: Permission): boolean => {
-    const {member: {role}} = useContext(SpaceContext);
+export const checkSpacePermission = (permission: Permission, role: RoleType): boolean => {
     return isRoleEnough(role, permissions[permission]);
 };
 

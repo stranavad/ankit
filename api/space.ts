@@ -109,3 +109,14 @@ export const getCurrentSpace = (id: number): AxiosPromise<GetCurrentSpaceRespons
         method: "get"
     });
 };
+
+/* ACCEPT SPACE INVITATION */
+export const acceptSpaceInvitation = (spaceId: number, accept: boolean): AxiosPromise => {
+    return request({
+        url: `/spaces/${spaceId}/accept`,
+        method: "post",
+        data: {
+            accept
+        }
+    });
+};
