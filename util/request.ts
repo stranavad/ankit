@@ -2,6 +2,7 @@ import axios from "axios";
 import {getSession} from "next-auth/react";
 import {useContext} from "react";
 import {SpaceContext} from "@/util/context";
+import {useRouter} from "next/router";
 
 export interface ErrorResponse {
     data: string;
@@ -24,13 +25,9 @@ const service = axios.create({
 service.interceptors.request.use(
     async (config) => {
         const session = await getSession();
-        const {member} = useContext(SpaceContext);
         if (config.headers && session) {
             config.headers["Authorization"] = `Bearer ${session?.accessToken}`;
             config.headers["UserID"] = session.userId;
-            if (member) {
-                config.headers["MemberID"] = member.id;
-            }
         }
 
         return config;

@@ -1,7 +1,19 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
-import {DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
+import {ApplicationQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 
+
+/* GET QUESTIONNAIRES */
+export const getQuestionnaires = (MemberID: number, search?: string): AxiosPromise<ApplicationQuestionnaire[]> => {
+    return request({
+        url: "/questionnaire",
+        method: "get",
+        params: {search},
+        headers: {
+            MemberID
+        }
+    });
+};
 
 /* CREATE QUESTIONNAIRE */
 export const createQuestionnaire = (data: { name: string, spaceId: number }): AxiosPromise<DetailQuestionnaire> => {
