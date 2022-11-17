@@ -45,7 +45,7 @@ const MemberSearch = ({addUser, spaceId}: { addUser: (user: ApplicationUser) => 
     return (
         <>
             <Popper
-                open={open} handleClose={() => setOpen(false)} anchor={anchorRef.current}>
+                show={open} anchor={anchorRef.current} handleClose={() => setOpen(false)}>
                 <div
                     className={classNames("popper-container", "grid", styles.menuList)}
                 >

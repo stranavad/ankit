@@ -1,4 +1,3 @@
-// import {Box from "@mui/material";
 import {ReactElement} from "react";
 import styles from "./index.module.scss";
 

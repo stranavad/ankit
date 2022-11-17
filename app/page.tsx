@@ -3,7 +3,6 @@ import Link from "next/link";
 import {signIn, useSession} from "next-auth/react";
 import {useContext} from "react";
 import {SearchContext} from "@/util/context";
-import Example from "@/components/random";
 
 
 const Home = () => {
@@ -17,7 +16,6 @@ const Home = () => {
             <h1>{data?.user?.email}</h1>
             <Link href={"/dashboard"}>Dashboard</Link>
             <button onClick={() => signIn("google")}>Sign in</button>
-            <Example/>
         </>
     );
 };

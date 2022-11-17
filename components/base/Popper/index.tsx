@@ -1,20 +1,28 @@
-import {PopperUnstyled, ClickAwayListener} from "@mui/base";
-import {ReactElement, MutableRefObject} from "react";
+import React, {MutableRefObject, ReactElement, useRef} from "react";
+import {usePopper} from "react-popper";
+import ClickAwayListener from "react-click-away-listener";
 
 interface PopperProps {
-    open: boolean;
-    handleClose: () => void;
-    children: ReactElement;
     anchor: MutableRefObject<HTMLElement | null>["current"];
+    children: ReactElement;
+    show: boolean;
+    handleClose: () => void;
 }
 
-export const Popper = ({open, handleClose, children, anchor}: PopperProps) => {
+const Popper = ({anchor, children, show, handleClose}: PopperProps) => {
+    const popperRef = useRef(null);
+    const {styles, attributes} = usePopper(anchor, popperRef.current, {
+        placement: "bottom-start",
+    });
+
     return (
-        <PopperUnstyled open={open} placement="bottom-start" anchorEl={anchor}>
+        <div style={{display: show ? "block" : "none"}}>
             <ClickAwayListener onClickAway={handleClose}>
-                {children}
+                <div ref={popperRef} style={styles.popper} {...attributes.popper} >
+                    {children}
+                </div>
             </ClickAwayListener>
-        </PopperUnstyled>
+        </div>
     );
 };
 

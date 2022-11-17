@@ -27,7 +27,7 @@ const RolePicker = ({role, updateRole, disabled}: RolePickerProps) => {
     return (
         <>
             <span ref={anchorRef} onClick={openRolePicker} style={{cursor: "pointer"}}>{Roles[role]}</span>
-            <Popper open={open} handleClose={() => setOpen(false)} anchor={anchorRef.current}>
+            <Popper show={open} handleClose={() => setOpen(false)} anchor={anchorRef.current}>
                 <div className="popper-container">
                     <button onClick={() => handleClose(RoleType.VIEW)}
                             className="text">{RoleName.VIEW.toString()}</button>
