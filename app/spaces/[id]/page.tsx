@@ -18,7 +18,6 @@ const SpacePage = ({params}: Props) => {
             {space && (
                 <>
                     <h1>{space.name}</h1>
-                    <h2>{space.description}</h2>
                     <Link href={`/spaces/${params.id}/members`}>Members</Link>
                 </>
             )}

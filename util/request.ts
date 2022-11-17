@@ -1,24 +1,10 @@
 import axios from "axios";
 import {getSession} from "next-auth/react";
-import {useContext} from "react";
-import {SpaceContext} from "@/util/context";
-import {useRouter} from "next/router";
-
-export interface ErrorResponse {
-    data: string;
-    status: number;
-}
-
-// export interface DataResponse {
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     data: any;
-//     status: number;
-// }
 
 // Create axios instance
 const service = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
-    timeout: 20000, // Request timeout
+    timeout: 20000,
 });
 
 // Request intercepter
@@ -47,6 +33,9 @@ service.interceptors.response.use((response) => {
 }, async (error) => {
     if (error.response?.status === 403) {
         // signOut();
+    }
+    if (error.response?.status === 405) { // FOR 404 pages
+        return {data: null};
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

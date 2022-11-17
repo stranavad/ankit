@@ -1,13 +1,12 @@
 "use client";
 import {ApplicationMember} from "@/types/member";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import MemberItem from "@/components/MemberItem";
 import {addMemberToSpace, getSpaceMembers, removeMemberFromSpace} from "@/api/space";
 import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
 import {RoleType} from "@/types/role";
 import {updateMemberRole} from "@/api/member";
-import {SpaceContext} from "@/util/context";
 import GridItem from "@/components/base/Grid/GridItem";
 import {TableHeader} from "@/types/table";
 
@@ -30,26 +29,25 @@ const tableHeaders: TableHeader[] = [
     }
 ];
 
-const Members = () => {
+const Members = ({params: {id: spaceId}}: { params: { id: number } }) => {
     const [members, setMembers] = useState<ApplicationMember[]>([]);
-    const {space} = useContext(SpaceContext);
 
     useEffect(() => {
-        getSpaceMembers(space.id).then((response) => setMembers(response.data));
-    }, [space.id]);
+        getSpaceMembers(spaceId).then((response) => setMembers(response.data));
+    }, [spaceId]);
 
     const addUser = (user: ApplicationUser) => {
-        addMemberToSpace({userId: user.id, username: user.name}, space.id).then((response) => {
+        addMemberToSpace({userId: user.id, username: user.name}, spaceId).then((response) => {
             setMembers(response.data);
         });
     };
 
     const removeMember = (member: ApplicationMember) => {
-        removeMemberFromSpace(space.id, member.id).then((response) => setMembers(response.data));
+        removeMemberFromSpace(spaceId, member.id).then((response) => setMembers(response.data));
     };
 
     const updateRole = (role: RoleType, memberId: number) => {
-        updateMemberRole(role, memberId, space.id).then((response) => {
+        updateMemberRole(role, memberId, spaceId).then((response) => {
             response.data && setMembers(data => data.map((item) => {
                 if (item.id === memberId) {
                     return response.data;
@@ -61,25 +59,23 @@ const Members = () => {
     };
 
     return (
-        <>
-            <div className="content">
-                <div style={{width: "800px", display: "flex", justifyContent: "center"}}>
-                    <MemberSearch addUser={addUser}/>
-                </div>
-                <div className="grid">
-                    <div className="header">
-                        {tableHeaders.map((header, index) => (
-                            <GridItem key={index} size={header.size}>
-                                <h5>{header.title}</h5>
-                            </GridItem>
-                        ))}
-                    </div>
-                    {members.map((member) =>
-                        <MemberItem key={member.id} member={member} removeMember={removeMember}
-                                    updateRole={updateRole}/>)}
-                </div>
+        <div className="content">
+            <div style={{width: "800px", display: "flex", justifyContent: "center"}}>
+                <MemberSearch addUser={addUser} spaceId={spaceId}/>
             </div>
-        </>
+            <div className="grid">
+                <div className="header">
+                    {tableHeaders.map((header, index) => (
+                        <GridItem key={index} size={header.size}>
+                            <h5>{header.title}</h5>
+                        </GridItem>
+                    ))}
+                </div>
+                {members.map((member) =>
+                    <MemberItem key={member.id} member={member} removeMember={removeMember}
+                                updateRole={updateRole}/>)}
+            </div>
+        </div>
     );
 };
 

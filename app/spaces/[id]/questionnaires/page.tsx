@@ -1,17 +1,11 @@
 "use client";
-import {ApplicationMember} from "@/types/member";
 import {useContext, useEffect, useState} from "react";
-import MemberItem from "@/components/MemberItem";
-import {getSpaceMembers} from "@/api/space";
-import MemberSearch from "@/components/MemberSearch";
-import {SpaceContext} from "@/util/context";
+import {SearchContext} from "@/util/context";
 import GridItem from "@/components/base/Grid/GridItem";
 import {TableHeader} from "@/types/table";
 import {ApplicationQuestionnaire} from "@/types/questionnaire";
-import {getQuestionnaires} from "@/api/questionnaire";
-import Image from "next/image";
-import RolePicker from "@/components/RolePicker";
-import {checkSpacePermission, Permission} from "@/util/permission";
+import {createQuestionnaire, getQuestionnaires} from "@/api/questionnaire";
+import Link from "next/link";
 
 const tableHeaders: TableHeader[] = [
     {
@@ -23,7 +17,7 @@ const tableHeaders: TableHeader[] = [
         size: 5
     },
     {
-        title: "Role",
+        title: "Status",
         size: 4,
     },
     {
@@ -32,21 +26,31 @@ const tableHeaders: TableHeader[] = [
     }
 ];
 
-const Questionnaires = () => {
+const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => {
     const [questionnaires, setQuestionnaires] = useState<ApplicationQuestionnaire[]>([]);
-    const {space, member} = useContext(SpaceContext);
 
-    useEffect(() => {
-        getQuestionnaires(member.id).then((response) => {
+    const {debouncedSearch} = useContext(SearchContext);
+
+
+    const loadQuestionnaires = () => {
+        getQuestionnaires(spaceId, debouncedSearch || undefined).then((response) => {
             setQuestionnaires(response.data);
         });
-    }, [space.id]);
+    };
+
+    useEffect(loadQuestionnaires, [debouncedSearch]);
+
+    useEffect(loadQuestionnaires, [spaceId]);
 
 
     return (
         <>
             <div className="content">
                 <div className="grid">
+                    <button className="filled"
+                            onClick={() => createQuestionnaire({name: "New questionnaire"}, spaceId)}>CREATE
+                        QUESTIONNAIRE
+                    </button>
                     <div className="header">
                         {tableHeaders.map((header, index) => (
                             <GridItem key={index} size={header.size}>
@@ -62,8 +66,15 @@ const Questionnaires = () => {
                                 </h3>
                             </GridItem>
                             <GridItem size={5}>
+                                <Link href={`/questionnaire/${questionnaire.id}/settings`} className="link">
+                                    <h3>
+                                        {questionnaire.name}
+                                    </h3>
+                                </Link>
+                            </GridItem>
+                            <GridItem size={4}>
                                 <h3>
-                                    {questionnaire.name}
+                                    {questionnaire.status}
                                 </h3>
                             </GridItem>
                         </div>

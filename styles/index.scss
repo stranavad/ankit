@@ -145,3 +145,39 @@ button {
   display: flex;
   flex-direction: column;
 }
+
+/* TEXT AREA */
+textarea {
+  border-radius: var(--border-radius-small);
+  border: none;
+  outline: none;
+  padding: 15px;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+}
+
+input {
+  &.filled {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: var(--border-radius-small)
+  }
+
+  &.entity-name {
+    width: auto;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--primary-color);
+
+    transition: all 100ms;
+
+    &:focus {
+      border-bottom: 2px solid #cd38ff;
+    }
+  }
+}

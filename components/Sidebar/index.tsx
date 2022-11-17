@@ -1,3 +1,4 @@
+"use client";
 import styles from "./index.module.scss";
 import AnkitLogo from "@/public/ankit_logo.png";
 import Image from "next/image";
@@ -20,7 +21,7 @@ const items: SidebarItem[] = [
     },
     {
         title: "Hello",
-        path: "/shello"
+        path: "/spaces"
     }
 ];
 

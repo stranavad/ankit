@@ -12,7 +12,7 @@ export interface ApplicationQuestionnaire {
     id: number;
     name: string;
     url: string | null;
-    status: string;
+    status: Status;
     spaceId: number;
 }
 
@@ -23,4 +23,5 @@ export interface DetailQuestionnaire extends ApplicationQuestionnaire {
     allowReturn: boolean;
     structure: Structure;
     passwordProtected: boolean;
+    password: string | null;
 }
