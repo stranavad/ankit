@@ -1,12 +1,12 @@
 body, * {
   margin: 0;
   padding: 0;
-  font-family: "Lucida Console", Courier, monospace;
+  //font-family: "Lucida Console", Courier, monospace;
   color: var(--dark-text)
 }
 
 body {
-  background-color: lightgray;
+  background-color: #ececec;
 }
 
 
@@ -204,6 +204,11 @@ input {
     background: none;
     border-radius: var(--border-radius-small);
     border: 1px solid var(--primary-color);
+
+    &.light {
+      border-color: var(--light-text);
+      color: var(--light-text);
+    }
   }
 }
 

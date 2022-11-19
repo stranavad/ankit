@@ -66,7 +66,7 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
                                 </h3>
                             </GridItem>
                             <GridItem size={5}>
-                                <Link href={`/questionnaire/${questionnaire.id}/settings`} className="link">
+                                <Link href={`/questionnaire/${questionnaire.id}`} className="link">
                                     <h3>
                                         {questionnaire.name}
                                     </h3>
