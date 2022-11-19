@@ -3,7 +3,6 @@ import {ApplicationUser} from "@/types/user";
 import {searchUsers} from "@/api/user";
 import styles from "./index.module.scss";
 import Image from "next/image";
-import TextInput from "@/components/base/TextInput";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import Popper from "@/components/base/Popper";
 import classNames from "classnames";
@@ -69,7 +68,7 @@ const MemberSearch = ({addUser, spaceId}: { addUser: (user: ApplicationUser) => 
                 </div>
             </Popper>
             <div ref={anchorRef}>
-                <TextInput value={search} onChange={onSearchChange}/>
+                <input className="outline" value={search} onChange={onSearchChange}/>
             </div>
         </>
     );

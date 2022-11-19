@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import classNames from "classnames";
 import {ReactElement, useState} from "react";
-import TextInput from "@/components/base/TextInput";
 import {SearchContext, SearchContextData} from "@/util/context";
 import useDebounce from "@/util/debounce";
 
@@ -69,7 +68,7 @@ const Sidebar = ({children}: SidebarProps) => {
             <div className={styles.verticalWrapper}>
                 <div className={styles.topMenu}>
                     <h3>Space name</h3>
-                    <TextInput value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <input className="filled" value={search} onChange={(e) => setSearch(e.target.value)}/>
                 </div>
                 <div className={styles.childrenWrapper}>
                     <SearchContext.Provider value={searchContextData}>

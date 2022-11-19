@@ -30,6 +30,7 @@ body {
 button {
   font-weight: bold;
   cursor: pointer;
+  transition: all 150ms;
 
 
   &.text {
@@ -55,6 +56,20 @@ button {
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  &.outline {
+    outline: none;
+    border: 1px solid var(--primary-color);
+    background: none;
+    padding: 8px;
+    border-radius: var(--border-radius-small);
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--light-text);
     }
   }
 }
@@ -158,6 +173,8 @@ textarea {
 }
 
 input {
+  color: var(--dark-text);
+
   &.filled {
     padding: 5px;
     border: none;
@@ -179,6 +196,14 @@ input {
     &:focus {
       border-bottom: 2px solid #cd38ff;
     }
+  }
+
+  &.outline {
+    outline: none;
+    padding: 5px;
+    background: none;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--primary-color);
   }
 }
 
