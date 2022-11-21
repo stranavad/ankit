@@ -1,0 +1,39 @@
+.questionCard {
+  width: 500px;
+  padding: 15px;
+  border-radius: var(--border-radius-medium);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color);
+
+
+    .toolbar {
+      display: flex;
+
+      button {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .bottomBar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 10px;
+
+    :first-child { // SWITCH
+      margin-top: 5px;
+    }
+  }
+}

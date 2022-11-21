@@ -17,7 +17,11 @@ const Popper = ({anchor, children, show, handleClose}: PopperProps) => {
 
     return (
         <div style={{display: show ? "block" : "none"}}>
-            <ClickAwayListener onClickAway={handleClose}>
+            <ClickAwayListener onClickAway={() => {
+                if(show){
+                    handleClose();
+                }
+            }}>
                 <div ref={popperRef} style={styles.popper} {...attributes.popper} >
                     {children}
                 </div>
