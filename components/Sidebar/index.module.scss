@@ -54,24 +54,24 @@
 
 .container {
   height: 100vh;
-  width: 300px;
+  width: 100px;
   background-color: var(--primary-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  transition: width 250ms;
+  //transition: width 250ms;
+  transition: all 500ms;
 
-  &.small {
-    width: 100px;
+  &:hover {
+    width: 300px;
 
     .imageContainer {
       img {
         object-fit: contain;
-        width: 80px;
+        width: 150px;
       }
     }
-
   }
 
   .imageContainer {
@@ -79,6 +79,8 @@
 
     img {
       transition: width 250ms, height 250ms;
+      object-fit: contain;
+      width: 80px;
     }
   }
 

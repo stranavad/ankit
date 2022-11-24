@@ -240,3 +240,11 @@ input {
 .arrow {
   display: none;
 }
+
+.drag-something {
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}

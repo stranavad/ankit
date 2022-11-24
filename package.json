@@ -11,6 +11,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.5",
+    "@dnd-kit/sortable": "^7.0.1",
     "@next-auth/prisma-adapter": "latest",
     "@next/font": "latest",
     "@popperjs/core": "latest",

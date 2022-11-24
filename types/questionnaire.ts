@@ -25,3 +25,8 @@ export interface DetailQuestionnaire extends ApplicationQuestionnaire {
     passwordProtected: boolean;
     password: string | null;
 }
+
+export interface QuestionOption {
+    id: number;
+    value: string;
+}
