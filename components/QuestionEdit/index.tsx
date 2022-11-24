@@ -40,12 +40,16 @@ const QuestionEdit = ({}) => {
                     </Popper>
                 </div>
             </div>
-            <div>
+            <div className={styles.contentSection}>
                 <TextArea value={description} change={setDescription} type="text"
                           placeholder="Add description (optional)"/>
+            </div>
+            <div className={styles.contentSection}>
+                <span>Options</span>
                 <QuestionOptions/>
             </div>
             <div className={styles.bottomBar}>
+                <Switch value={required} update={setRequired} title="Multiple"/>
                 <Switch value={required} update={setRequired} title="Required"/>
             </div>
         </div>

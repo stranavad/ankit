@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {
 	DndContext,
 	closestCenter,
@@ -41,7 +41,6 @@ const Options = () => {
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const {active, over} = event;
-		console.log(event);
 
 		if (active.id !== over?.id) {
 			setItems((items) => {
@@ -49,7 +48,7 @@ const Options = () => {
 				const newItem = items.find(({id}) => id === over?.id);
 
 				if (!oldItem || !newItem) {
-					return;
+					return items;
 				}
 
 				const oldIndex = items.indexOf(oldItem);
@@ -59,6 +58,22 @@ const Options = () => {
 			});
 		}
 	};
+
+	const updateOptionValue = (value: string, index: number) => {
+		setItems(items => {
+			const newItems = [...items];
+			newItems[index].value = value;
+			return newItems;
+		})
+	}
+
+	const deleteOption = (index: number) => {
+		setItems(items => {
+			const newItems = [...items];
+			newItems.splice(index, 1);
+			return newItems;
+		});
+	}
 
 	return (
 		<DndContext
@@ -70,8 +85,8 @@ const Options = () => {
 				items={items}
 				strategy={verticalListSortingStrategy}
 			>
-				{items.map((option) => <Option key={option.id}
-											   option={option}/>)}
+				{items.map((option, index) => <Option key={option.id}
+											   option={option} updateValue={(value) => updateOptionValue(value, index)} remove={() => deleteOption(index)}/>)}
 			</SortableContext>
 		</DndContext>
 	);
