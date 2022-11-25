@@ -75,20 +75,28 @@ const Options = () => {
 		});
 	}
 
+	const addOption = () => {
+		const maxId = Math.max(...items.map(({id}) => id));
+		setItems(items => ([...items, {id: maxId + 1, value: maxId + 1 + ' option'}]))
+	}
+
 	return (
-		<DndContext
-			sensors={sensors}
-			collisionDetection={closestCenter}
-			onDragEnd={handleDragEnd}
-		>
-			<SortableContext
-				items={items}
-				strategy={verticalListSortingStrategy}
+		<>
+			<DndContext
+				sensors={sensors}
+				collisionDetection={closestCenter}
+				onDragEnd={handleDragEnd}
 			>
-				{items.map((option, index) => <Option key={option.id}
-											   option={option} updateValue={(value) => updateOptionValue(value, index)} remove={() => deleteOption(index)}/>)}
-			</SortableContext>
-		</DndContext>
+				<SortableContext
+					items={items}
+					strategy={verticalListSortingStrategy}
+				>
+					{items.map((option, index) => <Option key={option.id}
+												   option={option} updateValue={(value) => updateOptionValue(value, index)} remove={() => deleteOption(index)}/>)}
+				</SortableContext>
+			</DndContext>
+			<button className="text" style={{fontSize: '0.7em'}} onClick={addOption}>Add Option</button>
+		</>
 	);
 };
 
