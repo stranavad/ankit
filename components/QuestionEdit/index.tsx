@@ -2,9 +2,9 @@ import {useState, useRef, MouseEventHandler} from "react";
 import styles from "./index.module.scss";
 import TextArea from "@/components/base/TextArea";
 import {FaEllipsisV, FaEye, FaEyeSlash, FaTrashAlt} from "react-icons/fa";
-import Popper from "@/components/base/Popper";
 import Switch from "@/components/base/Switch";
 import QuestionOptions from "./Options";
+import MenuSelect, {MenuSelectItem} from "@/components/MenuSelect";
 
 
 const QuestionEdit = ({}) => {
@@ -22,6 +22,13 @@ const QuestionEdit = ({}) => {
         e.stopPropagation();
     };
 
+    const menuItems: MenuSelectItem[] = [
+        {
+            title: 'Change type',
+            action: () => console.log('Changing type')
+        }
+    ]
+
 
     return (
         <div className={styles.questionCard}>
@@ -33,11 +40,7 @@ const QuestionEdit = ({}) => {
                     <button className="icon" onClick={() => setVisible(v => !v)}>{visible ? <FaEye size="1.5em"/> :
                         <FaEyeSlash size="1.5em"/>}</button>
                     <button ref={popperRef} className="icon" onClick={openMenu}><FaEllipsisV/></button>
-                    <Popper anchor={popperRef.current} show={menuOpen} handleClose={() => setMenuOpen(false)}>
-                        <div className="popper-container">
-                            <h3>Something</h3>
-                        </div>
-                    </Popper>
+                    <MenuSelect anchor={popperRef.current} show={menuOpen} handleClose={() => setMenuOpen(false)} items={menuItems}/>
                 </div>
             </div>
             <div className={styles.contentSection}>
