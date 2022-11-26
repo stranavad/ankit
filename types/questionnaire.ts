@@ -48,6 +48,3 @@ export interface Option {
     value: string;
     position: number;
 }
-
-export class QuestionOption {
-}

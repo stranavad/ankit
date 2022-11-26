@@ -1,11 +1,11 @@
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import {QuestionOption} from "@/types/questionnaire";
-import styles from './index.module.scss';
+import {Option} from "@/types/questionnaire";
+import styles from "./index.module.scss";
 import {FaTrash} from "react-icons/fa";
 
 interface OptionsProps {
-    option: QuestionOption;
+    option: Option;
     updateValue: (value: string) => void;
     remove: () => void;
 }
@@ -30,7 +30,8 @@ const Option = ({option, updateValue, remove}: OptionsProps) => {
                 <div/>
                 <div/>
             </div>
-            <input className="text" value={option.value} onChange={(e) => updateValue(e.target.value)} style={{width: '100%', paddingRight: '10px', paddingLeft: '10px'}}/>
+            <input className="text" value={option.value} onChange={(e) => updateValue(e.target.value)}
+                   style={{width: "100%", paddingRight: "10px", paddingLeft: "10px"}}/>
             <button className="icon" onClick={remove}><FaTrash/></button>
         </div>
     );

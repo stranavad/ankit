@@ -64,7 +64,7 @@ const Options = ({options}: { options: Option[] }) => {
 
     const addOption = () => {
         const maxId = Math.max(...items.map(({id}) => id));
-        setItems(items => ([...items, {id: maxId + 1, value: maxId + 1 + " option"}]));
+        // setItems(items => ([...items, {id: maxId + 1, value: maxId + 1 + " option"}]));
     };
 
     return (
