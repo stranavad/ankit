@@ -1,16 +1,27 @@
 .trigger {
-  border-radius: 50%;
-  padding: 5px;
+  border-radius: var(--border-radius-small);
+  padding: 3px;
 
   svg {
     transition: all 100ms;
+    margin-right: 10px;
   }
 
   &:hover {
-    background: #c9c9c9 !important;
+    //background: #c9c9c9 !important;
+    color: var(--primary-color);
+
     svg {
       fill: var(--primary-color);
     }
-    scale: 1.05;
+
   }
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

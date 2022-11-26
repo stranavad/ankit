@@ -29,7 +29,8 @@ const tableHeaders: TableHeader[] = [
     }
 ];
 
-const Members = ({params: {id: spaceId}}: { params: { id: number } }) => {
+const Members = ({params: {id}}: { params: { id: string } }) => {
+    const spaceId = parseInt(id);
     const [members, setMembers] = useState<ApplicationMember[]>([]);
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import {RoleType} from "@/types/role";
 import GridItem from "@/components/base/Grid/GridItem";
 import {useContext} from "react";
 import {MemberContext} from "@/util/context";
+import {FaTrash} from "react-icons/fa";
 
 interface MemberItemProps {
     member: ApplicationMember;
@@ -34,7 +35,7 @@ const MemberItem = ({member, removeMember, updateRole}: MemberItemProps) => {
             </GridItem>
             <GridItem size={2}>
                 {checkSpacePermission(Permission.DELETE_MEMBER, useContext(MemberContext).member?.role || RoleType.VIEW) ? (
-                    <button className="text" onClick={() => removeMember(member)}>Delete</button>
+                    <button className="icon" onClick={() => removeMember(member)}><FaTrash size="1.5em"/></button>
                 ) : <></>}
             </GridItem>
         </div>

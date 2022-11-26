@@ -148,8 +148,8 @@ const Sidebar = ({children}: SidebarProps) => {
                     <div className={styles.topMenuLeftPart}>
                         <h3>Space name</h3>
                         <div className={styles.topMenuItems}>
-                            {topMenuItems.map((item) => (
-                                <Link href={item.path}>{item.title}</Link>
+                            {topMenuItems.map((item, index) => (
+                                <Link key={index} href={item.path}>{item.title}</Link>
                             ))}
                         </div>
 

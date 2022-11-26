@@ -9,9 +9,9 @@ export enum Status {
 }
 
 export enum QuestionType {
-    SELECT = 'select',
-    MULTI_SELECT = 'multiselect',
-    TEXT = 'text'
+    SELECT = "select",
+    MULTI_SELECT = "multiselect",
+    TEXT = "text"
 }
 
 export interface ApplicationQuestionnaire {
@@ -32,7 +32,22 @@ export interface DetailQuestionnaire extends ApplicationQuestionnaire {
     password: string | null;
 }
 
-export interface QuestionOption {
+export interface Question {
+    id: number;
+    title: string;
+    description: string | null;
+    visible: boolean;
+    required: boolean;
+    position: number;
+    type: QuestionType;
+    options?: Option[];
+}
+
+export interface Option {
     id: number;
     value: string;
+    position: number;
+}
+
+export class QuestionOption {
 }
