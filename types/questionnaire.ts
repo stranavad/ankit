@@ -8,6 +8,12 @@ export enum Status {
     PAUSED = "paused",
 }
 
+export enum QuestionType {
+    SELECT = 'select',
+    MULTI_SELECT = 'multiselect',
+    TEXT = 'text'
+}
+
 export interface ApplicationQuestionnaire {
     id: number;
     name: string;

@@ -30,7 +30,8 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: all 150ms;
-
+  display: flex;
+  align-items: center;
 
   &.text {
     background: none;
@@ -39,6 +40,10 @@ button {
     font-size: 1em;
     color: var(--primary-color);
     text-transform: uppercase;
+
+    &.small {
+      font-size: 0.8em;
+    }
 
     &:hover {
       color: #6e6e6e;

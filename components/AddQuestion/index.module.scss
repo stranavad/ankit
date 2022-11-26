@@ -1,0 +1,31 @@
+.trigger {
+  border-radius: 50%;
+  padding: 5px;
+
+  svg {
+    transition: all 100ms;
+  }
+
+  &:hover {
+    background: #c9c9c9 !important;
+    svg {
+      fill: var(--primary-color);
+    }
+    scale: 1.05;
+  }
+}
+
+.menu {
+  :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  button {
+    margin-bottom: 10px;
+
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+}
