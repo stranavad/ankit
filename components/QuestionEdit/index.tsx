@@ -6,13 +6,32 @@ import Switch from "@/components/base/Switch";
 import QuestionOptions from "./Options";
 import MenuSelect, {MenuSelectItem} from "@/components/MenuSelect";
 import {Question, QuestionType} from "@/types/questionnaire";
+import {updateQuestion} from "@/api/question";
+import QuestionTitle from "@/components/QuestionEdit/title";
 
+interface QuestionEditProps {
+    question: Question;
+    questionnaireId: number;
+}
 
-const QuestionEdit = ({question}: { question: Question }) => {
-    const [title, setTitle] = useState<string>(question?.title || "Hello");
-    const [description, setDescription] = useState<string>(question?.description || "");
-    const [required, setRequired] = useState<boolean>(question?.required || false);
-    const [visible, setVisible] = useState<boolean>(question?.visible || false);
+enum QuestionProperty {
+    TITLE = "title",
+    DESCRIPTION = "description",
+    VISIBLE = "visible",
+    REQUIRED = "required",
+}
+
+type QuestionUpdateProperty =
+    | [QuestionProperty.TITLE, string]
+    | [QuestionProperty.DESCRIPTION, string]
+    | [QuestionProperty.REQUIRED, boolean]
+    | [QuestionProperty.VISIBLE, boolean]
+
+const QuestionEdit = ({question, questionnaireId}: QuestionEditProps) => {
+    const [title, setTitle] = useState<string>(question.title);
+    const [description, setDescription] = useState<string>(question.description || "");
+    const [required, setRequired] = useState<boolean>(question.required);
+    const [visible, setVisible] = useState<boolean>(question.visible);
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -22,6 +41,32 @@ const QuestionEdit = ({question}: { question: Question }) => {
         console.log(question);
         setMenuOpen(v => !v);
         e.stopPropagation();
+    };
+
+    const update = (...data: QuestionUpdateProperty) => {
+        switch (data[0]) {
+        case QuestionProperty.TITLE:
+            setTitle(data[1]);
+            break;
+        case QuestionProperty.DESCRIPTION:
+            setDescription(data[1]);
+            break;
+        case QuestionProperty.REQUIRED:
+            setRequired(data[1]);
+            break;
+        case QuestionProperty.VISIBLE:
+            setVisible(data[1]);
+            break;
+        default:
+            break;
+        }
+        updateQuestion(questionnaireId, question.id, {[data[0]]: data[1]}).then((response) => {
+            const {title, description, visible, required} = response.data;
+            setTitle(title);
+            setDescription(description || "");
+            setVisible(visible);
+            setRequired(required);
+        });
     };
 
     const menuItems: MenuSelectItem[] = [
@@ -35,11 +80,11 @@ const QuestionEdit = ({question}: { question: Question }) => {
     return (
         <div className={styles.questionCard}>
             <div className={styles.topBar}>
-                <input type="text" className="text question-title" value={title}
-                       onChange={(e) => setTitle(e.target.value)}/>
+                <QuestionTitle title={title} update={(value) => update(QuestionProperty.TITLE, value)}/>
                 <div className={styles.toolbar}>
                     <button className="icon"><FaTrashAlt size="1.5em"/></button>
-                    <button className="icon" onClick={() => setVisible(v => !v)}>{visible ? <FaEye size="1.5em"/> :
+                    <button className="icon" onClick={() => update(QuestionProperty.VISIBLE, !visible)}>{visible ?
+                        <FaEye size="1.5em"/> :
                         <FaEyeSlash size="1.5em"/>}</button>
                     <button ref={popperRef} className="icon" onClick={openMenu}><FaEllipsisV/></button>
                     <MenuSelect anchor={popperRef.current} show={menuOpen} handleClose={() => setMenuOpen(false)}
@@ -47,25 +92,22 @@ const QuestionEdit = ({question}: { question: Question }) => {
                 </div>
             </div>
             <div className={styles.contentSection}>
-                <TextArea value={description} change={setDescription} type="text"
+                <TextArea value={description} change={(value) => update(QuestionProperty.DESCRIPTION, value)}
+                          type="text"
                           placeholder="Add description (optional)"/>
             </div>
-            {(question?.type === QuestionType.SELECT || question?.type === QuestionType.MULTI_SELECT || true) && (
+            {(question.type === QuestionType.SELECT || question.type === QuestionType.MULTI_SELECT) && (
                 <div className={styles.contentSection}>
                     <span>Options</span>
                     <QuestionOptions
-                        options={question?.options || [{id: 1, value: "something", position: 0}, {
-                            id: 2,
-                            value: "something else",
-                            position: 2
-                        }]}/>
+                        options={question.options || []}/>
                 </div>
             )}
             <div className={styles.bottomBar}>
                 {(question?.type === QuestionType.SELECT || question?.type === QuestionType.MULTI_SELECT) && (
                     <Switch value={required} update={setRequired} title="Multiple"/>
                 )}
-                <Switch value={required} update={setRequired} title="Required"/>
+                <Switch value={required} update={(value) => update(QuestionProperty.REQUIRED, value)} title="Required"/>
             </div>
         </div>
     );

@@ -1,13 +1,6 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
-import {
-    ApplicationQuestionnaire,
-    DetailQuestionnaire,
-    Question,
-    QuestionType,
-    Status,
-    Structure
-} from "@/types/questionnaire";
+import {ApplicationQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
 
@@ -73,19 +66,3 @@ export const updateQuestionnaire = (data: UpdateQuestionnaireData, id: number): 
     });
 };
 
-/* GET QUESTIONNAIRE QUESTIONS */
-export const getQuestions = (id: number): AxiosPromise<Question[]> => {
-    return request({
-        url: `/questionnaire/${id}/questions`,
-        method: "get"
-    });
-};
-
-/* CREATE QUESTION */
-export const createQuestion = (id: number, type: QuestionType): AxiosPromise<Question> => {
-    return request({
-        url: `/questionnaire/${id}/questions`,
-        method: "post",
-        data: {type}
-    });
-};

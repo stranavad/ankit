@@ -9,19 +9,24 @@ interface DescriptionProps {
     placeholder?: string;
     change: (value: string) => void;
     debounced?: boolean;
-    type?: 'text';
+    type?: "text";
 }
 
 const TextArea = ({placeholder, change, debounced = true, title, value, type}: DescriptionProps) => {
     const [content, setContent] = useState<string>(value);
     const debouncedValue = useDebounce(content, debounced ? 1000 : 0);
 
-    useEffect(() => change(content), [debouncedValue]);
+    useEffect(() => {
+        if (value !== content) {
+            change(content);
+        }
+    }, [debouncedValue]);
 
     return (
-        <div className={type !== 'text' ? styles.textareaWrapper : ''}>
+        <div className={type !== "text" ? styles.textareaWrapper : ""}>
             {title && <span>{title}</span>}
-            <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={placeholder} className={type}/>
+            <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={placeholder}
+                      className={type}/>
         </div>
     );
 };

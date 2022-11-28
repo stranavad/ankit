@@ -10,7 +10,7 @@ interface OptionsProps {
     remove: () => void;
 }
 
-const Option = ({option, updateValue, remove}: OptionsProps) => {
+const QuestionOption = ({option, updateValue, remove}: OptionsProps) => {
     const {
         attributes,
         listeners,
@@ -37,4 +37,4 @@ const Option = ({option, updateValue, remove}: OptionsProps) => {
     );
 };
 
-export default Option;
+export default QuestionOption;
