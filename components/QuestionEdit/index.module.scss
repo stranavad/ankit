@@ -1,0 +1,80 @@
+.questionCard {
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--border-radius-medium);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color);
+
+
+    .toolbar {
+      display: flex;
+
+      svg {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .contentSection {
+    margin-bottom: 15px;
+  }
+
+  .bottomBar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 10px;
+
+    :first-child { // SWITCH
+      margin-top: 5px;
+    }
+  }
+}
+
+.optionContainer {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: var(--border-radius-small);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  .dragHandle {
+    width: 20px;
+    cursor: pointer;
+
+    div {
+      height: 1px;
+      background-color: var(--primary-color);
+      width: 100%;
+      transition: height 100ms;
+      border-radius: var(--border-radius-medium);
+    }
+
+    :first-child {
+      margin-bottom: 5px;
+    }
+
+    &:hover div {
+      height: 2px;
+    }
+  }
+
+  input {
+    cursor: text;
+    font-size: 1em;
+  }
+}

@@ -1,21 +1,49 @@
 "use client";
 import Link from "next/link";
-import {signIn, useSession} from "next-auth/react";
-import {useContext} from "react";
-import {SearchContext} from "@/util/context";
+import {signIn, signOut, useSession} from "next-auth/react";
+import styles from "./index.module.scss";
+import AnkitLogo from "@/public/ankit_logo.png";
+import Image from "next/image";
 
 
 const Home = () => {
-    const {data} = useSession();
-
-    const {debouncedSearch} = useContext(SearchContext);
+    const {status} = useSession();
 
     return (
         <>
-            <h1>{debouncedSearch}</h1>
-            <h1>{data?.user?.email}</h1>
-            <Link href={"/dashboard"}>Dashboard</Link>
-            <button onClick={() => signIn("google")}>Sign in</button>
+            <div className={styles.menuWrapper}>
+                <div className={styles.menuLogo}>
+                    <Image src={AnkitLogo} alt="Ankit logo" height="40"/>
+                    <h1>Ankit</h1>
+                </div>
+                <div className={styles.menuItems}>
+                    <Link href="/">About</Link>
+                    <Link href="/">Contact</Link>
+                    {status === "authenticated" ? (
+                        <span onClick={() => signOut()}>Sign out</span>
+                    ) : (
+                        <span onClick={() => signIn("google")}>Sign in</span>
+                    )}
+                </div>
+            </div>
+            <div className={styles.content}>
+                <div className={styles.continueCard}>
+                    {status === "authenticated" ? (
+                        <>
+                            <h2>You're already logged in</h2>
+                            <button className="outline"><Link href="/spaces">Check out your spaces</Link></button>
+                        </>
+                    ) : (
+                        <>
+                            <h2>Welcome to Ankit</h2>
+                            <h3>"The faster way to get your answers"</h3>
+                            <button className="filled" onClick={() => signIn("google")}>Sign in to continue</button>
+                        </>
+                    )}
+                </div>
+
+            </div>
+
         </>
     );
 };

@@ -1,6 +1,5 @@
 import {useState} from "react";
 import styles from "./index.module.scss";
-import TextInput from "@/components/base/TextInput";
 
 interface CreateSpaceFormProps {
     memberName: string;
@@ -20,10 +19,10 @@ const Index = ({store, memberName: defaultMemberName}: CreateSpaceFormProps) => 
         <>
             <div className={styles.form}>
                 <h4 className="heading-2 mb-2" style={{color: "var(--light-text)"}}>Create new space</h4>
-                <TextInput value={spaceName} onChange={({target}) => setSpaceName(target.value)}
-                           className={styles.input}/>
-                <TextInput value={memberName} onChange={({target}) => setMemberName(target.value)}
-                           className={styles.input}/>
+                <input value={spaceName} onChange={({target}) => setSpaceName(target.value)}
+                       className="filled"/>
+                <input value={memberName} onChange={({target}) => setMemberName(target.value)}
+                       className="filled"/>
                 <button className="text" disabled={!spaceName || !memberName} style={{color: "var(--light-text)"}}
                         onClick={() => store({spaceName, memberName})}>create
                 </button>

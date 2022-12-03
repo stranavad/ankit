@@ -3,20 +3,20 @@ import {ApplicationUser} from "@/types/user";
 import {searchUsers} from "@/api/user";
 import styles from "./index.module.scss";
 import Image from "next/image";
-import TextInput from "@/components/base/TextInput";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import Popper from "@/components/base/Popper";
 import classNames from "classnames";
-import {SpaceContext} from "@/util/context";
+import {MemberContext} from "@/util/context";
 import GridItem from "@/components/base/Grid/GridItem";
+import {RoleType} from "@/types/role";
 
-const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) => {
+const MemberSearch = ({addUser, spaceId}: { addUser: (user: ApplicationUser) => void, spaceId: number }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [users, setUsers] = useState<ApplicationUser[]>([]);
     const [search, setSearch] = useState<string>("");
     const anchorRef = useRef<HTMLInputElement | null>(null);
 
-    const {space, member} = useContext(SpaceContext);
+    const {member} = useContext(MemberContext);
 
     const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setOpen(true);
@@ -30,21 +30,21 @@ const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) =
     };
 
     const loadUsers = () => {
-        searchUsers({search, notIn: [space.id]}).then((response) => {
+        searchUsers({search, notIn: [spaceId]}).then((response) => {
             setUsers(response.data);
             console.log(response.data);
         });
     };
 
 
-    if (!checkSpacePermission(Permission.ADD_MEMBER, member.role)) {
+    if (!checkSpacePermission(Permission.ADD_MEMBER, member?.role || RoleType.VIEW)) {
         return null;
     }
 
     return (
         <>
             <Popper
-                open={open} handleClose={() => setOpen(false)} anchor={anchorRef.current}>
+                show={open} anchor={anchorRef.current} handleClose={() => setOpen(false)}>
                 <div
                     className={classNames("popper-container", "grid", styles.menuList)}
                 >
@@ -68,7 +68,7 @@ const MemberSearch = ({addUser}: { addUser: (user: ApplicationUser) => void }) =
                 </div>
             </Popper>
             <div ref={anchorRef}>
-                <TextInput value={search} onChange={onSearchChange}/>
+                <input className="outline" value={search} onChange={onSearchChange}/>
             </div>
         </>
     );

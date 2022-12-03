@@ -1,6 +1,7 @@
 import {RoleName, Roles, RoleType} from "@/types/role";
 import {useRef, useState} from "react";
-import Popper from "@/components/base/Popper";
+import MenuSelect, {MenuSelectItem} from "@/components/MenuSelect";
+import {FaEye, FaKey, FaPencilAlt} from "react-icons/fa";
 
 interface RolePickerProps {
     role: RoleType;
@@ -24,19 +25,28 @@ const RolePicker = ({role, updateRole, disabled}: RolePickerProps) => {
         setOpen(true);
     };
 
+    const items: MenuSelectItem[] = [
+        {
+            title: RoleName.VIEW,
+            action: () => handleClose(RoleType.VIEW),
+            icon: FaEye
+        },
+        {
+            title: RoleName.EDIT,
+            action: () => handleClose(RoleType.EDIT),
+            icon: FaPencilAlt
+        },
+        {
+            title: RoleName.ADMIN,
+            action: () => handleClose(RoleType.ADMIN),
+            icon: FaKey
+        },
+    ];
+
     return (
         <>
             <span ref={anchorRef} onClick={openRolePicker} style={{cursor: "pointer"}}>{Roles[role]}</span>
-            <Popper open={open} handleClose={() => setOpen(false)} anchor={anchorRef.current}>
-                <div className="popper-container">
-                    <button onClick={() => handleClose(RoleType.VIEW)}
-                            className="text">{RoleName.VIEW.toString()}</button>
-                    <button onClick={() => handleClose(RoleType.EDIT)}
-                            className="text">{RoleName.EDIT.toString()}</button>
-                    <button onClick={() => handleClose(RoleType.ADMIN)}
-                            className="text">{RoleName.ADMIN.toString()}</button>
-                </div>
-            </Popper>
+            <MenuSelect anchor={anchorRef.current} show={open} handleClose={() => setOpen(false)} items={items}/>
         </>
     );
 };

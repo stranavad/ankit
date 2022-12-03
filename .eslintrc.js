@@ -19,7 +19,7 @@ module.exports = {
 	plugins: ["react", "@typescript-eslint"],
 	rules: {
 		indent: ["warn", 4],
-		quotes: ["error", "double"],
-		semi: ["error", "always"],
+		quotes: ["warn", "double"],
+		semi: ["warn", "always"],
 	},
 };

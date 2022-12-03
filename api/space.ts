@@ -3,6 +3,7 @@ import {AxiosPromise} from "axios";
 import {ApplicationSpace, DetailSpace} from "@/types/space";
 import {RoleType} from "@/types/role";
 import {ApplicationMember} from "@/types/member";
+import {useRequest} from "@/api/index";
 
 
 export interface GetSpacesParams {
@@ -10,6 +11,7 @@ export interface GetSpacesParams {
     search?: string | null;
 }
 
+export const useSpaces = () => useRequest<ApplicationSpace[]>("/spaces");
 export const getSpaces = (params: GetSpacesParams): AxiosPromise<ApplicationSpace[]> => {
     return request({
         url: "/spaces",
@@ -82,12 +84,7 @@ export const addMemberToSpace = (data: AddMemberToSpaceData, id: number): AxiosP
 
 
 /* GET SPACE MEMBERS */
-export const getSpaceMembers = (id: number): AxiosPromise<ApplicationMember[]> => {
-    return request({
-        url: `/spaces/${id}/member`,
-        method: "get"
-    });
-};
+export const useSpaceMembers = (id: number) => useRequest<ApplicationMember[]>(`/spaces/${id}/member`);
 
 /* REMOVE MEMBER FROM SPACE */
 export const removeMemberFromSpace = (spaceId: number, memberId: number): AxiosPromise<ApplicationMember[]> => {

@@ -10,13 +10,37 @@
 }
 
 .topMenu {
-  width: 100%;
   height: 50px;
   background-color: var(--primary-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 50px;
+
+  .topMenuLeftPart {
+    display: flex;
+    align-items: center;
+
+    h3 {
+      border-right: 2px solid white;
+      padding-right: 15px;
+    }
+  }
+
+  .topMenuItems {
+    display: flex;
+
+    a {
+      margin-left: 10px;
+      text-decoration: none;
+      color: var(--light-text);
+      transition: color 150ms;
+
+      &:hover {
+        color: var(--dark-text);
+      }
+    }
+  }
 
   h3 {
     color: white
@@ -29,17 +53,37 @@
 }
 
 .container {
-
   height: 100vh;
-  width: 300px;
+  width: 100px;
   background-color: var(--primary-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  //transition: width 250ms;
+  transition: all 500ms;
+
+  &:hover {
+    width: 300px;
+
+    .imageContainer {
+      img {
+        object-fit: contain;
+        width: 130px;
+        height: auto;
+      }
+    }
+  }
 
   .imageContainer {
     padding: 25px 0;
+
+    img {
+      transition: width 250ms, height 250ms;
+      object-fit: contain;
+      width: 80px;
+      height: auto;
+    }
   }
 
   .items {
@@ -48,6 +92,7 @@
     margin: 30px;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 
     .item {
       cursor: pointer;
@@ -57,6 +102,8 @@
       justify-content: flex-start;
       align-items: flex-start;
       margin-bottom: 10px;
+      color: var(--light-text);
+      text-decoration: none;
 
       &.active {
         background-color: #ffffff11
@@ -77,12 +124,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .name {
-      font-size: 20px;
-      font-weight: bolder;
-      color: white;
-      margin: 15px 0;
-    }
+    margin-bottom: 15px;
   }
 }

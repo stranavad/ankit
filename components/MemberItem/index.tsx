@@ -5,7 +5,8 @@ import RolePicker from "@/components/RolePicker";
 import {RoleType} from "@/types/role";
 import GridItem from "@/components/base/Grid/GridItem";
 import {useContext} from "react";
-import {SpaceContext} from "@/util/context";
+import {MemberContext} from "@/util/context";
+import {FaTrash} from "react-icons/fa";
 
 interface MemberItemProps {
     member: ApplicationMember;
@@ -14,7 +15,7 @@ interface MemberItemProps {
 }
 
 const MemberItem = ({member, removeMember, updateRole}: MemberItemProps) => {
-    const {member: currentMember} = useContext(SpaceContext);
+    const {member: currentMember} = useContext(MemberContext);
     const rolePickerDisabled = member.role === RoleType.OWNER || !checkSpacePermission(Permission.UPDATE_ROLE, currentMember.role) || (member.role === RoleType.ADMIN && currentMember.role !== RoleType.OWNER);
     return (
         <div className="line">
@@ -33,8 +34,8 @@ const MemberItem = ({member, removeMember, updateRole}: MemberItemProps) => {
                             disabled={rolePickerDisabled}/>
             </GridItem>
             <GridItem size={2}>
-                {checkSpacePermission(Permission.DELETE_MEMBER, useContext(SpaceContext).member.role) ? (
-                    <button className="text" onClick={() => removeMember(member)}>Delete</button>
+                {checkSpacePermission(Permission.DELETE_MEMBER, useContext(MemberContext).member?.role || RoleType.VIEW) ? (
+                    <button className="icon" onClick={() => removeMember(member)}><FaTrash size="1.5em"/></button>
                 ) : <></>}
             </GridItem>
         </div>

@@ -1,12 +1,11 @@
 body, * {
   margin: 0;
   padding: 0;
-  font-family: "Lucida Console", Courier, monospace;
-  color: var(--dark-text)
+  color: var(--dark-text);
 }
 
 body {
-  background-color: lightgray;
+  background-color: #ececec;
 }
 
 
@@ -30,7 +29,9 @@ body {
 button {
   font-weight: bold;
   cursor: pointer;
-
+  transition: all 150ms;
+  display: flex;
+  align-items: center;
 
   &.text {
     background: none;
@@ -40,9 +41,19 @@ button {
     color: var(--primary-color);
     text-transform: uppercase;
 
+    &.small {
+      font-size: 0.8em;
+    }
+
     &:hover {
       color: #6e6e6e;
     }
+  }
+
+  &.icon {
+    background: none;
+    border: none;
+    outline: none;
   }
 
   &.filled {
@@ -55,6 +66,20 @@ button {
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  &.outline {
+    outline: none;
+    border: 1px solid var(--primary-color);
+    background: none;
+    padding: 8px;
+    border-radius: var(--border-radius-small);
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--light-text);
     }
   }
 }
@@ -138,10 +163,91 @@ button {
 
 
 .popper-container {
-  border-radius: 5px;
+  border-radius: var(--border-radius-small);
   background-color: white;
   padding: 10px;
   box-shadow: 0 0 5px #00000033;
   display: flex;
   flex-direction: column;
+}
+
+/* TEXT AREA */
+textarea {
+  border-radius: var(--border-radius-small);
+  border: none;
+  outline: none;
+  padding: 15px;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+
+  &.text {
+    padding: 0;
+    border-radius: 0;
+    min-height: unset;
+  }
+}
+
+input {
+  color: var(--dark-text);
+
+  &.filled {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: var(--border-radius-small)
+  }
+
+  &.entity-name {
+    width: auto;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--primary-color);
+
+    transition: all 100ms;
+
+    &:focus {
+      border-bottom: 2px solid #cd38ff;
+    }
+  }
+
+  &.outline {
+    outline: none;
+    padding: 5px;
+    background: none;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--primary-color);
+
+    &.light {
+      border-color: var(--light-text);
+      color: var(--light-text);
+    }
+  }
+
+  &.text {
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &.question-title {
+      font-size: 22px;
+    }
+  }
+}
+
+
+.arrow {
+  display: none;
+}
+
+.drag-something {
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
