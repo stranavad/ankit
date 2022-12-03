@@ -1,7 +1,7 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
 import {Question, QuestionType} from "@/types/questionnaire";
-import {useRequest} from "@/api/index";
+import {useRequest} from "@/routes";
 
 
 export const useQuestions = (id: number) => useRequest<Question[]>(`/questionnaire/${id}/question`);

@@ -1,9 +1,11 @@
-import NextAuth from "next-auth";
 import request from "@/util/request";
 import GoogleProvider from "next-auth/providers/google";
-import {login} from "@/api/auth";
+import {login} from "@/routes/auth";
+import NextAuth from "next-auth";
 
 
+// @ts-ignore
+// @ts-ignore
 export default NextAuth({
     providers: [
         GoogleProvider({
@@ -18,7 +20,7 @@ export default NextAuth({
         // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
     },
     events: {
-        async createUser(user) {
+        async createUser(user: { user: { id: any; }; }) {
             await request({
                 url: "/member",
                 method: "post",
@@ -29,6 +31,7 @@ export default NextAuth({
         },
     },
     callbacks: {
+        //@ts-ignore
         async signIn({account, user}) {
             if (!account) {
                 return false;
@@ -37,12 +40,14 @@ export default NextAuth({
             user.accessToken = data.token;
             return true;
         },
+        //@ts-ignore
         async jwt({token, user}) {
             if (user) {
                 token.accessToken = user.accessToken;
             }
             return token;
         },
+        //@ts-ignore
         async session({session, token}) {
             session.accessToken = token.accessToken;
             return session;

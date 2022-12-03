@@ -1,7 +1,7 @@
 import {ReactElement, useEffect, useState} from "react";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
-import {getCurrentSpace} from "@/api/space";
+import {getCurrentSpace} from "@/routes/space";
 import {defaultMember, defaultSpace, MemberContext, SpaceContext} from "@/util/context";
 
 interface CurrentSpaceProviderProps {

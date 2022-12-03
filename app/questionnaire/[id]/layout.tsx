@@ -1,6 +1,6 @@
 "use client";
 import {ReactNode, useEffect, useState} from "react";
-import {getCurrentQuestionnaire} from "@/api/questionnaire";
+import {getCurrentQuestionnaire} from "@/routes/questionnaire";
 import {ApplicationMember} from "@/types/member";
 import {
     defaultMember,

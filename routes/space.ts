@@ -3,7 +3,7 @@ import {AxiosPromise} from "axios";
 import {ApplicationSpace, DetailSpace} from "@/types/space";
 import {RoleType} from "@/types/role";
 import {ApplicationMember} from "@/types/member";
-import {useRequest} from "@/api/index";
+import {useRequest} from "@/routes";
 
 
 export interface GetSpacesParams {

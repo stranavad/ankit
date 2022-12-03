@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {SearchContext} from "@/util/context";
 import GridItem from "@/components/base/Grid/GridItem";
 import {TableHeader} from "@/types/table";
-import {createQuestionnaire, useQuestionnaires} from "@/api/questionnaire";
+import {createQuestionnaire, useQuestionnaires} from "@/routes/questionnaire";
 import Link from "next/link";
 
 const tableHeaders: TableHeader[] = [

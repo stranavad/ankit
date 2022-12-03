@@ -3,7 +3,7 @@
 import {QuestionType} from "@/types/questionnaire";
 import QuestionEdit from "@/components/QuestionEdit";
 import AddQuestion from "@/components/AddQuestion";
-import {createQuestion, useQuestions} from "@/api/question";
+import {createQuestion, useQuestions} from "@/routes/question";
 import debounce from "lodash/debounce";
 
 const QuestionnaireQuestions = ({params: {id}}: { params: { id: string } }) => {

@@ -6,7 +6,7 @@ import Switch from "@/components/base/Switch";
 import QuestionOptions from "./Options";
 import MenuSelect, {MenuSelectItem} from "@/components/MenuSelect";
 import {Question, QuestionType} from "@/types/questionnaire";
-import {updateQuestion} from "@/api/question";
+import {updateQuestion} from "@/routes/question";
 import QuestionTitle from "@/components/QuestionEdit/title";
 
 interface QuestionEditProps {

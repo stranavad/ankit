@@ -1,6 +1,6 @@
 "use client";
 import {useState, useEffect} from "react";
-import {updateQuestionnaire, useQuestionnaire} from "@/api/questionnaire";
+import {updateQuestionnaire, useQuestionnaire} from "@/routes/questionnaire";
 import {DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import TextArea from "@/components/base/TextArea";
 import EntityName from "@/components/base/EntityName";

@@ -1,6 +1,6 @@
 "use client";
 import {useContext, useState} from "react";
-import {acceptSpaceInvitation, createSpace, deleteSpace, useSpaces} from "@/api/space";
+import {acceptSpaceInvitation, createSpace, deleteSpace, useSpaces} from "@/routes/space";
 import styles from "./index.module.scss";
 import Modal from "@/components/base/Modal";
 import {useSession} from "next-auth/react";

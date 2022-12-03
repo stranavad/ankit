@@ -1,6 +1,6 @@
 import {ChangeEvent, useContext, useRef, useState} from "react";
 import {ApplicationUser} from "@/types/user";
-import {searchUsers} from "@/api/user";
+import {searchUsers} from "@/routes/user";
 import styles from "./index.module.scss";
 import Image from "next/image";
 import {checkSpacePermission, Permission} from "@/util/permission";

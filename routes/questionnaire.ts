@@ -3,7 +3,7 @@ import {AxiosPromise} from "axios";
 import {ApplicationQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
-import {useRequest} from "@/api/index";
+import {useRequest} from "@/routes";
 
 /* GET QUESTIONNAIRES */
 export const useQuestionnaires = (spaceId: number) => useRequest<ApplicationQuestionnaire[]>(`/questionnaire/space/${spaceId}`);

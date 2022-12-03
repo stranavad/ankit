@@ -2,11 +2,11 @@
 import {ApplicationMember} from "@/types/member";
 import {useContext} from "react";
 import MemberItem from "@/components/MemberItem";
-import {addMemberToSpace, removeMemberFromSpace, useSpaceMembers} from "@/api/space";
+import {addMemberToSpace, removeMemberFromSpace, useSpaceMembers} from "@/routes/space";
 import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
 import {RoleType} from "@/types/role";
-import {updateMemberRole} from "@/api/member";
+import {updateMemberRole} from "@/routes/member";
 import GridItem from "@/components/base/Grid/GridItem";
 import {TableHeader} from "@/types/table";
 import {SearchContext} from "@/util/context";
