@@ -1,7 +1,6 @@
 "use client";
-import {ApplicationSpace} from "@/types/space";
-import {useEffect, useState, useContext} from "react";
-import {getSpaces, deleteSpace, createSpace, acceptSpaceInvitation} from "@/api/space";
+import {useContext, useState} from "react";
+import {acceptSpaceInvitation, createSpace, deleteSpace, useSpaces} from "@/api/space";
 import styles from "./index.module.scss";
 import Modal from "@/components/base/Modal";
 import {useSession} from "next-auth/react";
@@ -33,52 +32,45 @@ const tableHeaders: TableHeader[] = [
 
 
 const Spaces = () => {
-    const [spaces, setSpaces] = useState<ApplicationSpace[]>([]);
-    const [invitedSpaces, setInvitedSpaces] = useState<ApplicationSpace[]>([]);
+    const {data, mutate} = useSpaces();
+    const {search} = useContext(SearchContext);
+
+    const spaces = (search ? data?.filter((space) => space.accepted && space.name.includes(search)) : data?.filter((space) => space.accepted)) || [];
+    const invitedSpaces = data?.filter((space) => !space.accepted) || [];
+
     const [createSpaceModal, setCreateSpaceModal] = useState<boolean>(false);
 
-    const {data} = useSession();
-    const {debouncedSearch} = useContext(SearchContext);
-
-    const loadSpaces = () => {
-        getSpaces({search: debouncedSearch || undefined, accepted: true}).then((response) => setSpaces(response.data));
-    };
-
-    const loadInvitedSpaces = () => {
-        getSpaces({accepted: false}).then((response) => setInvitedSpaces(response.data));
-    };
-
-
-    useEffect(() => {
-        loadSpaces();
-        loadInvitedSpaces();
-    }, []);
-    useEffect(loadSpaces, [debouncedSearch]);
-
+    const {data: sessionData} = useSession();
+    const user = sessionData?.user;
     const removeSpace = (spaceId: number) => {
-        setSpaces(data => data.filter(({id}) => id !== spaceId));
-        deleteSpace(spaceId).then(() => loadSpaces());
+        mutate(async (spaces) => {
+            await deleteSpace(spaceId);
+            return spaces?.filter(({id}) => id !== spaceId) || [];
+        });
     };
 
     const storeSpace = (data: CreateData) => {
         setCreateSpaceModal(false);
-        createSpace(data).then((response) => {
-            setSpaces(spaces => [response.data, ...spaces]);
-            loadSpaces();
+        mutate(async (spaces) => {
+            const newSpace = await createSpace(data);
+            return [newSpace.data, ...spaces || []];
         });
     };
 
     const acceptInvitation = (accept: boolean, spaceId: number) => {
-        acceptSpaceInvitation(spaceId, accept).then(() => {
-            loadInvitedSpaces();
-            loadSpaces();
+        mutate(async (spaces) => {
+            await acceptSpaceInvitation(spaceId, accept);
+            return spaces?.map((space) => space.id === spaceId ? ({
+                ...space,
+                accepted: accept
+            }) : space) || [];
         });
     };
 
     return (
         <>
             <Modal open={createSpaceModal} onClose={() => setCreateSpaceModal(false)}>
-                <CreateSpaceForm memberName={data?.user?.name || ""} store={storeSpace}/>
+                <CreateSpaceForm memberName={user?.name || ""} store={storeSpace}/>
             </Modal>
             <div className="content">
                 <div className={styles.createSpaceContainer}>

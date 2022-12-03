@@ -1,23 +1,16 @@
 import NextAuth from "next-auth";
 import request from "@/util/request";
 import GoogleProvider from "next-auth/providers/google";
-import {PrismaAdapter} from "@next-auth/prisma-adapter";
-import {PrismaClient} from "@prisma/client";
+import {login} from "@/api/auth";
 
-const prisma = new PrismaClient();
 
 export default NextAuth({
-    adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
             clientId: process.env.NEXTAUTH_CLIENT_ID || "",
             clientSecret: process.env.NEXTAUTH_CLIENT_SECRET || "",
         }),
     ],
-    session: {
-        strategy: "jwt",
-        maxAge: 60 * 60 * 60 * 24,
-    },
     pages: {
         signIn: "/",
         // signOut: "/auth/signout",
@@ -36,51 +29,22 @@ export default NextAuth({
         },
     },
     callbacks: {
-        async signIn({account}) {
+        async signIn({account, user}) {
             if (!account) {
                 return false;
             }
-            const acccountToUpdate = await prisma.account.findUnique({
-                where: {
-                    provider_providerAccountId: {
-                        provider: account.provider,
-                        providerAccountId: account.providerAccountId,
-                    }
-                }
-            });
-            if (acccountToUpdate) {
-                await prisma.account.update({
-                    where: {
-                        provider_providerAccountId: {
-                            provider: account.provider,
-                            providerAccountId: account.providerAccountId,
-                        },
-                    },
-                    data: {
-                        access_token: account.access_token,
-                        expires_at: account.expires_at,
-                        id_token: account.id_token,
-                        refresh_token: account.refresh_token,
-                        session_state: account.session_state,
-                        scope: account.scope,
-                    },
-                });
-            }
-            await prisma.$disconnect();
+            const {data} = await login(account, user);
+            user.accessToken = data.token;
             return true;
         },
-        async jwt({token, account, user}) {
-            // Persist the OAuth access_token to the token right after signin
-            if (account) {
-                token.accessToken = account.access_token;
-                token.userId = user?.id;
+        async jwt({token, user}) {
+            if (user) {
+                token.accessToken = user.accessToken;
             }
             return token;
         },
         async session({session, token}) {
-            // Send properties to the client, like an access_token from a provider.
-            session.accessToken = token?.accessToken;
-            session.userId = token.userId as number;
+            session.accessToken = token.accessToken;
             return session;
         },
     },

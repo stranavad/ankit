@@ -3,19 +3,13 @@ import {AxiosPromise} from "axios";
 import {ApplicationQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
-
+import {useRequest} from "@/api/index";
 
 /* GET QUESTIONNAIRES */
-export const getQuestionnaires = (spaceId: number, search?: string): AxiosPromise<ApplicationQuestionnaire[]> => {
-    return request({
-        url: `/questionnaire/space/${spaceId}`,
-        method: "get",
-        params: {search},
-    });
-};
+export const useQuestionnaires = (spaceId: number) => useRequest<ApplicationQuestionnaire[]>(`/questionnaire/space/${spaceId}`);
 
 /* CREATE QUESTIONNAIRE */
-export const createQuestionnaire = (data: { name: string }, spaceId: number): AxiosPromise<DetailQuestionnaire> => {
+export const createQuestionnaire = (data: { name: string }, spaceId: number): AxiosPromise<ApplicationQuestionnaire> => {
     return request({
         url: `/questionnaire/space/${spaceId}`,
         method: "post",
@@ -38,12 +32,7 @@ export const getCurrentQuestionnaire = (questionnaireId: number): AxiosPromise<C
 };
 
 /* GET QUESTIONNAIRE */
-export const getQuestionnaire = (id: number): AxiosPromise<DetailQuestionnaire | null> => {
-    return request({
-        url: `/questionnaire/${id}`,
-        method: "get"
-    });
-};
+export const useQuestionnaire = (id: number) => useRequest<DetailQuestionnaire>(`/questionnaire/${id}`);
 
 export interface UpdateQuestionnaireData {
     name?: string;

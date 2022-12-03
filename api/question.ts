@@ -1,7 +1,10 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
 import {Question, QuestionType} from "@/types/questionnaire";
+import {useRequest} from "@/api/index";
 
+
+export const useQuestions = (id: number) => useRequest<Question[]>(`/questionnaire/${id}/question`);
 /* GET QUESTIONNAIRE QUESTIONS */
 export const getQuestions = (id: number): AxiosPromise<Question[]> => {
     return request({

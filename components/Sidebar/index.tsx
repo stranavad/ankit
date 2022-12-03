@@ -1,6 +1,6 @@
 "use client";
 import styles from "./index.module.scss";
-import AnkitLogo from "@/public/ankit_logo.png";
+import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import classNames from "classnames";

@@ -1,20 +1,17 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {Question, QuestionType} from "@/types/questionnaire";
+import {QuestionType} from "@/types/questionnaire";
 import QuestionEdit from "@/components/QuestionEdit";
 import AddQuestion from "@/components/AddQuestion";
-import {createQuestion, getQuestions} from "@/api/question";
+import {createQuestion, useQuestions} from "@/api/question";
+import debounce from "lodash/debounce";
 
 const QuestionnaireQuestions = ({params: {id}}: { params: { id: string } }) => {
-    const [questions, setQuestions] = useState<Question[]>([]);
     const questionnaireId = parseInt(id);
+    const {data, mutate} = useQuestions(questionnaireId);
+    const questions = data || [];
 
-    useEffect(() => {
-        getQuestions(questionnaireId).then((response) => {
-            setQuestions(response.data);
-        });
-    }, [questionnaireId]);
+    const refetchQuestions = debounce(mutate, 1000);
 
     const addQuestion = (type: QuestionType, index: number) => {
         // Generating nextId and previousId
@@ -36,20 +33,21 @@ const QuestionnaireQuestions = ({params: {id}}: { params: { id: string } }) => {
             nextId,
             previousId,
         };
-        createQuestion(questionnaireId, data).then((response) => {
-            setQuestions(response.data);
-        });
+        mutate(async () => {
+            const response = await createQuestion(questionnaireId, data);
+            return response.data;
+        }, {revalidate: false});
     };
 
     return (
-        <>
+        <div className="content">
             {questions.map((question, index) => (
-                <div key={question.id} style={{width: "500px"}}>
-                    <QuestionEdit question={question} questionnaireId={questionnaireId}/>
+                <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
+                    <QuestionEdit question={question} questionnaireId={questionnaireId} refetch={refetchQuestions}/>
                     <AddQuestion add={(type) => addQuestion(type, index)}/>
                 </div>
             ))}
-        </>
+        </div>
     );
 };
 

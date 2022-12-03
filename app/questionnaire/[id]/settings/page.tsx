@@ -1,6 +1,6 @@
 "use client";
 import {useState, useEffect} from "react";
-import {getQuestionnaire, updateQuestionnaire} from "@/api/questionnaire";
+import {updateQuestionnaire, useQuestionnaire} from "@/api/questionnaire";
 import {DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import TextArea from "@/components/base/TextArea";
 import EntityName from "@/components/base/EntityName";
@@ -24,26 +24,24 @@ type QuestionnaireUpdateProperty =
     | [QuestionnaireProperty.STRUCTURE, Structure]
 
 
-const QuestionnaireSettings = ({params: {id}}: { params: { id: number } }) => {
+const QuestionnaireSettings = ({params: {id}}: { params: { id: string } }) => {
+    const questionnaireId = parseInt(id);
     const [questionnaire, setQuestionnaire] = useState<DetailQuestionnaire | null>(null);
+    const {data, mutate} = useQuestionnaire(questionnaireId);
 
-    const loadQuestionnaire = () => {
-        getQuestionnaire(id).then((response) => {
-            response.data && setQuestionnaire(response.data);
-        });
-    };
+    useEffect(() => setQuestionnaire(data), [data]);
 
-
-    const updateProperty = (...data: QuestionnaireUpdateProperty) => {
-        setQuestionnaire(q => (q ? {...q, [data[0]]: data[1]} : null));
-        questionnaire && updateQuestionnaire({[data[0]]: data[1]}, questionnaire.id).then((response) => setQuestionnaire(response.data));
-    };
-
-    useEffect(loadQuestionnaire, [id]);
 
     if (!questionnaire) {
         return null;
     }
+    const updateProperty = (...data: QuestionnaireUpdateProperty) => {
+        setQuestionnaire(q => (q ? {...q, [data[0]]: data[1]} : null));
+        mutate(async () => {
+            const updatedQuestionnaire = await updateQuestionnaire({[data[0]]: data[1]}, questionnaireId);
+            return updatedQuestionnaire.data;
+        }, {revalidate: false});
+    };
 
     return (
         <div className="content">

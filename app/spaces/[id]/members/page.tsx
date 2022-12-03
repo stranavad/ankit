@@ -1,14 +1,15 @@
 "use client";
 import {ApplicationMember} from "@/types/member";
-import {useEffect, useState} from "react";
+import {useContext} from "react";
 import MemberItem from "@/components/MemberItem";
-import {addMemberToSpace, getSpaceMembers, removeMemberFromSpace} from "@/api/space";
+import {addMemberToSpace, removeMemberFromSpace, useSpaceMembers} from "@/api/space";
 import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
 import {RoleType} from "@/types/role";
 import {updateMemberRole} from "@/api/member";
 import GridItem from "@/components/base/Grid/GridItem";
 import {TableHeader} from "@/types/table";
+import {SearchContext} from "@/util/context";
 
 const tableHeaders: TableHeader[] = [
     {
@@ -31,32 +32,29 @@ const tableHeaders: TableHeader[] = [
 
 const Members = ({params: {id}}: { params: { id: string } }) => {
     const spaceId = parseInt(id);
-    const [members, setMembers] = useState<ApplicationMember[]>([]);
-
-    useEffect(() => {
-        getSpaceMembers(spaceId).then((response) => setMembers(response.data));
-    }, [spaceId]);
+    const {search} = useContext(SearchContext);
+    const {data, mutate} = useSpaceMembers(spaceId);
+    const members = (search ? data?.filter(({name}) => name.includes(search)) : data) || [];
 
     const addUser = (user: ApplicationUser) => {
-        addMemberToSpace({userId: user.id, username: user.name}, spaceId).then((response) => {
-            setMembers(response.data);
-        });
+        mutate(async () => {
+            const newMember = await addMemberToSpace({userId: user.id, username: user.name}, spaceId);
+            return newMember.data;
+        }, {revalidate: false});
     };
 
     const removeMember = (member: ApplicationMember) => {
-        removeMemberFromSpace(spaceId, member.id).then((response) => setMembers(response.data));
+        mutate(async () => {
+            const newMembers = await removeMemberFromSpace(spaceId, member.id);
+            return newMembers.data;
+        }, {revalidate: false});
     };
 
     const updateRole = (role: RoleType, memberId: number) => {
-        updateMemberRole(role, memberId, spaceId).then((response) => {
-            response.data && setMembers(data => data.map((item) => {
-                if (item.id === memberId) {
-                    return response.data;
-                } else {
-                    return item;
-                }
-            }));
-        });
+        mutate(async (cachedMembers) => {
+            const updatedMember = await updateMemberRole(role, memberId, spaceId);
+            return cachedMembers?.map((member) => member.id === memberId ? updatedMember.data : member);
+        }, {revalidate: false});
     };
 
     return (

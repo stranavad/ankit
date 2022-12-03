@@ -12,6 +12,7 @@ import QuestionTitle from "@/components/QuestionEdit/title";
 interface QuestionEditProps {
     question: Question;
     questionnaireId: number;
+    refetch: () => void;
 }
 
 enum QuestionProperty {
@@ -27,7 +28,7 @@ type QuestionUpdateProperty =
     | [QuestionProperty.REQUIRED, boolean]
     | [QuestionProperty.VISIBLE, boolean]
 
-const QuestionEdit = ({question, questionnaireId}: QuestionEditProps) => {
+const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) => {
     const [title, setTitle] = useState<string>(question.title);
     const [description, setDescription] = useState<string>(question.description || "");
     const [required, setRequired] = useState<boolean>(question.required);
@@ -66,6 +67,7 @@ const QuestionEdit = ({question, questionnaireId}: QuestionEditProps) => {
             setDescription(description || "");
             setVisible(visible);
             setRequired(required);
+            refetch();
         });
     };
 
