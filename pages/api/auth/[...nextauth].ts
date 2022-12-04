@@ -4,8 +4,6 @@ import {login} from "@/routes/auth";
 import NextAuth from "next-auth";
 
 
-// @ts-ignore
-// @ts-ignore
 export default NextAuth({
     providers: [
         GoogleProvider({
@@ -31,7 +29,6 @@ export default NextAuth({
         },
     },
     callbacks: {
-        //@ts-ignore
         async signIn({account, user}) {
             if (!account) {
                 return false;
@@ -40,14 +37,12 @@ export default NextAuth({
             user.accessToken = data.token;
             return true;
         },
-        //@ts-ignore
         async jwt({token, user}) {
             if (user) {
                 token.accessToken = user.accessToken;
             }
             return token;
         },
-        //@ts-ignore
         async session({session, token}) {
             session.accessToken = token.accessToken;
             return session;
