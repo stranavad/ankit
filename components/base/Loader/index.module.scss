@@ -1,0 +1,32 @@
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span {
+    margin-top: 10px;
+    font-size: 22px;
+    color: var(--primary-color);
+    font-weight: 500
+  }
+
+  .loader {
+    width: 35px;
+    aspect-ratio: 1;
+    --_c: radial-gradient(farthest-side, var(--primary-color) 92%, #0000);
+    background: var(--_c) top,
+    var(--_c) left,
+    var(--_c) right,
+    var(--_c) bottom;
+    background-size: 10px 10px;
+    background-repeat: no-repeat;
+    animation: loader 1s infinite;
+  }
+
+  @keyframes loader {
+    to {
+      transform: rotate(.5turn)
+    }
+  }
+
+}

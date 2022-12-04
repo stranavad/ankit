@@ -5,8 +5,9 @@ import QuestionEdit from "@/components/QuestionEdit";
 import AddQuestion from "@/components/AddQuestion";
 import {createQuestion, useQuestions} from "@/routes/question";
 import debounce from "lodash/debounce";
+import Loader from "@/components/base/Loader";
 
-const QuestionnaireQuestions = ({params: {id}}: { params: { id: string } }) => {
+const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
     const {data, mutate} = useQuestions(questionnaireId);
     const questions = data || [];
@@ -41,6 +42,7 @@ const QuestionnaireQuestions = ({params: {id}}: { params: { id: string } }) => {
 
     return (
         <div className="content">
+            <Loader message="Loading questions..."/>
             {questions.map((question, index) => (
                 <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
                     <QuestionEdit question={question} questionnaireId={questionnaireId} refetch={refetchQuestions}/>

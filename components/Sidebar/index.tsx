@@ -47,6 +47,25 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
 
     if (arr[0] === "spaces") {
         if (arr[1]) {
+            if (arr[2] === "questionnaires" && arr[3]) {
+                return [
+                    {
+                        title: "Dashboard",
+                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}`,
+                        search: false,
+                    },
+                    {
+                        title: "Questions",
+                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/questions`,
+                        search: false,
+                    },
+                    {
+                        title: "settings",
+                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/settings`,
+                        search: false,
+                    },
+                ];
+            }
             return [
                 {
                     title: "Dashboard",

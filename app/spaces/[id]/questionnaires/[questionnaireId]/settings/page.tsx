@@ -24,7 +24,7 @@ type QuestionnaireUpdateProperty =
     | [QuestionnaireProperty.STRUCTURE, Structure]
 
 
-const QuestionnaireSettings = ({params: {id}}: { params: { id: string } }) => {
+const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
     const [questionnaire, setQuestionnaire] = useState<DetailQuestionnaire | null>(null);
     const {data, mutate} = useQuestionnaire(questionnaireId);
