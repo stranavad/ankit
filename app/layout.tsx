@@ -4,7 +4,8 @@ import {SessionProvider} from "next-auth/react";
 import {Inter} from "@next/font/google";
 
 const inter = Inter({
-    weight: ["400", "500", "600"]
+    weight: ["400", "500", "600"],
+    subsets: ["latin"]
 });
 
 export default function RootLayout(props: any) {
