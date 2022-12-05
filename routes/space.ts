@@ -12,13 +12,6 @@ export interface GetSpacesParams {
 }
 
 export const useSpaces = () => useRequest<ApplicationSpace[]>("/spaces");
-export const getSpaces = (params: GetSpacesParams): AxiosPromise<ApplicationSpace[]> => {
-    return request({
-        url: "/spaces",
-        method: "get",
-        params
-    });
-};
 
 interface CreateSpaceData {
     spaceName: string;
