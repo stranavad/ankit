@@ -8,6 +8,7 @@ import {ReactElement, useMemo, useState} from "react";
 import {SearchContext, SearchContextData} from "@/util/context";
 import useDebounce from "@/util/debounce";
 import {usePathname} from "next/navigation";
+import {MdSpaceDashboard} from 'react-icons/md';
 
 interface SidebarItem {
     title: string;
@@ -135,7 +136,8 @@ const Sidebar = ({children}: SidebarProps) => {
                     {items.map((item, index) => (
                         <Link href={item.path} key={index}
                               className={classNames(styles.item, {[styles.active]: pathname === item.path})}>
-                            {item.title}
+                            <MdSpaceDashboard className={styles.itemIcon} size="28px"/>
+                            <span>{item.title}</span>
                         </Link>
                     ))}
                 </div>
