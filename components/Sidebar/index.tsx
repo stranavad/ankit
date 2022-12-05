@@ -96,24 +96,6 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
                 search: true,
             }
         ];
-    } else if (arr[0] === "questionnaire") {
-        return [
-            {
-                title: "Dashboard",
-                path: `/${arr[0]}/${arr[1]}/`,
-                search: false,
-            },
-            {
-                title: "Questions",
-                path: `/${arr[0]}/${arr[1]}/questions`,
-                search: false,
-            },
-            {
-                title: "settings",
-                path: `/${arr[0]}/${arr[1]}/settings`,
-                search: false,
-            },
-        ];
     }
     return [];
 };
@@ -168,7 +150,7 @@ const Sidebar = ({children}: SidebarProps) => {
                         <h3>Space name</h3>
                         <div className={styles.topMenuItems}>
                             {topMenuItems.map((item, index) => (
-                                <Link key={index} href={item.path}>{item.title}</Link>
+                                <Link key={index} href={item.path} prefetch={true}>{item.title}</Link>
                             ))}
                         </div>
 
