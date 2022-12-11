@@ -1,6 +1,7 @@
 body, * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   color: var(--dark-text);
 }
 
@@ -17,6 +18,9 @@ body {
 
   /* BACKGROUNDS */
   --dark-background: #091423;
+
+  --blue-background: rgba(0, 90, 155, 0.18);
+  --green-background: rgba(0, 155, 62, 0.18);
 
   --border-radius-small: 5px;
   --border-radius-medium: 10px;
@@ -68,6 +72,12 @@ button {
     &:hover {
       opacity: 0.8;
     }
+
+    &.small {
+      font-size: 12px;
+      font-weight: normal;
+      padding: 4px 8px;
+    }
   }
 
   &.outline {
@@ -81,6 +91,12 @@ button {
     &:hover {
       background-color: var(--primary-color);
       color: var(--light-text);
+    }
+
+    &.small {
+      font-size: 12px;
+      padding: 4px 8px;
+      font-weight: normal;
     }
   }
 }

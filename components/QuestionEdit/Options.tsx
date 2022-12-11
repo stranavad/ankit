@@ -15,6 +15,8 @@ import {
 } from "@dnd-kit/sortable";
 import OptionComponent from "./Option";
 import {Option} from "@/types/questionnaire";
+import styles from './index.module.scss';
+import classNames from "classnames";
 
 const Options = ({options}: { options: Option[] }) => {
     const [items, setItems] = useState<Option[]>(options);
@@ -84,7 +86,10 @@ const Options = ({options}: { options: Option[] }) => {
                                                                    remove={() => deleteOption(index)}/>)}
                 </SortableContext>
             </DndContext>
-            <button className="text" style={{fontSize: "0.7em"}} onClick={addOption}>Add Option</button>
+            <div className={classNames(styles.optionContainer, styles.mock)}>
+                <div className={styles.checkCircle}><div/></div>
+                <input className="text" placeholder="Add new"/>
+            </div>
         </>
     );
 };

@@ -1,32 +1,42 @@
 "use client";
 import styles from "./index.module.scss";
-import {useEffect, useState} from "react";
-import useDebounce from "@/util/debounce";
+import {useState} from "react";
+import {FaPencilAlt} from 'react-icons/fa';
 
 interface DescriptionProps {
     value: string;
-    title?: string;
+    title: string;
     placeholder?: string;
     change: (value: string) => void;
-    debounced?: boolean;
-    type?: "text";
 }
 
-const TextArea = ({placeholder, change, debounced = true, title, value, type}: DescriptionProps) => {
+const TextArea = ({placeholder, change, title, value}: DescriptionProps) => {
+    const [open, setOpen] = useState<boolean>(false);
     const [content, setContent] = useState<string>(value);
-    const debouncedValue = useDebounce(content, debounced ? 1000 : 0);
 
-    useEffect(() => {
-        if (value !== content) {
-            change(content);
-        }
-    }, [debouncedValue]);
+    const save = () => {
+        setOpen(false);
+        change(content);
+    }
 
     return (
-        <div className={type !== "text" ? styles.textareaWrapper : ""}>
-            {title && <span>{title}</span>}
-            <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={placeholder}
-                      className={type}/>
+        <div className={styles.descriptionWrapper}>
+            <div className={styles.title}>
+                <span>{title}</span>
+                <button className="icon" onClick={() => setOpen(!open)}><FaPencilAlt size="0.8em"/></button>
+            </div>
+            {!open ? (
+                <span className={styles.description}>{content}</span>
+            ) : (
+                <>
+                <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={placeholder}
+                          className={'description'}/>
+                    <div className={styles.actionButtons}>
+                        <button className="outline small" onClick={() => setOpen(false)}>Cancel</button>
+                        <button className="filled small" onClick={save}>Save</button>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

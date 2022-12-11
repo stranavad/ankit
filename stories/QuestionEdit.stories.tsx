@@ -10,7 +10,7 @@ export default {
     argTypes: {}
 } as ComponentMeta<typeof QuestionEdit>;
 
-const Template: ComponentStory<typeof QuestionEdit> = (args) => <QuestionEdit {...args}/>;
+const Template: ComponentStory<typeof QuestionEdit> = (args) => <div style={{width: '800px'}}><QuestionEdit {...args}/></div>;
 
 export const Primary = Template.bind({});
 

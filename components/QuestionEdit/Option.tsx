@@ -30,6 +30,7 @@ const QuestionOption = ({option, updateValue, remove}: OptionsProps) => {
                 <div/>
                 <div/>
             </div>
+            <div className={styles.checkCircle}><div/></div>
             <input className="text" value={option.value} onChange={(e) => updateValue(e.target.value)}
                    style={{width: "100%", paddingRight: "10px", paddingLeft: "10px"}}/>
             <button className="icon" onClick={remove}><FaTrash/></button>
