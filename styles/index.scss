@@ -1,3 +1,5 @@
+@import 'typography.scss';
+
 body, * {
   margin: 0;
   padding: 0;
@@ -18,6 +20,9 @@ body {
 
   /* BACKGROUNDS */
   --dark-background: #091423;
+
+  /* BORDERS */
+  --dark-border: #9f9f9f;
 
   --blue-background: rgba(0, 90, 155, 0.18);
   --green-background: rgba(0, 155, 62, 0.18);
@@ -47,7 +52,9 @@ button {
     text-transform: uppercase;
 
     &.small {
-      font-size: 0.8em;
+      font-size: 12px;
+      padding: 4px 8px;
+      font-weight: bolder;
     }
 
     &:hover {
@@ -267,4 +274,24 @@ input {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+
+
+.checkbox {
+  cursor: pointer;
+
+  span {
+    color: var(--primary-color);
+    padding-left: 10px;
+  }
+
+  input {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+
+.checkbox > input:active {
+  border: 2px solid #34495E;
 }

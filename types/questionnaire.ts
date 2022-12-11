@@ -40,7 +40,7 @@ export interface Question {
     required: boolean;
     position: number;
     type: QuestionType;
-    options?: Option[];
+    options: Option[];
 }
 
 export interface Option {

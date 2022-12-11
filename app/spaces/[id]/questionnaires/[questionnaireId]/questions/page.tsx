@@ -1,5 +1,4 @@
 "use client";
-
 import {QuestionType} from "@/types/questionnaire";
 import QuestionEdit from "@/components/QuestionEdit";
 import AddQuestion from "@/components/AddQuestion";
@@ -11,7 +10,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     const {data, mutate} = useQuestions(questionnaireId);
     const questions = data || [];
 
-    const refetchQuestions = debounce(mutate, 1000);
+    const refetchQuestions = debounce(mutate, 5000);
 
     const addQuestion = (type: QuestionType, index: number) => {
         // Generating nextId and previousId

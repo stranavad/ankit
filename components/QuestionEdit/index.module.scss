@@ -5,6 +5,11 @@
   background-color: white;
   display: flex;
   flex-direction: column;
+  transition: opacity 100ms;
+
+  &.hidden {
+    opacity: 0.6;
+  }
 
   .topBar {
     display: flex;
@@ -13,7 +18,18 @@
     align-items: center;
     padding: 10px 15px;
     margin-bottom: 10px;
-    background-color: var(--blue-background);
+
+    &.select {
+      background-color: var(--blue-background);
+    }
+
+    &.multiselect {
+      background-color: var(--blue-background)
+    }
+
+    &.text {
+      background-color: var(--green-background);
+    }
 
 
     .toolbar {
@@ -30,23 +46,16 @@
 
     .section {
       margin-bottom: 30px;
-      span {
-        font-weight: bolder;
-        color: var(--primary-color);
-      }
     }
   }
 
   .bottomBar {
+    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     flex-direction: row-reverse;
     align-items: center;
     margin-top: 10px;
-
-    :first-child { // SWITCH
-      margin-top: 5px;
-    }
   }
 }
 
@@ -60,6 +69,7 @@
 
   .checkCircle {
     width: 20px;
+
     div {
       border-radius: 50%;
       width: 13px;

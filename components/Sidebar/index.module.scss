@@ -10,6 +10,11 @@
 }
 
 .topMenu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  left: 100px;
   height: 50px;
   background-color: var(--primary-color);
   display: flex;
@@ -48,11 +53,15 @@
 }
 
 .childrenWrapper {
+  position: relative;
+  top: 50px;
+  left: 100px;
   padding: 15px;
   overflow: hidden;
+  max-width: calc(100vw - 100px);
 }
 
-.container {
+.sidebar {
   height: 100vh;
   width: 100px;
   background-color: var(--primary-color);
@@ -60,24 +69,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  //transition: width 250ms;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
   transition: all 500ms;
 
-  &:hover {
-    width: 300px;
-
-    .imageContainer {
-      img {
-        object-fit: contain;
-        width: 130px;
-        height: auto;
-      }
-    }
-
-    .items .item span {
-      display: block;
-    }
-  }
+  //&:hover {
+  //  width: 300px;
+  //
+  //  .imageContainer {
+  //    img {
+  //      object-fit: contain;
+  //      width: 130px;
+  //      height: auto;
+  //    }
+  //  }
+  //
+  //  .items .item span {
+  //    display: block;
+  //  }
+  //}
 
   .imageContainer {
     padding: 25px 0;

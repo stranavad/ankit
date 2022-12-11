@@ -15,10 +15,15 @@ import {
 } from "@dnd-kit/sortable";
 import OptionComponent from "./Option";
 import {Option} from "@/types/questionnaire";
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
 import classNames from "classnames";
+import {createOption, deleteOption, updateOption, updateOptionPosition} from "@/routes/question";
 
-const Options = ({options}: { options: Option[] }) => {
+const Options = ({
+    options,
+    questionId,
+    questionnaireId
+}: { options: Option[], questionnaireId: number, questionId: number }) => {
     const [items, setItems] = useState<Option[]>(options);
 
     const sensors = useSensors(
@@ -29,9 +34,14 @@ const Options = ({options}: { options: Option[] }) => {
     );
 
     const handleDragEnd = (event: DragEndEvent) => {
+        console.log("handle drag over");
         const {active, over} = event;
 
         if (active.id !== over?.id) {
+            let activeId: number | null = null;
+            let activeIndex: number | null = null;
+            let overId: number | null = null;
+            let overIndex: number | null = null;
             setItems((items) => {
                 const oldItem = items.find(({id}) => id === active.id);
                 const newItem = items.find(({id}) => id === over?.id);
@@ -40,23 +50,41 @@ const Options = ({options}: { options: Option[] }) => {
                     return items;
                 }
 
+                activeId = oldItem.id;
+                overId = newItem.id;
+
                 const oldIndex = items.indexOf(oldItem);
                 const newIndex = items.indexOf(newItem);
+                activeIndex = oldIndex;
+                overIndex = newIndex;
 
                 return arrayMove(items, oldIndex, newIndex);
             });
+            if (activeIndex !== null && overIndex !== null) {
+                updateOptionPosition(questionnaireId, questionId, {
+                    activeIndex,
+                    overIndex,
+                }).then((response) => {
+                    setItems(response.data.options);
+                });
+            }
+
         }
     };
 
-    const updateOptionValue = (value: string, index: number) => {
+    const updateOptionValue = (value: string, index: number, id: number) => {
         setItems(items => {
             const newItems = [...items];
             newItems[index].value = value;
             return newItems;
         });
+        updateOption(questionnaireId, questionId, id, {value}).then((response) => {
+            setItems(response.data.options);
+        });
     };
 
-    const deleteOption = (index: number) => {
+    const removeOption = (index: number, id: number) => {
+        deleteOption(questionnaireId, questionId, id).then((response) => setItems(response.data.options));
         setItems(items => {
             const newItems = [...items];
             newItems.splice(index, 1);
@@ -66,7 +94,11 @@ const Options = ({options}: { options: Option[] }) => {
 
     const addOption = () => {
         const maxId = Math.max(...items.map(({id}) => id));
-        setItems(items => ([...items, {id: maxId + 1, value: maxId + 1 + " option", position: 3}]));
+        const value = "Option " + maxId + 1;
+        createOption(questionnaireId, questionId, {value}).then((response) => setItems(response.data.options));
+        setItems(items => ([...items, {id: maxId + 1, value, position: 3}]));
+        // I don't want to use refs
+        setTimeout(() => document.getElementById(`option-${maxId + 1}`)?.focus(), 0);
     };
 
     return (
@@ -82,13 +114,15 @@ const Options = ({options}: { options: Option[] }) => {
                 >
                     {items.map((option, index) => <OptionComponent key={option.id}
                                                                    option={option}
-                                                                   updateValue={(value) => updateOptionValue(value, index)}
-                                                                   remove={() => deleteOption(index)}/>)}
+                                                                   updateValue={(value) => updateOptionValue(value, index, option.id)}
+                                                                   remove={() => removeOption(index, option.id)}/>)}
                 </SortableContext>
             </DndContext>
             <div className={classNames(styles.optionContainer, styles.mock)}>
-                <div className={styles.checkCircle}><div/></div>
-                <input className="text" placeholder="Add new"/>
+                <div className={styles.checkCircle}>
+                    <div/>
+                </div>
+                <input className="text" placeholder="Add new" onFocus={addOption}/>
             </div>
         </>
     );

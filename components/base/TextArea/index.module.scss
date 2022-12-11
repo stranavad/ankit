@@ -1,18 +1,9 @@
-.textareaWrapper {
-  margin: 15px 0;
-  max-width: 400px;
-
-  span {
-    display: block;
-    font-weight: bolder;
-  }
-}
-
 .descriptionWrapper {
   .title {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 5px;
 
     svg {
       margin-left: 10px;
@@ -20,13 +11,17 @@
   }
 
   .description {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: lighter !important;
     color: var(--dark-text);
+
+    &.smallDescription {
+      font-size: 12px;
+    }
   }
 
   textarea {
-    border: 1px solid var(--light-text);
+    border: 1px solid var(--dark-border);
     padding: 10px;
     box-sizing: border-box;
     max-width: 100%;

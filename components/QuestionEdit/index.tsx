@@ -2,12 +2,12 @@ import {useState} from "react";
 import styles from "./index.module.scss";
 import TextArea from "@/components/base/TextArea";
 import {FiEye, FiEyeOff, FiTrash2} from "react-icons/fi";
-import {HiOutlineDuplicate} from 'react-icons/hi';
-import Switch from "@/components/base/Switch";
+import {HiOutlineDuplicate} from "react-icons/hi";
 import QuestionOptions from "./Options";
 import {Question, QuestionType} from "@/types/questionnaire";
 import {updateQuestion} from "@/routes/question";
 import QuestionTitle from "@/components/QuestionEdit/title";
+import classNames from "classnames";
 
 interface QuestionEditProps {
     question: Question;
@@ -34,23 +34,7 @@ const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) =
     const [required, setRequired] = useState<boolean>(question.required);
     const [visible, setVisible] = useState<boolean>(question.visible);
 
-    const update = (...data: QuestionUpdateProperty) => {
-        switch (data[0]) {
-        case QuestionProperty.TITLE:
-            setTitle(data[1]);
-            break;
-        case QuestionProperty.DESCRIPTION:
-            setDescription(data[1]);
-            break;
-        case QuestionProperty.REQUIRED:
-            setRequired(data[1]);
-            break;
-        case QuestionProperty.VISIBLE:
-            setVisible(data[1]);
-            break;
-        default:
-            break;
-        }
+    const update = (data: QuestionUpdateProperty) => {
         updateQuestion(questionnaireId, question.id, {[data[0]]: data[1]}).then((response) => {
             const {title, description, visible, required} = response.data;
             setTitle(title);
@@ -61,13 +45,33 @@ const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) =
         });
     };
 
+    const updateTitle = (value: string) => {
+        setTitle(value);
+        update([QuestionProperty.TITLE, value]);
+    };
+
+    const updateVisible = (value: boolean) => {
+        setVisible(value);
+        update([QuestionProperty.VISIBLE, value]);
+    };
+
+    const updateDescription = (value: string) => {
+        setDescription(value);
+        update([QuestionProperty.DESCRIPTION, value]);
+    };
+
+    const updateRequired = (value: boolean) => {
+        setRequired(value);
+        update([QuestionProperty.REQUIRED, value]);
+    };
+
     return (
-        <div className={styles.questionCard}>
-            <div className={styles.topBar}>
-                <QuestionTitle title={title} update={(value) => update(QuestionProperty.TITLE, value)}/>
+        <div className={classNames(styles.questionCard, {[styles.hidden]: !visible})}>
+            <div className={classNames(styles.topBar, styles[question.type])}>
+                <QuestionTitle title={title} update={updateTitle}/>
                 <div className={styles.toolbar}>
                     <button className="icon"><FiTrash2 size="1.5em"/></button>
-                    <button className="icon" onClick={() => update(QuestionProperty.VISIBLE, !visible)}>{visible ?
+                    <button className="icon" onClick={() => updateVisible(!visible)}>{visible ?
                         <FiEye size="1.5em"/> :
                         <FiEyeOff size="1.5em"/>}</button>
                     <button className="icon"><HiOutlineDuplicate size="1.5em"/></button>
@@ -75,24 +79,29 @@ const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) =
             </div>
             <div className={styles.content}>
                 <div className={styles.section}>
-                    <TextArea value={description} change={(value) => update(QuestionProperty.DESCRIPTION, value)}
+                    <TextArea value={description} change={updateDescription}
                               placeholder="Add description (optional)" title="Description"/>
                 </div>
                 <div className={styles.section}>
                     {(question.type === QuestionType.SELECT || question.type === QuestionType.MULTI_SELECT) && (
-                        <div className={styles.contentSection}>
-                            <span>Options</span>
+                        <>
+                            <span className="subtitle">Options</span>
                             <QuestionOptions
-                                options={question.options || []}/>
-                        </div>
+                                options={question.options || []} questionnaireId={questionnaireId}
+                                questionId={question.id}/>
+                        </>
                     )}
                 </div>
             </div>
             <div className={styles.bottomBar}>
-                {(question?.type === QuestionType.SELECT || question?.type === QuestionType.MULTI_SELECT) && (
-                    <Switch value={required} update={setRequired} title="Multiple"/>
-                )}
-                <Switch value={required} update={(value) => update(QuestionProperty.REQUIRED, value)} title="Required"/>
+                {/*{(question?.type === QuestionType.SELECT || question?.type === QuestionType.MULTI_SELECT) && (*/}
+                {/*    <Switch value={required} update={setRequired} title="Multiple"/>*/}
+                {/*)}*/}
+                <label className="checkbox">
+                    <input type="checkbox" checked={required}
+                           onChange={(e) => updateRequired(e.target.checked)}/>
+                    <span>Required</span>
+                </label>
             </div>
         </div>
     );

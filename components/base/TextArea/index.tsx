@@ -1,7 +1,8 @@
 "use client";
 import styles from "./index.module.scss";
 import {useState} from "react";
-import {FaPencilAlt} from 'react-icons/fa';
+import {FaPencilAlt} from "react-icons/fa";
+import classnames from "classnames";
 
 interface DescriptionProps {
     value: string;
@@ -17,20 +18,21 @@ const TextArea = ({placeholder, change, title, value}: DescriptionProps) => {
     const save = () => {
         setOpen(false);
         change(content);
-    }
+    };
 
     return (
         <div className={styles.descriptionWrapper}>
             <div className={styles.title}>
-                <span>{title}</span>
+                <span className="subtitle">{title}</span>
                 <button className="icon" onClick={() => setOpen(!open)}><FaPencilAlt size="0.8em"/></button>
             </div>
             {!open ? (
-                <span className={styles.description}>{content}</span>
+                <span
+                    className={classnames(styles.description, {[styles.smallDescription]: !content})}>{content || "Add description (optional)"}</span>
             ) : (
                 <>
                 <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={placeholder}
-                          className={'description'}/>
+                          className={"description"}/>
                     <div className={styles.actionButtons}>
                         <button className="outline small" onClick={() => setOpen(false)}>Cancel</button>
                         <button className="filled small" onClick={save}>Save</button>

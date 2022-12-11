@@ -8,7 +8,7 @@ import {ReactElement, useMemo, useState} from "react";
 import {SearchContext, SearchContextData} from "@/util/context";
 import useDebounce from "@/util/debounce";
 import {usePathname} from "next/navigation";
-import {MdSpaceDashboard} from 'react-icons/md';
+import {MdSpaceDashboard} from "react-icons/md";
 
 interface SidebarItem {
     title: string;
@@ -109,7 +109,6 @@ interface SidebarProps {
 
 const Sidebar = ({children}: SidebarProps) => {
     const [search, setSearch] = useState<string>("");
-    const [small, setSmall] = useState<boolean>(true);
     const debouncedSearch = useDebounce<string>(search);
     const pathname = usePathname();
 
@@ -128,9 +127,9 @@ const Sidebar = ({children}: SidebarProps) => {
     };
     return (
         <div className={styles.mainWrapper}>
-            <div className={classNames(styles.container, {[styles.small]: small})}>
+            <div className={styles.sidebar}>
                 <div className={styles.imageContainer}>
-                    <Image src={AnkitLogo} alt="Ankit logo" onClick={() => setSmall(s => !s)}/>
+                    <Image src={AnkitLogo} alt="Ankit logo"/>
                 </div>
                 <div className={styles.items}>
                     {items.map((item, index) => (
@@ -152,7 +151,7 @@ const Sidebar = ({children}: SidebarProps) => {
                         <h3>Space name</h3>
                         <div className={styles.topMenuItems}>
                             {topMenuItems.map((item, index) => (
-                                <Link key={index} href={item.path} prefetch={true}>{item.title}</Link>
+                                <Link key={index} href={item.path}>{item.title}</Link>
                             ))}
                         </div>
 
