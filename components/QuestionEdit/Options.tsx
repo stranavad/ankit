@@ -34,7 +34,6 @@ const Options = ({
     );
 
     const handleDragEnd = (event: DragEndEvent) => {
-        console.log("handle drag over");
         const {active, over} = event;
 
         if (active.id !== over?.id) {
@@ -73,14 +72,16 @@ const Options = ({
     };
 
     const updateOptionValue = (value: string, index: number, id: number) => {
-        setItems(items => {
-            const newItems = [...items];
-            newItems[index].value = value;
-            return newItems;
-        });
-        updateOption(questionnaireId, questionId, id, {value}).then((response) => {
-            setItems(response.data.options);
-        });
+        if (items[index].value !== value) {
+            setItems(items => {
+                const newItems = [...items];
+                newItems[index].value = value;
+                return newItems;
+            });
+            updateOption(questionnaireId, questionId, id, {value}).then((response) => {
+                setItems(response.data.options);
+            });
+        }
     };
 
     const removeOption = (index: number, id: number) => {
