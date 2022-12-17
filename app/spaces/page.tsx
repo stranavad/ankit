@@ -1,6 +1,6 @@
 "use client";
 import {useContext, useState} from "react";
-import {acceptSpaceInvitation, createSpace, deleteSpace, useSpaces} from "@/routes/space";
+import { createSpace, deleteSpace, useSpaces} from "@/routes/space";
 import styles from "./index.module.scss";
 import Modal from "@/components/base/Modal";
 import {useSession} from "next-auth/react";
@@ -36,7 +36,6 @@ const Spaces = () => {
     const {search} = useContext(SearchContext);
 
     const spaces = (search ? data?.filter((space) => space.accepted && space.name.includes(search)) : data?.filter((space) => space.accepted)) || [];
-    const invitedSpaces = data?.filter((space) => !space.accepted) || [];
 
     const [createSpaceModal, setCreateSpaceModal] = useState<boolean>(false);
 
@@ -54,16 +53,6 @@ const Spaces = () => {
         mutate(async (spaces) => {
             const newSpace = await createSpace(data);
             return [newSpace.data, ...spaces || []];
-        });
-    };
-
-    const acceptInvitation = (accept: boolean, spaceId: number) => {
-        mutate(async (spaces) => {
-            await acceptSpaceInvitation(spaceId, accept);
-            return spaces?.map((space) => space.id === spaceId ? ({
-                ...space,
-                accepted: accept
-            }) : space) || [];
         });
     };
 
@@ -107,29 +96,6 @@ const Spaces = () => {
                         </div>
                     ))}
                 </div>
-                {invitedSpaces.length ? (
-                    <div className="grid">
-                        <h2>Invitations</h2>
-                        {invitedSpaces.map((space) => (
-                            <div className="line" key={space.id}>
-                                <GridItem size={9}>
-                                    <h3>{space.name}</h3>
-                                </GridItem>
-
-                                <GridItem size={2}>
-                                    <button className="text" onClick={() => acceptInvitation(true, space.id)}
-                                            disabled={space.personal}>Accept
-                                    </button>
-                                </GridItem>
-                                <GridItem size={1}>
-                                    <button className="text" onClick={() => acceptInvitation(false, space.id)}
-                                            disabled={space.personal}>Decline
-                                    </button>
-                                </GridItem>
-                            </div>
-                        ))}
-                    </div>
-                ) : <></>}
             </div>
         </>
     );

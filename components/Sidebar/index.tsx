@@ -47,7 +47,7 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
     arr.shift(); // First element is empty string
 
     if (arr[0] === "spaces") {
-        if (arr[1]) {
+        if (arr[1] && arr[1] !== 'invited') {
             if (arr[2] === "questionnaires" && arr[3]) {
                 return [
                     {
@@ -93,7 +93,7 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
             },
             {
                 title: "Invited spaces",
-                path: `/${arr[0]}`,
+                path: `/${arr[0]}/invited`,
                 search: true,
             }
         ];
