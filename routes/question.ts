@@ -73,3 +73,10 @@ export const deleteOption = (questionnaireId: number, questionId: number, option
         method: "delete"
     });
 };
+
+export const duplicateQuestion = (questionnaireId: number, questionId: number): AxiosPromise<Question[]> => {
+    return request({
+        url: `/questionnaire/${questionnaireId}/question/${questionId}/duplicate`,
+        method: 'post'
+    })
+}

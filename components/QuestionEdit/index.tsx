@@ -13,6 +13,7 @@ interface QuestionEditProps {
     question: Question;
     questionnaireId: number;
     refetch: () => void;
+    cloneQuestion: (questionId: number) => void;
 }
 
 enum QuestionProperty {
@@ -28,7 +29,7 @@ type QuestionUpdateProperty =
     | [QuestionProperty.REQUIRED, boolean]
     | [QuestionProperty.VISIBLE, boolean]
 
-const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) => {
+const QuestionEdit = ({question, questionnaireId, refetch, cloneQuestion}: QuestionEditProps) => {
     const [title, setTitle] = useState<string>(question.title);
     const [description, setDescription] = useState<string>(question.description || "");
     const [required, setRequired] = useState<boolean>(question.required);
@@ -74,7 +75,7 @@ const QuestionEdit = ({question, questionnaireId, refetch}: QuestionEditProps) =
                     <button className="icon" onClick={() => updateVisible(!visible)}>{visible ?
                         <FiEye size="1.5em"/> :
                         <FiEyeOff size="1.5em"/>}</button>
-                    <button className="icon"><HiOutlineDuplicate size="1.5em"/></button>
+                    <button className="icon" onClick={() => cloneQuestion(question.id)}><HiOutlineDuplicate size="1.5em"/></button>
                 </div>
             </div>
             <div className={styles.content}>
