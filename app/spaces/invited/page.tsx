@@ -41,7 +41,9 @@ const InvitedSpaces = () => {
                         </div>
                     ))}
                 </div>
-            ) : <></>}
+            ) : (<>
+                <h3>There are no invitations</h3>
+            </>)}
         </div>
     )
 }
