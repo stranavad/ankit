@@ -17,8 +17,8 @@ import {useRouter} from "next/navigation";
 
 const QuestionnaireLayout = ({
     children,
-    params: {id: questionnaireId}
-}: { children: ReactNode, params: { id: number } }) => {
+    params: {questionnaireId}
+}: { children: ReactNode, params: { questionnaireId: number } }) => {
     const [member, setMember] = useState<ApplicationMember>(defaultMember);
     const [space, setSpace] = useState<ApplicationSpace>(defaultSpace);
     const [questionnaire, setQuestionnaire] = useState<ApplicationQuestionnaire>(defaultQuestionnaire);
