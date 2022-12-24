@@ -1,17 +1,19 @@
-import {useState} from "react";
+import {useState, lazy, Suspense, useContext} from "react";
 import styles from "./index.module.scss";
 import TextArea from "@/components/base/TextArea";
 import {FiEye, FiEyeOff, FiTrash2} from "react-icons/fi";
 import {HiOutlineDuplicate} from "react-icons/hi";
-import QuestionOptions from "./Options";
+
+const QuestionOptions = lazy(() => import("./Options"));
+// import QuestionOptions from "./Options";
 import {Question, QuestionType} from "@/types/questionnaire";
 import {updateQuestion} from "@/routes/question";
 import QuestionTitle from "@/components/QuestionEdit/title";
 import classNames from "classnames";
+import {QuestionnaireContext} from "@/util/questionnaireContext";
 
 interface QuestionEditProps {
     question: Question;
-    questionnaireId: number;
     refetch: () => void;
     cloneQuestion: (questionId: number) => void;
 }
@@ -29,7 +31,9 @@ type QuestionUpdateProperty =
     | [QuestionProperty.REQUIRED, boolean]
     | [QuestionProperty.VISIBLE, boolean]
 
-const QuestionEdit = ({question, questionnaireId, refetch, cloneQuestion}: QuestionEditProps) => {
+const QuestionEdit = ({question, refetch, cloneQuestion}: QuestionEditProps) => {
+    const {questionnaire: {id: questionnaireId}} = useContext(QuestionnaireContext);
+    
     const [title, setTitle] = useState<string>(question.title);
     const [description, setDescription] = useState<string>(question.description || "");
     const [required, setRequired] = useState<boolean>(question.required);
@@ -75,7 +79,8 @@ const QuestionEdit = ({question, questionnaireId, refetch, cloneQuestion}: Quest
                     <button className="icon" onClick={() => updateVisible(!visible)}>{visible ?
                         <FiEye size="1.5em"/> :
                         <FiEyeOff size="1.5em"/>}</button>
-                    <button className="icon" onClick={() => cloneQuestion(question.id)}><HiOutlineDuplicate size="1.5em"/></button>
+                    <button className="icon" onClick={() => cloneQuestion(question.id)}><HiOutlineDuplicate
+                        size="1.5em"/></button>
                 </div>
             </div>
             <div className={styles.content}>
@@ -85,12 +90,12 @@ const QuestionEdit = ({question, questionnaireId, refetch, cloneQuestion}: Quest
                 </div>
                 <div className={styles.section}>
                     {(question.type === QuestionType.SELECT || question.type === QuestionType.MULTI_SELECT) && (
-                        <>
+                        <Suspense fallback={<span>Loading</span>}>
                             <span className="subtitle">Options</span>
                             <QuestionOptions
                                 options={question.options || []} questionnaireId={questionnaireId}
                                 questionId={question.id}/>
-                        </>
+                        </Suspense>
                     )}
                 </div>
             </div>

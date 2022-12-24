@@ -1,9 +1,9 @@
 "use client";
 import {QuestionType} from "@/types/questionnaire";
-import QuestionEdit from "@/components/QuestionEdit";
-import AddQuestion from "@/components/AddQuestion";
 import {createQuestion, duplicateQuestion, useQuestions} from "@/routes/question";
 import debounce from "lodash/debounce";
+import QuestionsList from "@/components/QuestionsList";
+import Widgets from "@/components/Widgets";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -39,21 +39,20 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     };
 
     const cloneQuestion = (questionId: number) => {
-        mutate(async() => {
+        mutate(async () => {
             const response = await duplicateQuestion(questionnaireId, questionId);
-            return response.data
-        }, {revalidate: false})
-    }
+            return response.data;
+        }, {revalidate: false});
+    };
 
     return (
-        <div className="content">
-            {questions.map((question, index) => (
-                <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
-                    <QuestionEdit question={question} questionnaireId={questionnaireId} refetch={refetchQuestions} cloneQuestion={cloneQuestion}/>
-                    <AddQuestion add={(type) => addQuestion(type, index)}/>
-                </div>
-            ))}
-        </div>
+        <>
+            <div className="content">
+                <QuestionsList questions={questions} addQuestion={addQuestion}
+                               cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
+            </div>
+            <Widgets/>
+        </>
     );
 };
 
