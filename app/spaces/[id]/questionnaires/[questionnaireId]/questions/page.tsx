@@ -2,8 +2,11 @@
 import {QuestionType} from "@/types/questionnaire";
 import {createQuestion, duplicateQuestion, useQuestions} from "@/routes/question";
 import debounce from "lodash/debounce";
-import QuestionsList from "@/components/QuestionsList";
+
+const QuestionsList = lazy(() => import("@/components/QuestionsList"));
+// import QuestionsList from "@/components/QuestionsList";
 import Widgets from "@/components/Widgets";
+import {lazy, Suspense} from "react";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -48,8 +51,10 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     return (
         <>
             <div className="content">
-                <QuestionsList questions={questions} addQuestion={addQuestion}
-                               cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
+                <Suspense fallback={<span>Loading questions list</span>}>
+                    <QuestionsList questions={questions} addQuestion={addQuestion}
+                                   cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
+                </Suspense>
             </div>
             <Widgets/>
         </>
