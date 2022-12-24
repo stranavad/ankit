@@ -4,6 +4,7 @@ import {createContext} from "react";
 export * from "./memberContext";
 export * from "./spaceContext";
 export * from "./questionnaireContext";
+export * from "./questionsWidgetContext";
 
 export interface SearchContextData {
     search: string;

@@ -37,9 +37,7 @@ const Options = ({
         const {active, over} = event;
 
         if (active.id !== over?.id) {
-            let activeId: number | null = null;
             let activeIndex: number | null = null;
-            let overId: number | null = null;
             let overIndex: number | null = null;
             setItems((items) => {
                 const oldItem = items.find(({id}) => id === active.id);
@@ -49,8 +47,6 @@ const Options = ({
                     return items;
                 }
 
-                activeId = oldItem.id;
-                overId = newItem.id;
 
                 const oldIndex = items.indexOf(oldItem);
                 const newIndex = items.indexOf(newItem);

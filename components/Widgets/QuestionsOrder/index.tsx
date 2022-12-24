@@ -15,8 +15,12 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import {useState} from "react";
+import {useContext} from "react";
 import Question from "./Question";
+import {QuestionsWidgetContext} from "@/util/questionsWidgetContext";
+import {QuestionnaireContext} from "@/util/questionnaireContext";
+import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
+import {updateQuestionPosition} from "@/routes/question";
 
 export interface SimpleQuestion {
     id: number;
@@ -25,16 +29,9 @@ export interface SimpleQuestion {
     required: boolean;
 }
 
-const mockQuestions: SimpleQuestion[] = [
-    {id: 1, title: "First question", visible: true, required: true},
-    {id: 2, title: "Second question", visible: false, required: false},
-    {id: 3, title: "Third question", visible: true, required: false,},
-    {id: 4, title: "Fourth question", visible: true, required: true},
-    {id: 5, title: "Fifth question", visible: false, required: true}
-];
-
 const QuestionsOrder = () => {
-    const [questions, setQuestions] = useState<SimpleQuestion[]>(mockQuestions);
+    const {questions, setQuestions} = useContext(QuestionsWidgetContext);
+    const {questionnaire} = useContext(QuestionnaireContext);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -47,34 +44,38 @@ const QuestionsOrder = () => {
         const {active, over} = event;
 
         if (active.id !== over?.id) {
-            setQuestions((items) => {
-                const oldItem = items.find(({id}) => id === active.id);
-                const newItem = items.find(({id}) => id === over?.id);
+            const oldItem = questions.find(({id}) => id === active.id);
+            const newItem = questions.find(({id}) => id === over?.id);
 
-                if (!oldItem || !newItem) {
-                    return items;
-                }
+            if (!oldItem || !newItem) {
+                return questions;
+            }
 
+            const oldIndex = questions.indexOf(oldItem);
+            const newIndex = questions.indexOf(newItem);
 
-                const oldIndex = items.indexOf(oldItem);
-                const newIndex = items.indexOf(newItem);
-
-                return arrayMove(items, oldIndex, newIndex);
-            });
+            setQuestions(arrayMove(questions, oldIndex, newIndex));
+            if (oldIndex !== null && newIndex !== null)
+                updateQuestionPosition(questionnaire.id, {
+                    activeIndex: oldIndex,
+                    overIndex: newIndex
+                }).then((response) => {
+                    setQuestions(response.data);
+                });
         }
     };
 
     return (
         <div className={styles.widget}>
             <div className={styles.topMenu}>
-                <h2>Frantuv dotaznik</h2>
-                {/*<button>hide</button>*/}
+                <h2>{questionnaire.name}</h2>
             </div>
             <div className={styles.questions}>
                 <DndContext
                     sensors={sensors}
                     collisionDetection={closestCenter}
                     onDragEnd={handleDragEnd}
+                    modifiers={[restrictToVerticalAxis]}
                 >
                     <SortableContext
                         items={questions}

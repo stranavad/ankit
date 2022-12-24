@@ -1,6 +1,7 @@
 import QuestionEdit from "@/components/QuestionEdit";
 import AddQuestion from "@/components/AddQuestion";
 import {Question, QuestionType} from "@/types/questionnaire";
+import RenderIfVisible from "react-render-if-visible";
 
 interface QuestionsListProps {
     questions: Question[];
@@ -18,11 +19,13 @@ const QuestionsList = ({
     return (
         <>
             {questions.map((question, index) => (
-                <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
-                    <QuestionEdit question={question} refetch={refetchQuestions}
-                                  cloneQuestion={cloneQuestion}/>
-                    <AddQuestion add={(type) => addQuestion(type, index)}/>
-                </div>
+                <RenderIfVisible>
+                    <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
+                        <QuestionEdit question={question} refetch={refetchQuestions}
+                                      cloneQuestion={cloneQuestion}/>
+                        <AddQuestion add={(type) => addQuestion(type, index)}/>
+                    </div>
+                </RenderIfVisible>
             ))}
         </>
     );

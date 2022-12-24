@@ -1,8 +1,40 @@
+$widgetsWidth: 300px;
+
 .widgetsContainer {
+  width: $widgetsWidth;
+  background-color: white;
   position: fixed;
   right: 0;
   bottom: 0;
   top: 50px;
-  width: 250px;
+  resize: horizontal;
+  overflow: auto;
+
+  transition: transform 150ms;
+
+  &.hidden {
+    transform: translateX($widgetsWidth);
+  }
+
+  .widgetsMenu {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-top: 3px;
+      margin-right: 3px;
+    }
+  }
+}
+
+.widgetsToggle {
+  position: fixed;
+  top: 50px;
+  right: 0;
   background-color: white;
+  padding: 5px;
+  border-radius: var(--border-radius-small);
+
 }

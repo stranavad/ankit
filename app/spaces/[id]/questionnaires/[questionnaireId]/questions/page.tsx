@@ -1,12 +1,12 @@
 "use client";
-import {QuestionType} from "@/types/questionnaire";
+import {Question, QuestionType} from "@/types/questionnaire";
 import {createQuestion, duplicateQuestion, useQuestions} from "@/routes/question";
 import debounce from "lodash/debounce";
 
-const QuestionsList = lazy(() => import("@/components/QuestionsList"));
-// import QuestionsList from "@/components/QuestionsList";
+import QuestionsList from "@/components/QuestionsList";
 import Widgets from "@/components/Widgets";
-import {lazy, Suspense} from "react";
+import {QuestionsWidgetContext} from "@/util/context";
+
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -48,15 +48,19 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         }, {revalidate: false});
     };
 
+    const setQuestions = (questions: Question[]) => {
+        mutate(() => questions, {revalidate: false});
+    };
+
     return (
         <>
             <div className="content">
-                <Suspense fallback={<span>Loading questions list</span>}>
-                    <QuestionsList questions={questions} addQuestion={addQuestion}
-                                   cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
-                </Suspense>
+                <QuestionsList questions={questions} addQuestion={addQuestion}
+                               cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
             </div>
-            <Widgets/>
+            <QuestionsWidgetContext.Provider value={{questions, setQuestions}}>
+                <Widgets/>
+            </QuestionsWidgetContext.Provider>
         </>
     );
 };
