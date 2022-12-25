@@ -19,8 +19,8 @@ const QuestionsList = ({
     return (
         <>
             {questions.map((question, index) => (
-                <RenderIfVisible>
-                    <div key={question.id} style={{width: "100%", maxWidth: "800px"}}>
+                <RenderIfVisible key={question.id}>
+                    <div style={{width: "100%", maxWidth: "800px"}}>
                         <QuestionEdit question={question} refetch={refetchQuestions}
                                       cloneQuestion={cloneQuestion}/>
                         <AddQuestion add={(type) => addQuestion(type, index)}/>

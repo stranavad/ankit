@@ -1,6 +1,6 @@
 import axios from "axios";
 import {getSession} from "next-auth/react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 // Create axios instance
 const service = axios.create({
@@ -11,11 +11,11 @@ const service = axios.create({
 // Request intercepter
 service.interceptors.request.use(
     async (config) => {
-        let token = Cookies.get('token');
+        let token = Cookies.get("token");
 
-        if(!token){
+        if (!token) {
             const session = await getSession();
-            Cookies.set('token', session?.accessToken as string);
+            Cookies.set("token", session?.accessToken as string);
             token = session?.accessToken as string;
         }
         if (config.headers && token) {
