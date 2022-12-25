@@ -2,6 +2,7 @@
 import "@/styles/index.scss";
 import {SessionProvider} from "next-auth/react";
 import {Inter} from "@next/font/google";
+import {GeistProvider, CssBaseline} from "@geist-ui/core";
 
 const inter = Inter({
     weight: ["400", "500", "600"],
@@ -16,7 +17,10 @@ export default function RootLayout(props: any) {
         </head>
         <body>
         <SessionProvider session={props.session}>
-            {props.children}
+            <GeistProvider>
+                <CssBaseline/>
+                {props.children}
+            </GeistProvider>
         </SessionProvider>
         </body>
         </html>

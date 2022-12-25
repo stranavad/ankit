@@ -1,10 +1,11 @@
 @import 'typography.scss';
+@import 'shorthands.scss';
 
 body, * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--dark-text);
+  //color: var(--dark-text);
 }
 
 body {

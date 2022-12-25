@@ -1,0 +1,23 @@
+/* FLEX */
+.d-flex {
+  display: flex;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+/* MARGINS */
+// Number * Margin contant
+$marginConstant: 2px;
+.mr-1 {
+  margin-right: 1 * $marginConstant;
+}
+
+.mr-2 {
+  margin-right: 2 * $marginConstant;
+}
+
+.mr-5 {
+  margin-right: 5 * $marginConstant;
+}
