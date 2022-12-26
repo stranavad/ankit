@@ -1,37 +1,33 @@
 import {useState} from "react";
-import {Modal, Input, Spacer} from "@geist-ui/core";
-import {CreateSpaceData} from "@/routes/space";
+import styles from "./index.module.scss";
 
 interface CreateSpaceFormProps {
-    visible: boolean;
-    onClose: (close: boolean) => void;
     memberName: string;
-    store: (data: CreateSpaceData) => void;
+    store: (data: CreateData) => void;
 }
 
-const Index = ({store, memberName: defaultMemberName, visible, onClose}: CreateSpaceFormProps) => {
-    const [space, setSpace] = useState<string>("New space");
-    const [member, setMember] = useState<string>(defaultMemberName);
+export interface CreateData {
+    spaceName: string;
+    memberName: string;
+}
 
-    const storeSpace = () => {
-        store({spaceName: space, memberName: member});
-        setSpace("");
-        setMember("");
-    };
+const Index = ({store, memberName: defaultMemberName}: CreateSpaceFormProps) => {
+    const [spaceName, setSpaceName] = useState<string>("New space");
+    const [memberName, setMemberName] = useState<string>(defaultMemberName);
 
     return (
-        <Modal visible={visible} onClose={() => onClose(false)}>
-            <Modal.Title>Create space</Modal.Title>
-            <Modal.Content>
-                <Input label="Space name" initialValue="My new amazing space" value={space}
-                       onChange={(e) => setSpace(e.target.value)}/>
-                <Spacer h={1}/>
-                <Input label="Username" initialValue={defaultMemberName} value={member}
-                       onChange={(e) => setMember(e.target.value)}/>
-            </Modal.Content>
-            <Modal.Action passive onClick={() => onClose(false)}>Cancel</Modal.Action>
-            <Modal.Action onClick={storeSpace}>Create</Modal.Action>
-        </Modal>
+        <>
+            <div className={styles.form}>
+                <h4 className="heading-2 mb-2" style={{color: "var(--light-text)"}}>Create new space</h4>
+                <input value={spaceName} onChange={({target}) => setSpaceName(target.value)}
+                       className="filled"/>
+                <input value={memberName} onChange={({target}) => setMemberName(target.value)}
+                       className="filled"/>
+                <button className="text" disabled={!spaceName || !memberName} style={{color: "var(--light-text)"}}
+                        onClick={() => store({spaceName, memberName})}>create
+                </button>
+            </div>
+        </>
     );
 };
 

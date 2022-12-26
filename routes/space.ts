@@ -13,7 +13,7 @@ export interface GetSpacesParams {
 
 export const useSpaces = () => useRequest<ApplicationSpace[]>("/spaces");
 
-export interface CreateSpaceData {
+interface CreateSpaceData {
     spaceName: string;
     memberName: string;
 }

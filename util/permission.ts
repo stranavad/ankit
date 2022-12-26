@@ -4,14 +4,12 @@ export const enum Permission {
     ADD_MEMBER = "add member",
     DELETE_MEMBER = "delete member",
     UPDATE_ROLE = "update role",
-    DELETE_SPACE = "delete space",
 }
 
 const permissions: { [key in Permission]: RoleType } = {
     "add member": RoleType.ADMIN,
     "delete member": RoleType.OWNER,
     "update role": RoleType.ADMIN,
-    "delete space": RoleType.OWNER
 };
 
 export const checkSpacePermission = (permission: Permission, role: RoleType): boolean => {

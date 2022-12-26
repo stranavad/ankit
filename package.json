@@ -14,8 +14,6 @@
     "@dnd-kit/core": "^6.0.5",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.1",
-    "@geist-ui/core": "^2.3.8",
-    "@geist-ui/icons": "^1.0.2",
     "@next/font": "13.0.6",
     "@popperjs/core": "2.11.6",
     "axios": "1.2.1",
