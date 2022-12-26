@@ -14,8 +14,11 @@
     "@dnd-kit/core": "^6.0.5",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.1",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@next/font": "13.0.6",
     "@popperjs/core": "2.11.6",
+    "@tailwindcss/forms": "^0.5.3",
     "axios": "1.2.1",
     "classnames": "2.3.2",
     "eslint-config-next": "^13.1.1",
@@ -53,12 +56,14 @@
     "@types/react-dom": "18.0.9",
     "@typescript-eslint/eslint-plugin": "5.45.0",
     "@typescript-eslint/parser": "5.45.0",
-    "autoprefixer": "10.4.13",
+    "autoprefixer": "^10.4.13",
     "babel-loader": "9.1.0",
     "eslint": "8.29.0",
     "eslint-plugin-react": "7.31.11",
     "html-webpack-plugin": "^5.5.0",
+    "postcss": "^8.4.20",
     "storybook": "^7.0.0-beta.12",
+    "tailwindcss": "^3.2.4",
     "typescript": "4.9.3"
   }
 }

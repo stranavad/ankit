@@ -9,7 +9,11 @@ import {useRequest} from "@/routes";
 export const useQuestionnaires = (spaceId: number) => useRequest<ApplicationQuestionnaire[]>(`/questionnaire/space/${spaceId}`);
 
 /* CREATE QUESTIONNAIRE */
-export const createQuestionnaire = (data: { name: string }, spaceId: number): AxiosPromise<ApplicationQuestionnaire> => {
+export interface CreateQuestionnaireData {
+    name: string;
+}
+
+export const createQuestionnaire = (data: CreateQuestionnaireData, spaceId: number): AxiosPromise<ApplicationQuestionnaire> => {
     return request({
         url: `/questionnaire/space/${spaceId}`,
         method: "post",

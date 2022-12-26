@@ -1,6 +1,6 @@
 "use client";
 import {ReactNode} from "react";
-import CurrentSpaceProvider from "@/components/CurrentSpaceProvider";
+import CurrentSpaceProvider from "@/components/Modals/CurrentSpaceProvider";
 
 const CurrentSpaceLayout = ({
     children,
