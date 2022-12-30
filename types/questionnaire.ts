@@ -8,17 +8,6 @@ export enum Status {
     PAUSED = "paused",
 }
 
-export const getStatusColor = (status: Status) => {
-    switch (status) {
-    case Status.ACTIVE:
-        return "green";
-    case Status.PAUSED:
-        return "orange";
-    default:
-        return "red";
-    }
-};
-
 export enum QuestionType {
     SELECT = "select",
     MULTI_SELECT = "multiselect",

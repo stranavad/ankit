@@ -1,10 +1,11 @@
-import {ApplicationQuestionnaire, getStatusColor} from "@/types/questionnaire";
+import {ApplicationQuestionnaire} from "@/types/questionnaire";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import Link from "next/link";
 import {SpaceContext} from "@/util/spaceContext";
 import {useContext} from "react";
 import {TrashIcon} from "@heroicons/react/24/solid";
 import {checkSpacePermission, Permission} from "@/util/permission";
+import StatusPicker from "@/components/Pickers/StatusPicker";
 
 interface QuestionnairesListProps {
     questionnaires: ApplicationQuestionnaire[];
@@ -40,10 +41,11 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                         </div>
                         <div
                             className="table-cell border-b border-slate-100 p-4 text-slate-500 ">
-                            <span
-                                className={`capitalize bg-${getStatusColor(questionnaire.status)}-400 py-1 px-2 rounded-xl text-xs text-white`}>
-                                {questionnaire.status}
-                            </span>
+                            <StatusPicker status={questionnaire.status}/>
+                            {/*<div*/}
+                            {/*    className={`capitalize bg-${getStatusColor(questionnaire.status)}-400 inline-block py-1 px-2 rounded-xl text-xs text-white`}>*/}
+                            {/*    {questionnaire.status}*/}
+                            {/*</div>*/}
                         </div>
                         <div
                             className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500">

@@ -15,6 +15,14 @@ body {
   background-color: #ececec;
 }
 
+.status-paused {
+  background-color: #f97316
+}
+
+.status-active {
+  background-color: #22c55e;
+}
+
 
 :root {
   --primary-color: #001F3B;
@@ -203,21 +211,21 @@ body {
 }
 
 /* TEXT AREA */
-textarea {
-  border-radius: var(--border-radius-small);
-  border: none;
-  outline: none;
-  padding: 15px;
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 100px;
-
-  &.text {
-    padding: 0;
-    border-radius: 0;
-    min-height: unset;
-  }
-}
+//textarea {
+//  border-radius: var(--border-radius-small);
+//  border: none;
+//  outline: none;
+//  padding: 15px;
+//  min-width: 100%;
+//  max-width: 100%;
+//  min-height: 100px;
+//
+//  &.text {
+//    padding: 0;
+//    border-radius: 0;
+//    min-height: unset;
+//  }
+//}
 
 //input {
 //  color: var(--dark-text);

@@ -59,10 +59,9 @@ const RolePicker = ({role, disabled = false, updateRole}: RolePickerProps) => {
                             <Listbox.Options
                                 className="absolute z-10 mt-1 max-h-56 w-100 overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                 {roles.map((role) => (
-                                    <>
+                                    <div key={role.id}>
                                         {role.value !== RoleType.OWNER ? (
                                             <Listbox.Option
-                                                key={role.id}
                                                 className={({active}) =>
                                                     classNames(
                                                         active ? "text-white bg-indigo-600" : "text-gray-900",
@@ -93,7 +92,7 @@ const RolePicker = ({role, disabled = false, updateRole}: RolePickerProps) => {
                                                 )}
                                             </Listbox.Option>
                                         ) : <></>}
-                                    </>
+                                    </div>
                                 ))}
                             </Listbox.Options>
                         </Transition>

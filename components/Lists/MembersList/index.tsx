@@ -6,7 +6,7 @@ import {checkSpacePermission, Permission} from "@/util/permission";
 import {useContext} from "react";
 import {MemberContext} from "@/util/memberContext";
 import {RoleType} from "@/types/role";
-import RolePicker from "@/components/RolePicker";
+import RolePicker from "@/components/Pickers/RolePicker";
 
 interface MembersListProps {
     members: ApplicationMember[];
