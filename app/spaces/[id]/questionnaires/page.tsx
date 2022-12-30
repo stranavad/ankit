@@ -1,32 +1,16 @@
 "use client";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {SearchContext} from "@/util/context";
-import GridItem from "@/components/base/Grid/GridItem";
-import {TableHeader} from "@/types/table";
-import {createQuestionnaire, useQuestionnaires} from "@/routes/questionnaire";
-import Link from "next/link";
-
-const tableHeaders: TableHeader[] = [
-    {
-        title: "ID",
-        size: 1,
-    },
-    {
-        title: "Name",
-        size: 5
-    },
-    {
-        title: "Status",
-        size: 4,
-    },
-    {
-        title: "Actions",
-        size: 2
-    }
-];
+import {createQuestionnaire, CreateQuestionnaireData, useQuestionnaires} from "@/routes/questionnaire";
+import Button from "@/components/Button";
+import Modal from "@/components/base/Modal";
+import CreateQuestionnaireModal from "@/components/CreateQuestionnaire";
+import QuestionnairesList from "@/components/Lists/QuestionnairesList";
 
 const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => {
     const {search} = useContext(SearchContext);
+    const [createQuestionnaireModal, setCreateQuestionnaireModal] = useState<boolean>(false);
+
     const {
         data,
         mutate
@@ -34,54 +18,28 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
     const questionnaires = (search ? data?.filter(({name}) => name.includes(search)) : data) || [];
 
 
-    const create = () => {
+    const create = (data: CreateQuestionnaireData) => {
         mutate(async (questionnaires) => {
-            const newQuestionnaire = await createQuestionnaire({name: "New questionnaire"}, spaceId);
+            const newQuestionnaire = await createQuestionnaire(data, spaceId);
             return [newQuestionnaire.data, ...questionnaires || []];
         });
     };
 
+    const removeQuestionnaire = (id: number) => console.log("Removing questionnaire", id);
+
 
     return (
         <>
+            <Modal open={createQuestionnaireModal} setOpen={setCreateQuestionnaireModal}>
+                <CreateQuestionnaireModal store={create} setOpen={setCreateQuestionnaireModal}/>
+            </Modal>
             <div className="content">
-                <div className="grid">
-                    <button className="filled"
-                            onClick={create}>CREATE
-                        QUESTIONNAIRE
-                    </button>
-                    <div className="header">
-                        {tableHeaders.map((header, index) => (
-                            <GridItem key={index} size={header.size}>
-                                <h5>{header.title}</h5>
-                            </GridItem>
-                        ))}
-                    </div>
-                    {
-                        questionnaires?.map((questionnaire) =>
-                            <div className="line" key={questionnaire.id}>
-                                <GridItem size={1}>
-                                    <h3>
-                                        {questionnaire.id}
-                                    </h3>
-                                </GridItem>
-                                <GridItem size={5}>
-                                    <Link href={`/spaces/${spaceId}/questionnaires/${questionnaire.id}`}
-                                          className="link">
-                                        <h3>
-                                            {questionnaire.name}
-                                        </h3>
-                                    </Link>
-                                </GridItem>
-                                <GridItem size={4}>
-                                    <h3>
-                                        {questionnaire.status}
-                                    </h3>
-                                </GridItem>
-                            </div>
-                        )
-                    }
+                <div className="flex align-center">
+                    <h2 className="text-2xl font-bold mr-5">Questionnaires</h2>
+                    <Button className="text-xs py-0.5 px-2" onClick={() => setCreateQuestionnaireModal(true)}>Create
+                        questionnaire</Button>
                 </div>
+                <QuestionnairesList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}/>
             </div>
         </>
     );

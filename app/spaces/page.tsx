@@ -1,34 +1,12 @@
 "use client";
 import {useContext, useState} from "react";
-import { createSpace, deleteSpace, useSpaces} from "@/routes/space";
-import styles from "./index.module.scss";
+import {createSpace, CreateSpaceData, deleteSpace, useSpaces} from "@/routes/space";
 import Modal from "@/components/base/Modal";
 import {useSession} from "next-auth/react";
-import CreateSpaceForm, {CreateData} from "@/components/CreateSpace";
-import {TableHeader} from "@/types/table";
+import CreateSpaceForm from "@/components/Modals/CreateSpace";
 import {SearchContext} from "@/util/context";
-import GridItem from "@/components/base/Grid/GridItem";
-import Link from "next/link";
-
-
-const tableHeaders: TableHeader[] = [
-    {
-        title: "Name",
-        size: 5,
-    },
-    {
-        title: "Role",
-        size: 3
-    },
-    {
-        title: "Username",
-        size: 3,
-    },
-    {
-        title: "Actions",
-        size: 1
-    }
-];
+import Button from "@/components/Button";
+import SpacesList from "@/components/Lists/SpacesList";
 
 
 const Spaces = () => {
@@ -48,7 +26,11 @@ const Spaces = () => {
         });
     };
 
-    const storeSpace = (data: CreateData) => {
+    const leaveSpace = (spaceId: number) => {
+        console.log("Leaving space", spaceId);
+    };
+
+    const storeSpace = (data: CreateSpaceData) => {
         setCreateSpaceModal(false);
         mutate(async (spaces) => {
             const newSpace = await createSpace(data);
@@ -58,44 +40,16 @@ const Spaces = () => {
 
     return (
         <>
-            <Modal open={createSpaceModal} onClose={() => setCreateSpaceModal(false)}>
-                <CreateSpaceForm memberName={user?.name || ""} store={storeSpace}/>
+            <Modal open={createSpaceModal} setOpen={setCreateSpaceModal}>
+                <CreateSpaceForm memberName={user?.name || ""} store={storeSpace} setOpen={setCreateSpaceModal}/>
             </Modal>
             <div className="content">
-                <div className={styles.createSpaceContainer}>
-                    <button className="filled" onClick={() => setCreateSpaceModal(true)}>
-                        Create space
-                    </button>
+                <div className="flex align-center">
+                    <h2 className="text-2xl font-bold mr-5">Your Spaces</h2>
+                    <Button className="text-xs py-0.5 px-2" onClick={() => setCreateSpaceModal(true)}>Create
+                        space</Button>
                 </div>
-                <div className="grid">
-                    <div className="header">
-                        {tableHeaders.map((header, index) => (
-                            <GridItem key={index} size={header.size}>
-                                <h5>{header.title}</h5>
-                            </GridItem>
-                        ))}
-                    </div>
-                    {spaces.map((space) => (
-                        <div className="line" key={space.id}>
-                            <GridItem size={5}>
-                                <Link href={`/spaces/${space.id}`} className="link">
-                                    <h3>{space.name}</h3>
-                                </Link>
-                            </GridItem>
-                            <GridItem size={3}>
-                                <h5>{space.role}</h5>
-                            </GridItem>
-                            <GridItem size={3}>
-                                <h5>{space.username}</h5>
-                            </GridItem>
-                            <GridItem size={1}>
-                                <button className="text" onClick={() => removeSpace(space.id)}
-                                        disabled={space.personal}>Delete
-                                </button>
-                            </GridItem>
-                        </div>
-                    ))}
-                </div>
+                <SpacesList spaces={spaces} removeSpace={removeSpace} leaveSpace={leaveSpace}/>
             </div>
         </>
     );
