@@ -28,10 +28,10 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                         className="table-cell border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400  text-left">Name
                     </div>
                     <div
-                        className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Username
+                        className="hidden md:table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Username
                     </div>
                     <div
-                        className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Role
+                        className="hidden sm:table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Role
                     </div>
                     <div
                         className="table-cell border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Actions
@@ -47,11 +47,11 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                                   className="block w-full cursor-pointer">{space.name}</Link>
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 text-slate-500 ">
+                            className="hidden md:table-cell border-b border-slate-100 p-4 text-slate-500 ">
                             {space.username}
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 text-slate-500 ">
+                            className="hidden sm:table-cell border-b border-slate-100 p-4 text-slate-500 ">
                             {space.role}
                         </div>
                         <div

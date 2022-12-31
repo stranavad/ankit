@@ -6,6 +6,7 @@ import {RoleType} from "@/types/role";
 import {updateMemberRole} from "@/routes/member";
 import {SearchContext} from "@/util/context";
 import MembersList from "@/components/Lists/MembersList";
+import MemberSearch from "@/components/MemberSearch";
 
 const Members = ({params: {id}}: { params: { id: string } }) => {
     const spaceId = parseInt(id);
@@ -37,6 +38,7 @@ const Members = ({params: {id}}: { params: { id: string } }) => {
     return (
         <div className="content">
             <div style={{width: "800px", display: "flex", justifyContent: "center"}}>
+                <MemberSearch addUser={addUser}/>
                 {/*<MemberSearch addUser={addUser} spaceId={spaceId}/>*/}
             </div>
             <MembersList members={members} updateRole={updateRole} removeMember={removeMember}/>
