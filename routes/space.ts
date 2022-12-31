@@ -35,7 +35,12 @@ export const deleteSpace = (spaceId: number): AxiosPromise<string> => {
 };
 
 /* UPDATE SPACE */
-export const updateSpace = (data: { name?: string, description?: string }, spaceId: number): AxiosPromise<ApplicationSpace> => {
+export interface UpdateSpaceData {
+    name?: string;
+    description?: string;
+}
+
+export const updateSpace = (data: UpdateSpaceData, spaceId: number): AxiosPromise<DetailSpace> => {
     return request({
         url: `/spaces/${spaceId}`,
         method: "put",
@@ -53,6 +58,7 @@ export const updateSpaceMember = (data: { name: string }, spaceId: number): Axio
 };
 
 /* HAS ACCESS TO SPACE */
+export const useSpace = (id: number) => useRequest<DetailSpace>(`/spaces/${id}`);
 export const getSpaceById = (id: number): AxiosPromise<DetailSpace> => {
     return request({
         url: `/spaces/${id}`,

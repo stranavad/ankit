@@ -1,6 +1,5 @@
 import {useState, lazy, Suspense, useContext} from "react";
 import styles from "./index.module.scss";
-import TextArea from "@/components/base/TextArea";
 import {FiEye, FiEyeOff, FiTrash2} from "react-icons/fi";
 import {HiOutlineDuplicate} from "react-icons/hi";
 
@@ -33,7 +32,7 @@ type QuestionUpdateProperty =
 
 const QuestionEdit = ({question, refetch, cloneQuestion}: QuestionEditProps) => {
     const {questionnaire: {id: questionnaireId}} = useContext(QuestionnaireContext);
-    
+
     const [title, setTitle] = useState<string>(question.title);
     const [description, setDescription] = useState<string>(question.description || "");
     const [required, setRequired] = useState<boolean>(question.required);
@@ -85,8 +84,8 @@ const QuestionEdit = ({question, refetch, cloneQuestion}: QuestionEditProps) => 
             </div>
             <div className={styles.content}>
                 <div className={styles.section}>
-                    <TextArea value={description} change={updateDescription}
-                              placeholder="Add description (optional)" title="Description"/>
+                    {/*<TextArea value={description} change={updateDescription}*/}
+                    {/*          placeholder="Add description (optional)" title="Description"/>*/}
                 </div>
                 <div className={styles.section}>
                     {(question.type === QuestionType.SELECT || question.type === QuestionType.MULTI_SELECT) && (

@@ -10,7 +10,7 @@ interface ButtonProps {
     type?: ButtonType;
 }
 
-type ButtonType = "default" | "success" | "error"
+type ButtonType = "default" | "success" | "error" | "warning"
 
 export const Button = ({
     children,
@@ -33,6 +33,10 @@ export const Button = ({
                 break;
             case "error":
                 colorType = "bg-red-600 hover:bg-red-800 focus:ring-red-400";
+                break;
+            case "warning":
+                colorType = "bg-orange-600 hover:bg-orange-800 focus:ring-orange-400";
+                break;
             }
         } else {
             colorType = "bg-gray-300 text-gray-400 shadow-none cursor-not-allowed";
@@ -48,10 +52,29 @@ export const Button = ({
         );
     }
 
+    if (!disabled) {
+        switch (type) {
+        case "default":
+            colorType = "text-slate-800 border-gray-200 hover:bg-slate-100 focus:ring-slate-400";
+            break;
+        case "success":
+            colorType = "bg-green-500 hover:bg-green-700 focus:ring-green-400";
+            break;
+        case "error":
+            colorType = "text-red-400 border-red-200 hover:bg-red-100 focus:ring-red-400";
+            break;
+        case "warning":
+            colorType = "text-orange-400 border-orange-200 hover:bg-orange-100 focus:ring-orange-400";
+            break;
+        }
+    } else {
+        colorType = "bg-gray-300 text-gray-400 shadow-none cursor-not-allowed";
+    }
+
     return (
         <button
             onClick={onClick}
-            className={`bg-white text-slate-800 font-semibold rounded-md border border-gray-200 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-75 ${className}`}>
+            className={`bg-white font-semibold rounded-md border focus:outline-none focus:ring-2 focus:ring-opacity-75 ${colorType} ${className}`}>
             {children}
         </button>
     );

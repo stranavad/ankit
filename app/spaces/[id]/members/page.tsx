@@ -1,7 +1,6 @@
 "use client";
 import {useContext} from "react";
 import {addMemberToSpace, removeMemberFromSpace, useSpaceMembers} from "@/routes/space";
-import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
 import {RoleType} from "@/types/role";
 import {updateMemberRole} from "@/routes/member";
@@ -38,7 +37,7 @@ const Members = ({params: {id}}: { params: { id: string } }) => {
     return (
         <div className="content">
             <div style={{width: "800px", display: "flex", justifyContent: "center"}}>
-                <MemberSearch addUser={addUser} spaceId={spaceId}/>
+                {/*<MemberSearch addUser={addUser} spaceId={spaceId}/>*/}
             </div>
             <MembersList members={members} updateRole={updateRole} removeMember={removeMember}/>
         </div>

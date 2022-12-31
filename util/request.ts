@@ -13,11 +13,12 @@ service.interceptors.request.use(
     async (config) => {
         let token = Cookies.get("token");
 
-        if (!token) {
+        if (!token || token === "undefined") {
             const session = await getSession();
             Cookies.set("token", session?.accessToken as string);
             token = session?.accessToken as string;
         }
+
         if (config.headers && token) {
             config.headers["Authorization"] = `Bearer ${token}`;
         }
