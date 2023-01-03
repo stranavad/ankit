@@ -20,11 +20,11 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
     const updateRoleDisabled = (member: ApplicationMember) => !checkSpacePermission(Permission.UPDATE_ROLE, currentMember.role) || member.id === currentMember.id || member.role === RoleType.OWNER;
 
     return (
-        <div className="table border-collapse table-auto w-full text-sm mt-5">
+        <div className="table border-collapse table-auto w-full text-sm">
             <div className="table-header-group">
                 <div className="table-row">
                     <div
-                        className="table-cell border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400  text-left">Photo
+                        className="table-cell border-b font-medium p-4 pl-2 pt-0 pb-3 text-slate-400  text-left">Photo
                     </div>
                     <div
                         className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Name
@@ -33,7 +33,7 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                         className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Role
                     </div>
                     <div
-                        className="table-cell border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Actions
+                        className="table-cell border-b font-medium p-4 pr-2 pt-0 pb-3 text-slate-400 text-left">Actions
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                 {members.map((member) => (
                     <div className="table-row" key={member.id}>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500">
+                            className="table-cell border-b border-slate-100 p-4 pl-2 text-slate-500">
                             <Image src={member.image as string} alt={`${member.name}'s profile picture`} width="40"
                                    height="40" className="rounded-full"/>
                         </div>
@@ -55,7 +55,7 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                                         disabled={updateRoleDisabled(member)}/>
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500">
+                            className="table-cell border-b border-slate-100  p-4 pr-2 text-slate-500">
                             <ConfirmationModal title="Do you really want to delete this member?"
                                                description={`This action is irreversible and you would have to invite ${member.name} again in case you change your mind.`}
                                                submitButtonText="Delete"

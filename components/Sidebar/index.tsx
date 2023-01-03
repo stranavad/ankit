@@ -146,48 +146,21 @@ const Sidebar = ({children}: SidebarProps) => {
             </div>
             <div className="w-full">
                 <nav
-                    className="bg-slate-900 fixed left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-between">
-                    <div className="w-full sm:w-auto flex items-center sm:justify-start justify-between">
-                        <Bars3Icon className="sm:hidden w-6 h-6 text-white"/>
-                        <h3 className="text-slate-100 text-xl font-medium">Space name</h3>
-                        <div className="hidden sm:block w-px h-8 bg-white mx-2"/>
-                        <div className="hidden sm:block">
-                            {topMenuItems.map((item, index) => (
-                                <Link key={index} href={item.path}
-                                      className="text-slate-200 text-sm mr-4">{item.title}</Link>
-                            ))}
-                        </div>
+                    className="bg-slate-900 fixed left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-start">
+                    <Bars3Icon className="sm:hidden w-6 h-6 text-white"/>
+                    <h3 className="text-slate-100 text-xl font-medium">Space name</h3>
+                    <div className="hidden sm:block w-px h-8 bg-white mx-2"/>
+                    <div className="hidden sm:block">
+                        {topMenuItems.map((item, index) => (
+                            <Link key={index} href={item.path}
+                                  className="text-slate-200 text-sm mr-4">{item.title}</Link>
+                        ))}
                     </div>
-                    <input
-                        placeholder="Search..."
-                        className="hidden sm:block rounded-md bg-transparent border border-slate-500 p-1 outline-none ring-0 focus:ring-2 focus:ring-slate-600 text-slate-300"/>
                 </nav>
                 <div className="mt-20 px-2 sm:px-0">
                     {children}
                 </div>
             </div>
-            {/*<div className={styles.verticalWrapper}>*/}
-            {/*    <div className={styles.topMenu}>*/}
-            {/*        <div className={styles.topMenuLeftPart}>*/}
-            {/*            <h3>Space name</h3>*/}
-            {/*            <div className={styles.topMenuItems}>*/}
-            {/*                {topMenuItems.map((item, index) => (*/}
-            {/*                    <Link key={index} href={item.path}>{item.title}</Link>*/}
-            {/*                ))}*/}
-            {/*            </div>*/}
-
-            {/*        </div>*/}
-            {/*        {topMenuItems.find((item) => item.path === pathname)?.search ? (*/}
-            {/*            <input className="outline light" value={search} onChange={(e) => setSearch(e.target.value)}*/}
-            {/*                   placeholder="Search..."/>*/}
-            {/*        ) : <></>}*/}
-            {/*    </div>*/}
-            {/*    <div className={styles.childrenWrapper}>*/}
-            {/*        <SearchContext.Provider value={searchContextData}>*/}
-            {/*            {children}*/}
-            {/*        </SearchContext.Provider>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </div>
     );
 };

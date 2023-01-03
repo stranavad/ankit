@@ -52,7 +52,7 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                             <ConfirmationModal title="Do you really want to delete this questionnaire?"
                                                description="This action is irreversible and you will loose all your data"
                                                submitButtonText="Delete"
-                                               submit={() => removeQuestionnaire(space.id)}
+                                               submit={() => removeQuestionnaire(questionnaire.id)}
                                                renderItem={openModal => <button className="mr-3"
                                                                                 disabled={deleteButtonDisabled}
                                                                                 onClick={openModal}>

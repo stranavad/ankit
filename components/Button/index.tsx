@@ -58,7 +58,7 @@ export const Button = ({
             colorType = "text-slate-800 border-gray-200 hover:bg-slate-100 focus:ring-slate-400";
             break;
         case "success":
-            colorType = "bg-green-500 hover:bg-green-700 focus:ring-green-400";
+            colorType = "text-green-400 border-green-200 hover:bg-green-100 focus:ring-green-400";
             break;
         case "error":
             colorType = "text-red-400 border-red-200 hover:bg-red-100 focus:ring-red-400";

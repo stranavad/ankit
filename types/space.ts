@@ -1,4 +1,5 @@
 import {RoleType} from "@/types/role";
+import {ApplicationMember} from "@/types/member";
 
 export interface ApplicationSpace {
     id: number;
@@ -11,4 +12,5 @@ export interface ApplicationSpace {
 
 export interface DetailSpace extends ApplicationSpace {
     description: string,
+    members: ApplicationMember[];
 }

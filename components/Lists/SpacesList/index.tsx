@@ -4,6 +4,7 @@ import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/solid";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
+import {deleteSpace, leaveSpace} from "@/routes/space";
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];

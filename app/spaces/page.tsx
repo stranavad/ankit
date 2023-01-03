@@ -27,7 +27,10 @@ const Spaces = () => {
     };
 
     const leaveSpace = (spaceId: number) => {
-        console.log("Leaving space", spaceId);
+        mutate(async (spaces) => {
+            await leaveSpace(spaceId);
+            return spaces?.filter(({id}) => id !== spaceId) || [];
+        });
     };
 
     const storeSpace = (data: CreateSpaceData) => {

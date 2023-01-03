@@ -59,12 +59,6 @@ export const updateSpaceMember = (data: { name: string }, spaceId: number): Axio
 
 /* HAS ACCESS TO SPACE */
 export const useSpace = (id: number) => useRequest<DetailSpace>(`/spaces/${id}`);
-export const getSpaceById = (id: number): AxiosPromise<DetailSpace> => {
-    return request({
-        url: `/spaces/${id}`,
-        method: "get"
-    });
-};
 
 /* ADD MEMBER TO SPACE */
 interface AddMemberToSpaceData {
@@ -114,5 +108,13 @@ export const acceptSpaceInvitation = (spaceId: number, accept: boolean): AxiosPr
         data: {
             accept
         }
+    });
+};
+
+/* LEAVE SPACE */
+export const leaveSpace = (spaceId: number): AxiosPromise<boolean> => {
+    return request({
+        url: `/spaces/${spaceId}/leave`,
+        method: "post"
     });
 };

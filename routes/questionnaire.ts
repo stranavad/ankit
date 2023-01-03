@@ -59,3 +59,11 @@ export const updateQuestionnaire = (data: UpdateQuestionnaireData, id: number): 
     });
 };
 
+/* DELETE QUESTIONNAIRE */
+export const deleteQuestionnaire = (id: number): AxiosPromise<boolean> => {
+    return request({
+        url: `/questionnaire/${id}`,
+        method: "delete"
+    });
+};
+

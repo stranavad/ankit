@@ -1,6 +1,11 @@
 "use client";
 import {useEffect, useState} from "react";
-import {updateQuestionnaire, UpdateQuestionnaireData, useQuestionnaire} from "@/routes/questionnaire";
+import {
+    deleteQuestionnaire,
+    updateQuestionnaire,
+    UpdateQuestionnaireData,
+    useQuestionnaire
+} from "@/routes/questionnaire";
 import {Structure} from "@/types/questionnaire";
 import QuestionnaireName from "@/components/Inputs/EntityName";
 import EntityDescription from "@/components/Inputs/EntityDescription";
@@ -8,10 +13,12 @@ import SwitchInput from "@/components/Inputs/Switch";
 import StatusPicker from "@/components/Pickers/StatusPicker";
 import Button from "@/components/Button";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
+import {useRouter} from "next/navigation";
 
 const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
     const {data: questionnaire, mutate, isLoading} = useQuestionnaire(questionnaireId);
+    const router = useRouter();
 
     /* PASSWORD FIELD */
     const [passwordProtected, setPasswordProtected] = useState<boolean>(false);
@@ -73,6 +80,12 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
         });
     };
 
+    const removeQuestionnaire = async () => {
+        const spaceId = questionnaire.spaceId;
+        await deleteQuestionnaire(questionnaireId);
+        router.push(`/spaces/${spaceId}`);
+    };
+
     return (
         <div className="content">
             <div className="bg-white shadow p-5 rounded-md">
@@ -120,21 +133,21 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
                 {/* ADVANCED */}
                 <h2 className="mt-10 text-lg font-medium">Advanced</h2>
                 <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
-                <div className="flex items-center my-3">
-                    <span className="mr-5 text-sm">Transfer to another space</span>
-                    <ConfirmationModal title={"Do you really want to transfer this questionnaire to another space?"}
-                                       description={"This action is irreversible"}
-                                       submit={() => console.log("Deleting questionnaire")}
-                                       renderItem={openModal => <Button secondary type="warning"
-                                                                        className="py-1 px-2 text-xs"
-                                                                        onClick={openModal}>Transfer to another
-                                           space</Button>}/>
-                </div>
+                {/*<div className="flex items-center my-3">*/}
+                {/*    <span className="mr-5 text-sm">Transfer to another space</span>*/}
+                {/*    <ConfirmationModal title={"Do you really want to transfer this questionnaire to another space?"}*/}
+                {/*                       description={"This action is irreversible"}*/}
+                {/*                       submit={() => console.log("Deleting questionnaire")}*/}
+                {/*                       renderItem={openModal => <Button secondary type="warning"*/}
+                {/*                                                        className="py-1 px-2 text-xs"*/}
+                {/*                                                        onClick={openModal}>Transfer to another*/}
+                {/*                           space</Button>}/>*/}
+                {/*</div>*/}
                 <div className="flex items-center my-3">
                     <span className="mr-5 text-sm">Delete this questionnaire</span>
                     <ConfirmationModal title={"Do you really want to delete this questionnaire?"}
                                        description={"This action is irreversible and you will loose all your data"}
-                                       submit={() => console.log("Deleting questionnaire")}
+                                       submit={removeQuestionnaire}
                                        renderItem={openModal => <Button secondary type="error"
                                                                         className="py-1 px-2 text-xs"
                                                                         onClick={openModal}>Delete</Button>}/>

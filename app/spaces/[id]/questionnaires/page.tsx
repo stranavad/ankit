@@ -1,7 +1,12 @@
 "use client";
 import {useContext, useState} from "react";
 import {SearchContext} from "@/util/context";
-import {createQuestionnaire, CreateQuestionnaireData, useQuestionnaires} from "@/routes/questionnaire";
+import {
+    createQuestionnaire,
+    CreateQuestionnaireData,
+    deleteQuestionnaire,
+    useQuestionnaires
+} from "@/routes/questionnaire";
 import Button from "@/components/Button";
 import Modal from "@/components/base/Modal";
 import CreateQuestionnaireModal from "@/components/CreateQuestionnaire";
@@ -25,7 +30,10 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
         });
     };
 
-    const removeQuestionnaire = (id: number) => console.log("Removing questionnaire", id);
+    const removeQuestionnaire = async (id: number) => {
+        await deleteQuestionnaire(id);
+        mutate();
+    };
 
 
     return (
