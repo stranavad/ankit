@@ -55,6 +55,9 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     return (
         <>
             <div className="content">
+                <div className="mb-10">
+                    <h2 className="text-2xl font-semibold mr-5">Questions</h2>
+                </div>
                 <QuestionsList questions={questions} addQuestion={addQuestion}
                                cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
             </div>

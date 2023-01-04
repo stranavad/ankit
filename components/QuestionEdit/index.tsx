@@ -1,15 +1,13 @@
-import {useState, lazy, Suspense, useContext} from "react";
-import styles from "./index.module.scss";
-import {FiEye, FiEyeOff, FiTrash2} from "react-icons/fi";
-import {HiOutlineDuplicate} from "react-icons/hi";
+import {lazy, Suspense, useContext, useState} from "react";
+import {DocumentDuplicateIcon, EyeIcon, TrashIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
+import {Question} from "@/types/questionnaire";
+import {updateQuestion} from "@/routes/question";
+import {QuestionnaireContext} from "@/util/questionnaireContext";
+import EntityName from "@/components/Inputs/EntityName";
+import EntityDescription from "@/components/Inputs/EntityDescription";
+import Checkbox from "@/components/base/Checkbox";
 
 const QuestionOptions = lazy(() => import("./Options"));
-// import QuestionOptions from "./Options";
-import {Question, QuestionType} from "@/types/questionnaire";
-import {updateQuestion} from "@/routes/question";
-import QuestionTitle from "@/components/QuestionEdit/title";
-import classNames from "classnames";
-import {QuestionnaireContext} from "@/util/questionnaireContext";
 
 interface QuestionEditProps {
     question: Question;
@@ -70,43 +68,40 @@ const QuestionEdit = ({question, refetch, cloneQuestion}: QuestionEditProps) => 
     };
 
     return (
-        <div className={classNames(styles.questionCard, {[styles.hidden]: !visible})}>
-            <div className={classNames(styles.topBar, styles[question.type])}>
-                <QuestionTitle title={title} update={updateTitle}/>
-                <div className={styles.toolbar}>
-                    <button className="icon"><FiTrash2 size="1.5em"/></button>
-                    <button className="icon" onClick={() => updateVisible(!visible)}>{visible ?
-                        <FiEye size="1.5em"/> :
-                        <FiEyeOff size="1.5em"/>}</button>
-                    <button className="icon" onClick={() => cloneQuestion(question.id)}><HiOutlineDuplicate
-                        size="1.5em"/></button>
+        <div
+            className={`shadow-md rounded-md py-2 px-5 transition-colors duration-100 ${visible ? `bg-white` : "bg-gray-100"}`}>
+            <div className="flex items-center">
+                <EntityName value={title} update={updateTitle}/>
+                <div className="flex pl-5">
+                    <button className="mr-0.5">
+                        <TrashIcon className="w-6 h-6 text-gray-500 hover:text-red-600 transition-colors duration-75"/>
+                    </button>
+                    <button className="mx-0.5" onClick={() => cloneQuestion(question.id)}>
+                        <DocumentDuplicateIcon
+                            className="w-6 h-6 text-gray-500 hover:text-indigo-500 transition-colors duration-75"/>
+                    </button>
+                    <button className="ml-0.5" onClick={() => updateVisible(!visible)}>
+                        {visible ? (
+                            <EyeIcon
+                                className="w-6 h-6 text-gray-500 hover:text-indigo-500 transition-colors duration-75"/>
+                        ) : (
+                            <EyeSlashIcon
+                                className="w-6 h-6 text-gray-500 hover:text-indigo-500 transition-colors duration-75"/>
+                        )}
+                    </button>
                 </div>
             </div>
-            <div className={styles.content}>
-                <div className={styles.section}>
-                    {/*<TextArea value={description} change={updateDescription}*/}
-                    {/*          placeholder="Add description (optional)" title="Description"/>*/}
+            <EntityDescription value={description} update={updateDescription}/>
+            <Suspense>
+                <QuestionOptions type={question.type} options={question.options} questionId={question.id}
+                                 questionnaireId={questionnaireId}/>
+            </Suspense>
+            <div className="mt-5 h-px bg-gray-200 w-full"/>
+            <div className="flex justify-end w-full my-2">
+                <div>
+                    <label htmlFor={`required-${question.id}`} className="mr-2">Required</label>
+                    <Checkbox name={`required-${question.id}`} checked={required} update={updateRequired}/>
                 </div>
-                <div className={styles.section}>
-                    {(question.type === QuestionType.SELECT || question.type === QuestionType.MULTI_SELECT) && (
-                        <Suspense fallback={<span>Loading</span>}>
-                            <span className="subtitle">Options</span>
-                            <QuestionOptions
-                                options={question.options || []} questionnaireId={questionnaireId}
-                                questionId={question.id}/>
-                        </Suspense>
-                    )}
-                </div>
-            </div>
-            <div className={styles.bottomBar}>
-                {/*{(question?.type === QuestionType.SELECT || question?.type === QuestionType.MULTI_SELECT) && (*/}
-                {/*    <Switch value={required} update={setRequired} title="Multiple"/>*/}
-                {/*)}*/}
-                <label className="checkbox">
-                    <input type="checkbox" checked={required}
-                           onChange={(e) => updateRequired(e.target.checked)}/>
-                    <span>Required</span>
-                </label>
             </div>
         </div>
     );

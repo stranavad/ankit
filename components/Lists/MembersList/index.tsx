@@ -24,10 +24,10 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
             <div className="table-header-group">
                 <div className="table-row">
                     <div
-                        className="table-cell border-b font-medium p-4 pl-2 pt-0 pb-3 text-slate-400  text-left">Photo
+                        className="hidden sm:table-cell border-b font-medium p-4 pl-2 pt-0 pb-3 text-slate-400  text-left">Photo
                     </div>
                     <div
-                        className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Name
+                        className="table-cell border-b font-medium p-4 pl-2 sm:pl-0 pt-0 pb-3 text-slate-400 text-left">Name
                     </div>
                     <div
                         className="table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Role
@@ -41,12 +41,12 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                 {members.map((member) => (
                     <div className="table-row" key={member.id}>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 pl-2 text-slate-500">
+                            className="hidden sm:table-cell border-b border-slate-100 p-4 pl-2 text-slate-500">
                             <Image src={member.image as string} alt={`${member.name}'s profile picture`} width="40"
                                    height="40" className="rounded-full"/>
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 text-slate-500 flex align-middle font-medium">
+                            className="table-cell border-b pl-2 sm:pl-4 border-slate-100 p-4 text-slate-500 flex align-middle font-medium">
                             {member.name}
                         </div>
                         <div

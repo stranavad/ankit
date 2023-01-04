@@ -1,29 +1,39 @@
 import {useState} from "react";
 import {
-    DndContext,
     closestCenter,
+    DndContext,
+    DragEndEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors, DragEndEvent,
+    useSensors,
 } from "@dnd-kit/core";
-import {
-    arrayMove,
-    SortableContext,
-    sortableKeyboardCoordinates,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import {arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy,} from "@dnd-kit/sortable";
 import OptionComponent from "./Option";
-import {Option} from "@/types/questionnaire";
-import styles from "./index.module.scss";
-import classNames from "classnames";
+import {Option, QuestionType} from "@/types/questionnaire";
 import {createOption, deleteOption, updateOption, updateOptionPosition} from "@/routes/question";
+import {ChevronUpDownIcon} from "@heroicons/react/24/outline";
+
+const questionTypesWithOptions: QuestionType[] = [QuestionType.SELECT, QuestionType.MULTI_SELECT];
+
+
+interface OptionsProps {
+    options: Option[];
+    questionnaireId: number;
+    questionId: number;
+    type: QuestionType;
+}
 
 const Options = ({
+    type,
     options,
     questionId,
     questionnaireId
-}: { options: Option[], questionnaireId: number, questionId: number }) => {
+}: OptionsProps) => {
+    if (!questionTypesWithOptions.includes(type)) {
+        return <></>;
+    }
+
     const [items, setItems] = useState<Option[]>(options);
 
     const sensors = useSensors(
@@ -99,7 +109,8 @@ const Options = ({
     };
 
     return (
-        <>
+        <div className="mt-2">
+            <span className="text-sm">Options</span>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -115,13 +126,11 @@ const Options = ({
                                                                    remove={() => removeOption(index, option.id)}/>)}
                 </SortableContext>
             </DndContext>
-            <div className={classNames(styles.optionContainer, styles.mock)}>
-                <div className={styles.checkCircle}>
-                    <div/>
-                </div>
-                <input className="text" placeholder="Add new" onFocus={addOption}/>
+            <div className="flex items-center my-2 w-full ">
+                <ChevronUpDownIcon className="w-6 h-6 text-gray-300"/>
+                <input className="mx-2 bg-transparent" placeholder="Add new" onFocus={addOption}/>
             </div>
-        </>
+        </div>
     );
 };
 

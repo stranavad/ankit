@@ -1,6 +1,14 @@
 "use client";
 import EntityName from "@/components/Inputs/EntityName";
-import {deleteSpace, leaveSpace, updateSpace, UpdateSpaceData, useSpace} from "@/routes/space";
+import {
+    addMemberToSpace,
+    deleteSpace,
+    leaveSpace,
+    removeMemberFromSpace,
+    updateSpace,
+    UpdateSpaceData,
+    useSpace
+} from "@/routes/space";
 import EntityDescription from "@/components/Inputs/EntityDescription";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import Button from "@/components/Button";
@@ -8,8 +16,10 @@ import {MemberContext} from "@/util/memberContext";
 import {useContext} from "react";
 import {RoleType} from "@/types/role";
 import {useRouter} from "next/navigation";
-import {checkSpacePermission, Permission} from "@/util/permission";
 import MembersList from "@/components/Lists/MembersList";
+import {updateMemberRole} from "@/routes/member";
+import MemberSearch from "@/components/MemberSearch";
+import {ApplicationUser} from "@/types/user";
 
 interface Props {
     params: {
@@ -56,8 +66,37 @@ const SpacePage = ({params: {id}}: Props) => {
         router.push("/spaces");
     };
 
-    const leaveButtonDisabled = !checkSpacePermission(Permission.DELETE_SPACE, space.role) || space.personal;
-    ;
+    const removeMember = (memberId: number) => {
+        mutate(async (space) => {
+            const newMembers = await removeMemberFromSpace(spaceId, memberId);
+            return space ? ({...space, members: newMembers.data}) : space;
+        }, {revalidate: false});
+    };
+
+    const addUser = (user: ApplicationUser) => {
+        mutate(async (space) => {
+            if (!space) {
+                return space;
+            }
+
+            const members = await addMemberToSpace({userId: user.id, username: user.name}, spaceId);
+            return ({...space, members: members.data});
+        }, {revalidate: false});
+    };
+
+    const updateRole = (role: RoleType, memberId: number) => {
+        mutate(async (space) => {
+            if (!space) {
+                return space;
+            }
+
+            const updatedMember = await updateMemberRole(role, memberId, spaceId);
+            const newMembers = space.members.map((member) => member.id === memberId ? updatedMember.data : member);
+            return ({...space, members: newMembers});
+        }, {revalidate: false});
+    };
+
+    const leaveButtonDisabled = currentMember.role === RoleType.OWNER;
     const deleteButtonDisabled = currentMember.role !== RoleType.OWNER;
 
     return (
@@ -67,9 +106,12 @@ const SpacePage = ({params: {id}}: Props) => {
                 <EntityDescription value={space.description} update={updateDescription}/>
 
                 {/* MEMBERS */}
-                <h2 className="mt-10 text-lg font-medium">Members</h2>
-                <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
-                <MembersList members={space.members} removeMember={() => undefined} updateRole={() => undefined}/>
+                <div className="mt-10 mb-5 flex items-center justify-between">
+                    <h2 className="text-lg font-medium mr-5">Members</h2>
+                    <MemberSearch addUser={addUser}/>
+                </div>
+                {/*<div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>*/}
+                <MembersList members={space.members} removeMember={removeMember} updateRole={updateRole}/>
                 {/* ADVANCED */}
                 <h2 className="mt-10 text-lg font-medium">Advanced</h2>
                 <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>

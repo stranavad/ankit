@@ -3,12 +3,8 @@ import styles from "./index.module.scss";
 import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";
-import classNames from "classnames";
-import {ReactElement, useMemo, useState} from "react";
-import {SearchContext, SearchContextData} from "@/util/context";
-import useDebounce from "@/util/debounce";
+import {ReactElement, useMemo} from "react";
 import {usePathname} from "next/navigation";
-import {MdSpaceDashboard} from "react-icons/md";
 import {AdjustmentsVerticalIcon, UsersIcon, HomeIcon, Bars3Icon} from "@heroicons/react/24/outline";
 
 interface SidebarItem {
@@ -74,11 +70,6 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
                     search: false,
                 },
                 {
-                    title: "Members",
-                    path: `/${arr[0]}/${arr[1]}/members`,
-                    search: true,
-                },
-                {
                     title: "Questionnaires",
                     path: `/${arr[0]}/${arr[1]}/questionnaires`,
                     search: true,
@@ -108,27 +99,14 @@ interface SidebarProps {
 }
 
 const Sidebar = ({children}: SidebarProps) => {
-    const [search, setSearch] = useState<string>("");
-    const debouncedSearch = useDebounce<string>(search);
     const pathname = usePathname();
 
     const topMenuItems = useMemo(() => getTopMenuItems(pathname), [pathname]);
 
-
-    const searchContextData: SearchContextData = {
-        search,
-        debouncedSearch,
-        clear: () => setSearch("")
-    };
-
-    const user = {
-        image: "https://lh3.googleusercontent.com/a/ALm5wu2wmy5E615eNlSSOHs1Nemf-SfwSYZpD2yYeSCawpg=s96-c",
-        name: "Vojtech Ruzicka"
-    };
     return (
         <div className={styles.mainWrapper}>
             <div
-                className="h-screen hidden sm:flex max-w-[3.5rem] flex-col bg-slate-900 items-center py-2 justify-between">
+                className="hidden fixed top-0 left-0 bottom-0 sm:flex max-w-[3.5rem] flex-col bg-slate-900 items-center py-2 justify-between">
                 <div className="max-w-full">
                     <Image src={AnkitLogo} alt="Ankit logo" width="60" height="60" className="w-5/6 mx-auto"/>
                     <div className="flex flex-col w-full items-center mt-8">
@@ -157,7 +135,7 @@ const Sidebar = ({children}: SidebarProps) => {
                         ))}
                     </div>
                 </nav>
-                <div className="mt-20 px-2 sm:px-0">
+                <div className="mt-20 ml-0  sm:ml-14 px-2 sm:px-0">
                     {children}
                 </div>
             </div>
