@@ -48,7 +48,7 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                             {/*</div>*/}
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500">
+                            className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500 align-middle">
                             <ConfirmationModal title="Do you really want to delete this questionnaire?"
                                                description="This action is irreversible and you will loose all your data"
                                                submitButtonText="Delete"
