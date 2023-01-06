@@ -1,5 +1,4 @@
 "use client";
-import styles from "./index.module.scss";
 import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -104,7 +103,7 @@ const Sidebar = ({children}: SidebarProps) => {
     const topMenuItems = useMemo(() => getTopMenuItems(pathname), [pathname]);
 
     return (
-        <div className={styles.mainWrapper}>
+        <div>
             <div
                 className="hidden fixed top-0 left-0 bottom-0 sm:flex max-w-[3.5rem] flex-col bg-slate-900 items-center py-2 justify-between">
                 <div className="max-w-full">

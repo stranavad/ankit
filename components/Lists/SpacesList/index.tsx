@@ -4,7 +4,6 @@ import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/solid";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
-import {deleteSpace, leaveSpace} from "@/routes/space";
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];
@@ -65,7 +64,7 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                                                                                 disabled={deleteButtonDisabled(space)}
                                                                                 onClick={openModal}>
                                                    <TrashIcon
-                                                       className={`h-5 w-5 text-red-500 ${deleteButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : ""}`}/>
+                                                       className={`h-5 w-5 ${deleteButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : "text-red-500"}`}/>
                                                </button>}/>
                             <ConfirmationModal title="Do you really want to leave this space?"
                                                description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
@@ -74,7 +73,7 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                                                renderItem={openModal => <button onClick={openModal}
                                                                                 disabled={leaveButtonDisabled(space)}>
                                                    <ArrowLeftOnRectangleIcon
-                                                       className={`h-5 w-5 text-red-500 ${leaveButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : ""}`}/>
+                                                       className={`h-5 w-5 ${leaveButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : "text-red-500"}`}/>
                                                </button>}/>
                         </div>
                     </div>
