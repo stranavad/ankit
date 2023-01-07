@@ -1,4 +1,3 @@
-"use client";
 import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";

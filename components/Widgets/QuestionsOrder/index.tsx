@@ -1,5 +1,4 @@
 "use client";
-import styles from "./index.module.scss";
 // DND
 import {
     DndContext,
@@ -21,6 +20,7 @@ import {QuestionsWidgetContext} from "@/util/questionsWidgetContext";
 import {QuestionnaireContext} from "@/util/questionnaireContext";
 import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
 import {updateQuestionPosition} from "@/routes/question";
+import {Dialog} from "@headlessui/react";
 
 export interface SimpleQuestion {
     id: number;
@@ -66,11 +66,11 @@ const QuestionsOrder = () => {
     };
 
     return (
-        <div className={styles.widget}>
-            <div className={styles.topMenu}>
-                <h2>{questionnaire.name}</h2>
+        <div>
+            <div>
+                <Dialog.Title className="text-xl font-semibold text-gray-800">{questionnaire.name}</Dialog.Title>
             </div>
-            <div className={styles.questions}>
+            <div className="mt-6">
                 <DndContext
                     sensors={sensors}
                     collisionDetection={closestCenter}

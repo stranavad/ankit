@@ -1,4 +1,3 @@
-import {RoleName, RoleType} from "@/types/role";
 import {Fragment, useState} from "react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon} from "@heroicons/react/20/solid";
@@ -16,13 +15,8 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-const RolePicker = ({status}: StatusPickerProps) => {
+const StatusPicker = ({status}: StatusPickerProps) => {
     const [selected, setSelected] = useState<Status>(Status.ACTIVE);
-
-    // const selectRole = (roleItem: RoleItem) => {
-    //     setSelected(roleItem);
-    //     updateRole(roleItem.value);
-    // };
 
     const disabled = false;
 
@@ -93,4 +87,4 @@ const RolePicker = ({status}: StatusPickerProps) => {
     );
 };
 
-export default RolePicker;
+export default StatusPicker;

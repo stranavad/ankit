@@ -1,14 +1,11 @@
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import styles from "./index.module.scss";
 import {SimpleQuestion} from "@/components/Widgets/QuestionsOrder/index";
-import {MdOutlineDragIndicator} from "react-icons/md";
-import classnames from "classnames";
+import {ChevronUpDownIcon} from "@heroicons/react/24/outline";
 
 interface QuestionProps {
     question: SimpleQuestion;
 }
-
 
 const Question = ({question}: QuestionProps) => {
     const {
@@ -26,12 +23,11 @@ const Question = ({question}: QuestionProps) => {
 
     return (
         <div ref={setNodeRef} style={style} {...attributes}
-             className={classnames(styles.question, !question.visible ? styles.notVisible : undefined)}  {...listeners}>
-            <div className={styles.dragHandle}>
-                <MdOutlineDragIndicator/>
-                <div/>
-            </div>
-            <span className={styles.questionTitle}>{question.title}</span>
+             {...listeners}
+             className={`flex items-center my-4 transition-colors duration-75 ${question.visible ? "text-gray-900 hover:text-indigo-500" : "text-gray-400 hover:text-indigo-300"}`}>
+            <ChevronUpDownIcon
+                className="w-6 h-6 text-current hover:text-indigo-500 mr-3"/>
+            <span className="text-lg">{question.title}</span>
         </div>
     );
 };

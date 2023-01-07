@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #ececec;
+}
+
+.content {
+    max-width: 800px;
+    margin: auto;
+}
+
+.status-paused {
+    background-color: #f97316
+}
+
+.status-active {
+    background-color: #22c55e;
+}

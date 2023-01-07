@@ -1,7 +1,7 @@
 "use client";
-import "@/styles/index.scss";
 import {SessionProvider} from "next-auth/react";
 import {Inter} from "@next/font/google";
+import "./globals.css";
 
 const inter = Inter({
     weight: ["400", "500", "600"],
