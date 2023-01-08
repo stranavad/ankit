@@ -101,7 +101,7 @@ const SpacePage = ({params: {id}}: Props) => {
 
     return (
         <div className="content">
-            <div className="bg-white shadow p-5 rounded-md">
+            <div className="bg-white p-5 rounded-md">
                 <EntityName value={space.name} update={updateName}/>
                 <EntityDescription value={space.description} update={updateDescription}/>
 

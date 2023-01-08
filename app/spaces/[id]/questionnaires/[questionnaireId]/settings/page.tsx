@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useState} from "react";
+import {useEffect, useState, lazy, Suspense} from "react";
 import {
     deleteQuestionnaire,
     updateQuestionnaire,
@@ -11,9 +11,11 @@ import QuestionnaireName from "@/components/Inputs/EntityName";
 import EntityDescription from "@/components/Inputs/EntityDescription";
 import SwitchInput from "@/components/Inputs/Switch";
 import StatusPicker from "@/components/Pickers/StatusPicker";
-import Button from "@/components/Button";
-import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {useRouter} from "next/navigation";
+import Button from "@/components/Button";
+
+const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"))
+const PublishedQuestionnairesList = lazy(() => import("@/components/Lists/PublishedQuestionnairesList"))
 
 const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -88,7 +90,7 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
 
     return (
         <div className="content">
-            <div className="bg-white shadow p-5 rounded-md">
+            <div className="bg-white p-5 rounded-md">
                 <QuestionnaireName value={questionnaire.name}
                                    update={updateName}/>
                 <div className="flex items-center py-1 my-2">
@@ -145,13 +147,20 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
                 {/*</div>*/}
                 <div className="flex items-center my-3">
                     <span className="mr-5 text-sm">Delete this questionnaire</span>
-                    <ConfirmationModal title={"Do you really want to delete this questionnaire?"}
-                                       description={"This action is irreversible and you will loose all your data"}
-                                       submit={removeQuestionnaire}
-                                       renderItem={openModal => <Button secondary type="error"
-                                                                        className="py-1 px-2 text-xs"
-                                                                        onClick={openModal}>Delete</Button>}/>
+                    <Suspense>
+                        <ConfirmationModal title={"Do you really want to delete this questionnaire?"}
+                                        description={"This action is irreversible and you will loose all your data"}
+                                        submit={removeQuestionnaire}
+                                        renderItem={openModal => <Button secondary type="error"
+                                                                            className="py-1 px-2 text-xs"
+                                                                            onClick={openModal}>Delete</Button>}/>
+                    </Suspense>
                 </div>
+
+                {/* SETTINGS*/}
+                <Suspense>
+                    <PublishedQuestionnairesList questionnaireId={questionnaireId}/>
+                </Suspense>
             </div>
         </div>
     );

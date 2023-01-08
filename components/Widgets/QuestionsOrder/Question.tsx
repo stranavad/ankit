@@ -26,8 +26,8 @@ const Question = ({question}: QuestionProps) => {
              {...listeners}
              className={`flex items-center my-4 transition-colors duration-75 ${question.visible ? "text-gray-900 hover:text-indigo-500" : "text-gray-400 hover:text-indigo-300"}`}>
             <ChevronUpDownIcon
-                className="w-6 h-6 text-current hover:text-indigo-500 mr-3"/>
-            <span className="text-lg">{question.title}</span>
+                className="w-6 h-6 min-w-[1.5rem] text-current hover:text-indigo-500 mr-3"/>
+            <span className="text-lg text-ellipsis overflow-hidden">{question.title}</span>
         </div>
     );
 };

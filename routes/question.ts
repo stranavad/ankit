@@ -74,6 +74,14 @@ export const deleteOption = (questionnaireId: number, questionId: number, option
     });
 };
 
+/* DELETE QUESTION */
+export const deleteQuestion = (questionnaireId: number, questionId: number): AxiosPromise<boolean> => {
+    return request({
+        url: `/questionnaire/${questionnaireId}/question/${questionId}`,
+        method: 'delete'
+    })
+}
+
 export const duplicateQuestion = (questionnaireId: number, questionId: number): AxiosPromise<Question[]> => {
     return request({
         url: `/questionnaire/${questionnaireId}/question/${questionId}/duplicate`,

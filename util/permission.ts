@@ -3,9 +3,12 @@ import {RoleType} from "@/types/role";
 export const enum Permission {
     ADD_MEMBER = "add member",
     DELETE_MEMBER = "delete member",
+    DELETE_QUESTION = "delete question",
     UPDATE_ROLE = "update role",
     DELETE_SPACE = "delete space",
     DELETE_QUESTIONNAIRE = "delete questionnaire",
+    UPDATE_PUBLISHED_QUESTIONNAIRE_NAME = "update published questionnaire name",
+    DELETE_PUBLISHED_QUESTIONNAIRE = "delete published questionnaire"
 }
 
 const permissions: { [key in Permission]: RoleType } = {
@@ -13,7 +16,10 @@ const permissions: { [key in Permission]: RoleType } = {
     "delete member": RoleType.ADMIN,
     "update role": RoleType.ADMIN,
     "delete space": RoleType.OWNER,
-    "delete questionnaire": RoleType.ADMIN
+    "delete questionnaire": RoleType.ADMIN,
+    "delete question": RoleType.EDIT,
+    "update published questionnaire name": RoleType.ADMIN,
+    "delete published questionnaire": RoleType.ADMIN
 };
 
 export const checkSpacePermission = (permission: Permission, role: RoleType): boolean => {

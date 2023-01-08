@@ -3,9 +3,10 @@ import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import Link from "next/link";
 import {SpaceContext} from "@/util/spaceContext";
 import {useContext} from "react";
-import {TrashIcon} from "@heroicons/react/24/solid";
+import {TrashIcon} from "@heroicons/react/24/outline";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import StatusPicker from "@/components/Pickers/StatusPicker";
+import IconButton from "@/components/Button/IconButton";
 
 interface QuestionnairesListProps {
     questionnaires: ApplicationQuestionnaire[];
@@ -42,10 +43,6 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                         <div
                             className="table-cell border-b border-slate-100 p-4 text-slate-500 ">
                             <StatusPicker status={questionnaire.status}/>
-                            {/*<div*/}
-                            {/*    className={`capitalize bg-${getStatusColor(questionnaire.status)}-400 inline-block py-1 px-2 rounded-xl text-xs text-white`}>*/}
-                            {/*    {questionnaire.status}*/}
-                            {/*</div>*/}
                         </div>
                         <div
                             className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500 align-middle">
@@ -53,12 +50,8 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                                                description="This action is irreversible and you will loose all your data"
                                                submitButtonText="Delete"
                                                submit={() => removeQuestionnaire(questionnaire.id)}
-                                               renderItem={openModal => <button className="mr-3"
-                                                                                disabled={deleteButtonDisabled}
-                                                                                onClick={openModal}>
-                                                   <TrashIcon
-                                                       className={`h-5 w-5 text-red-500 ${deleteButtonDisabled ? "text-gray-500 cursor-not-allowed" : ""}`}/>
-                                               </button>}/>
+                                               renderItem={openModal => 
+                                               <IconButton icon={TrashIcon} color="error" size="medium" disabled={deleteButtonDisabled} onClick={openModal}/>}/>
                         </div>
                     </div>
                 ))}

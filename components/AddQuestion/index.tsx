@@ -32,7 +32,7 @@ const AddQuestion = ({add}: { add: (type: QuestionType) => void }) => {
             <Menu as="div" className="relative inline-block text-left">
                 <div>
                     <Menu.Button
-                        className="inline-flex text-sm p-1 rounded-full shadow-md hover:text-white hover:bg-indigo-500 bg-white transition-colors duration-100">
+                        className="inline-flex text-sm p-1 rounded-full hover:text-white hover:bg-indigo-500 bg-white transition-colors duration-100">
                         <PlusIcon className="h-6 w-6"/>
                     </Menu.Button>
                 </div>

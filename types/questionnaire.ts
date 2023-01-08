@@ -1,17 +1,17 @@
 export enum Structure {
-    LIST = "list",
-    INDIVIDUAL = "individual",
+    LIST = "LIST",
+    INDIVIDUAL = "INDIVIDUAL",
 }
 
 export enum Status {
-    ACTIVE = "active",
-    PAUSED = "paused",
+    ACTIVE = "ACTIVE",
+    PAUSED = "PAUSED",
 }
 
 export enum QuestionType {
-    SELECT = "select",
-    MULTI_SELECT = "multiselect",
-    TEXT = "text"
+    SELECT = "SELECT",
+    MULTI_SELECT = "MULTI_SELECT",
+    TEXT = "TEXT"
 }
 
 export interface ApplicationQuestionnaire {
