@@ -1,12 +1,13 @@
 import {ApplicationMember} from "@/types/member";
 import Image from "next/image";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
-import TrashIcon from "@heroicons/react/24/solid/TrashIcon";
+import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {useContext} from "react";
 import {MemberContext} from "@/util/memberContext";
 import {RoleType} from "@/types/role";
 import RolePicker from "@/components/Pickers/RolePicker";
+import IconButton from "@/components/Button/IconButton";
 
 interface MembersListProps {
     members: ApplicationMember[];
@@ -46,11 +47,11 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                                    height="40" className="rounded-full"/>
                         </div>
                         <div
-                            className="table-cell border-b pl-2 sm:pl-4 border-slate-100 p-4 text-slate-500 flex align-middle font-medium">
+                            className="table-cell border-b pl-2 sm:pl-4 border-slate-100 p-4 text-slate-500 align-middle font-medium">
                             {member.name}
                         </div>
                         <div
-                            className="table-cell border-b border-slate-100 p-4 text-slate-500 flex align-middle">
+                            className="table-cell border-b border-slate-100 p-4 text-slate-500 align-middle">
                             <RolePicker role={member.role} updateRole={(role) => updateRole(role, member.id)}
                                         disabled={updateRoleDisabled(member)}/>
                         </div>
@@ -60,12 +61,8 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                                                description={`This action is irreversible and you would have to invite ${member.name} again in case you change your mind.`}
                                                submitButtonText="Delete"
                                                submit={() => removeMember(member.id)}
-                                               renderItem={openModal => <button className="mr-3"
-                                                                                disabled={deleteButtonDisabled(member)}
-                                                                                onClick={openModal}>
-                                                   <TrashIcon
-                                                       className={`h-5 w-5 text-red-500 ${deleteButtonDisabled(member) ? "text-gray-500 cursor-not-allowed" : ""}`}/>
-                                               </button>}/>
+                                               renderItem={openModal => 
+                                               <IconButton icon={TrashIcon} disabled={deleteButtonDisabled(member)} onClick={openModal} size="medium" color="error"/>}/>
                         </div>
                     </div>
                 ))}

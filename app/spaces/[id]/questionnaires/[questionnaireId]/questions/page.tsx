@@ -1,21 +1,24 @@
 "use client";
 import {Question, QuestionType} from "@/types/questionnaire";
-import {createQuestion, duplicateQuestion, useQuestions} from "@/routes/question";
-import debounce from "lodash/debounce";
+import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, useQuestions} from "@/routes/question";
 
-import QuestionsList from "@/components/QuestionsList";
-import Widgets from "@/components/Widgets";
+const Widgets = lazy(() => import("@/components/Widgets"));
+const QuestionEdit = lazy(() => import("@/components/QuestionEdit"))
+const AddQuestion = lazy(() => import("@/components/AddQuestion"))
+const RenderIfVisible = lazy(() => import("react-render-if-visible"))
+
 import {QuestionsWidgetContext} from "@/util/context";
 import Button from "@/components/Button";
-import {useState} from "react";
+import {useState, lazy, Suspense, Fragment} from "react";
+import { publishQuestionnaire } from "@/routes/publish";
+import { QuestionUpdateProperty } from "@/types/question";
+import PublishQuestionnaire from "@/components/PublishQuestionnaire";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
+    const [published, setPublished] = useState(false);
     const {data, mutate} = useQuestions(questionnaireId);
-    const [showHidden, setShowHidden] = useState<boolean>(false);
-    const questions = data?.filter(({visible}) => visible || visible === !showHidden) || [];
-
-    const refetchQuestions = debounce(mutate, 5000);
+    const questions = data || [];
 
     const addQuestion = (type: QuestionType, index: number) => {
         // Generating nextId and previousId
@@ -39,6 +42,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         };
         mutate(async () => {
             const response = await createQuestion(questionnaireId, data);
+            setPublished(false);
             return response.data;
         }, {revalidate: false});
     };
@@ -46,6 +50,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     const cloneQuestion = (questionId: number) => {
         mutate(async () => {
             const response = await duplicateQuestion(questionnaireId, questionId);
+            setPublished(false);
             return response.data;
         }, {revalidate: false});
     };
@@ -54,11 +59,25 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         mutate(() => questions, {revalidate: false});
     };
 
-    const toggleHidden = () => {
-        setShowHidden(s => {
-            return !s;
-        });
-    };
+    const removeQuestion = (questionId: number) => {
+        mutate(async(questions) => {
+            await deleteQuestion(questionnaireId,questionId);
+            setPublished(false);
+            return questions?.filter(({id}) => id !== questionId);
+        })
+    }
+
+    const update = (index: number, id:number, data: QuestionUpdateProperty) => {
+        mutate(async(questions) => {
+            const updatedQuestion = (await updateQuestion(questionnaireId, id, {[data[0]]: data[1]})).data;
+
+            if(!questions){
+                return questions;
+            }
+            setPublished(false);
+            return questions.map((question, questionIndex) => questionIndex === index ? updatedQuestion : question);
+        }, {revalidate: false, optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({...question, [data[0]]: data[1]}) : question)});
+    }
 
     return (
         <>
@@ -66,16 +85,33 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                 <div className="mb-10 flex justify-between items-center">
                     <h2 className="text-2xl font-semibold mr-5">Questions</h2>
                     <div>
-                        <Button secondary className="py-1 px-2 text-sm" onClick={toggleHidden}>
-                            {showHidden ? "Hide invisible questions" : "Show invisible questions"}
-                        </Button>
+                        <PublishQuestionnaire questionnaireId={questionnaireId} disabled={published} setPublished={setPublished}/>
                     </div>
                 </div>
-                <QuestionsList questions={questions} addQuestion={addQuestion}
-                               cloneQuestion={cloneQuestion} refetchQuestions={refetchQuestions}/>
+                {questions.map((question, index) => (
+                    <Fragment key={question.id}>
+                        {index < 5 ? (
+                            <div style={{width: "100%", maxWidth: "800px"}}>
+                                <QuestionEdit question={question}
+                                            cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
+                                <AddQuestion add={(type) => addQuestion(type, index)}/>
+                            </div>
+                        ) : (
+                            <RenderIfVisible key={question.id}>
+                                <div style={{width: "100%", maxWidth: "800px"}}>
+                                    <QuestionEdit question={question}
+                                                cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
+                                    <AddQuestion add={(type) => addQuestion(type, index)}/>
+                                </div>
+                            </RenderIfVisible>
+                        )}
+                    </Fragment>
+                ))}
             </div>
             <QuestionsWidgetContext.Provider value={{questions, setQuestions}}>
-                <Widgets/>
+                <Suspense>
+                    <Widgets/>
+                </Suspense>
             </QuestionsWidgetContext.Provider>
         </>
     );

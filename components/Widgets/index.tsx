@@ -10,8 +10,8 @@ const Widgets = () => {
         <>
             <div
                 onClick={() => setOpen(true)}
-                className="fixed right-0 top-16 bg-white shadow-md rounded-md py-1 pl-1 hover:bg-gray-200 transition-colors duration-75 cursor-pointer">
-                <ChevronDoubleLeftIcon className="h-8 w-8"/>
+                className="fixed right-0 top-16 bg-white shadow-md rounded-md py-1  hover:bg-gray-200 transition-colors duration-75 cursor-pointer">
+                <ChevronDoubleLeftIcon className="h-6 w-6"/>
             </div>
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>

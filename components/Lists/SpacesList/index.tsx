@@ -1,9 +1,10 @@
 import {ApplicationSpace} from "@/types/space";
 import Link from "next/link";
-import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/solid";
+import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
+import IconButton from "@/components/Button/IconButton";
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];
@@ -60,21 +61,14 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                                                description="This action is irreversible and you will loose all your data"
                                                submitButtonText="Delete"
                                                submit={() => removeSpace(space.id)}
-                                               renderItem={openModal => <button className="mr-3"
-                                                                                disabled={deleteButtonDisabled(space)}
-                                                                                onClick={openModal}>
-                                                   <TrashIcon
-                                                       className={`h-5 w-5 ${deleteButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : "text-red-500"}`}/>
-                                               </button>}/>
+                                               renderItem={openModal => 
+                                               <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={openModal} disabled={deleteButtonDisabled(space)}/>}/>
                             <ConfirmationModal title="Do you really want to leave this space?"
                                                description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
                                                submitButtonText="Leave"
                                                submit={() => leaveSpace(space.id)}
-                                               renderItem={openModal => <button onClick={openModal}
-                                                                                disabled={leaveButtonDisabled(space)}>
-                                                   <ArrowLeftOnRectangleIcon
-                                                       className={`h-5 w-5 ${leaveButtonDisabled(space) ? "text-gray-500 cursor-not-allowed" : "text-red-500"}`}/>
-                                               </button>}/>
+                                               renderItem={openModal => 
+                                                <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={openModal} disabled={leaveButtonDisabled(space)}/>}/>
                         </div>
                     </div>
                 ))}

@@ -33,7 +33,7 @@ const StatusPicker = ({status}: StatusPickerProps) => {
                             className="relative w-full cursor-default text-left sm:text-sm">
                             <div
                                 className={classNames("capitalize inline-block py-1 px-2 rounded-xl text-xs text-white cursor-pointer", getColor(selected))}>
-                                {selected}
+                                {selected.toLowerCase()}
                             </div>
                         </Listbox.Button>
 
@@ -61,7 +61,7 @@ const StatusPicker = ({status}: StatusPickerProps) => {
                                             <>
                                                 <div
                                                     className={classNames("capitalize inline-block py-1 px-2 rounded-xl text-xs text-white cursor-pointer", getColor(status))}>
-                                                    {status}
+                                                    {status.toLowerCase()}
                                                 </div>
 
                                                 {selected ? (

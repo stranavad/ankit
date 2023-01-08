@@ -11,10 +11,10 @@ body {
     margin: auto;
 }
 
-.status-paused {
+.status-PAUSED{
     background-color: #f97316
 }
 
-.status-active {
+.status-ACTIVE {
     background-color: #22c55e;
 }
