@@ -35,8 +35,8 @@ const PublishedQuestionnairesList = ({questionnaireId}: {questionnaireId: number
 
     const downloadPublishedQuestionnaire = async (id: number) => {
         const data = (await getPublishedQuestionnaire(questionnaireId, id)).data;
-        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-        var dlAnchorElem = document.createElement('a');
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        const dlAnchorElem = document.createElement('a');
         dlAnchorElem.setAttribute("href",     dataStr     );
         dlAnchorElem.setAttribute("download", "release.json");
         dlAnchorElem.click();
