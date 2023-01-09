@@ -40,6 +40,7 @@ const PublishedQuestionnairesList = ({questionnaireId}: {questionnaireId: number
         dlAnchorElem.setAttribute("href",     dataStr     );
         dlAnchorElem.setAttribute("download", "release.json");
         dlAnchorElem.click();
+        document.body.removeChild(dlAnchorElem);
     }
 
     return (

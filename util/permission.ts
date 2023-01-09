@@ -5,6 +5,8 @@ export const enum Permission {
     DELETE_MEMBER = "delete member",
     DELETE_QUESTION = "delete question",
     UPDATE_ROLE = "update role",
+    UPDATE_QUESTION_OPTION = "update question option",
+    DELETE_QUESTION_OPTION = "delete question option",
     DELETE_SPACE = "delete space",
     DELETE_QUESTIONNAIRE = "delete questionnaire",
     UPDATE_PUBLISHED_QUESTIONNAIRE_NAME = "update published questionnaire name",
@@ -19,7 +21,9 @@ const permissions: { [key in Permission]: RoleType } = {
     "delete questionnaire": RoleType.ADMIN,
     "delete question": RoleType.EDIT,
     "update published questionnaire name": RoleType.ADMIN,
-    "delete published questionnaire": RoleType.ADMIN
+    "delete published questionnaire": RoleType.ADMIN,
+    "update question option": RoleType.EDIT,
+    "delete question option": RoleType.EDIT
 };
 
 export const checkSpacePermission = (permission: Permission, role: RoleType): boolean => {

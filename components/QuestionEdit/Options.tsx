@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {
     closestCenter,
     DndContext,
@@ -13,6 +13,8 @@ import OptionComponent from "./Option";
 import {Option, QuestionType} from "@/types/questionnaire";
 import {createOption, deleteOption, updateOption, updateOptionPosition} from "@/routes/question";
 import {ChevronUpDownIcon} from "@heroicons/react/24/outline";
+import { checkSpacePermission, Permission } from "@/util/permission";
+import { MemberContext } from "@/util/memberContext";
 
 const questionTypesWithOptions: QuestionType[] = [QuestionType.SELECT, QuestionType.MULTI_SELECT];
 
@@ -35,6 +37,7 @@ const Options = ({
     }
 
     const [items, setItems] = useState<Option[]>(options);
+    const {member} = useContext(MemberContext);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -108,6 +111,8 @@ const Options = ({
         setTimeout(() => document.getElementById(`option-${maxId + 1}`)?.focus(), 0);
     };
 
+    const updateOptionsDisabled = !checkSpacePermission(Permission.UPDATE_QUESTION_OPTION, member.role);
+
     return (
         <div className="mt-2">
             <span className="text-sm">Options</span>
@@ -117,6 +122,7 @@ const Options = ({
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext
+                    disabled={updateOptionsDisabled}
                     items={items}
                     strategy={verticalListSortingStrategy}
                 >
