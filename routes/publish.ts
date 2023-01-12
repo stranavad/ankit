@@ -36,3 +36,15 @@ export const getPublishedQuestionnaire = (questionnaireId: number, publishedId: 
         method: 'get',
     })
 }
+
+interface CheckQuestionnairePublish {
+    lastPublished: Date;
+    canPublish: boolean;
+}
+
+export const checkQuestionnairePublish = (questionnaireId: number): AxiosPromise<CheckQuestionnairePublish> => {
+    return request({
+        url: `/${KEYWORD}/${questionnaireId}/status`,
+        method: 'get'
+    })
+}

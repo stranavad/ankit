@@ -29,7 +29,6 @@ export interface DetailQuestionnaire extends ApplicationQuestionnaire {
     allowReturn: boolean;
     structure: Structure;
     passwordProtected: boolean;
-    password: string | null;
 }
 
 export interface Question {
@@ -40,11 +39,15 @@ export interface Question {
     required: boolean;
     position: number;
     type: QuestionType;
+    deleted: boolean;
     options: Option[];
+    published: Date;
+    updated: Date;
 }
 
 export interface Option {
     id: number;
     value: string;
     position: number;
+    deleted: boolean;
 }

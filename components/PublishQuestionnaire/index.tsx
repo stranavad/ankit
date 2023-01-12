@@ -1,22 +1,32 @@
-import { publishQuestionnaire } from "@/routes/publish";
+import { checkQuestionnairePublish, publishQuestionnaire } from "@/routes/publish";
 import { Popover, Transition } from "@headlessui/react";
+import dayjs from "dayjs";
 import { Fragment, useState } from "react";
 import Button from "../Button";
 
 
-const PublishQuestionnaire = ({questionnaireId, disabled, setPublished}: {questionnaireId: number, disabled: boolean, setPublished: (value: boolean) => void}) => {
+const PublishQuestionnaire = ({questionnaireId}: {questionnaireId: number}) => {
     const [name, setName] = useState("Today's backup");
+    const [canPublish, setCanPublish] = useState<boolean>(false);
+    const [lastPublish, setLastPublish] = useState<Date | null>(null)
 
     const publish = () => {
-        setPublished(true);
+        setCanPublish(false);
         publishQuestionnaire(questionnaireId, {name});
     }
 
-    const disabledButton = !name || name.length > 30;
+    const fetchStatus = () => {
+        checkQuestionnairePublish(questionnaireId).then((response) => {
+            setCanPublish(response.data.canPublish);
+            setLastPublish(response.data.lastPublished);
+        });
+    }
+
+    const disabledButton = !name || name.length > 30 || !canPublish;
 
     return (
         <Popover className="relative">
-            <Popover.Button disabled={disabled} className={`text-white text-sm py-1 px-2 font-semibold rounded-md focus:outline-none focus:ring-2  focus:ring-opacity-75 ${disabled ? "bg-gray-300 text-gray-400 shadow-none cursor-not-allowed" : "bg-green-500 hover:bg-green-700 focus:ring-green-400"}`}>
+            <Popover.Button onClick={fetchStatus} className="text-white text-sm py-1 px-2 font-semibold rounded-md focus:outline-none focus:ring-2  focus:ring-opacity-75 bg-green-500 hover:bg-green-700 focus:ring-green-400">
                 Publish
             </Popover.Button>
             <Transition
@@ -32,9 +42,14 @@ const PublishQuestionnaire = ({questionnaireId, disabled, setPublished}: {questi
                     <div className="rounded-md shadow-md p-3 bg-white w-60">
                         <h3 className="text-md font-medium mb-2">Publish Name</h3>
                         <input value={name} onChange={(e) => setName(e.target.value)} className="block text-sm py-1 px-2 w-full outline-none border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500  rounded-md"/>
-                        <div className="mt-5 w-full flex justify-end">
+                        <div className="mt-5 w-full flex items-center justify-between">
+                            {canPublish ? (
+                                <span className="text-xs font-">Last: {dayjs(lastPublish).format('DD/MM/YY H:mm')}</span>
+                            ): (
+                                <span className="text-xs text-red-500 font-semibold">Can't publish</span>
+                            )}
                             <Popover.Button as={'div'}>
-                                <Button type="success" className="py-0.5 px-1 text-sm" disabled={disabledButton || disabled} onClick={publish}>Publish</Button>
+                                <Button type="success" className="py-0.5 px-1 text-sm" disabled={disabledButton} onClick={publish}>Publish</Button>
                             </Popover.Button>
                         </div>
                     </div>

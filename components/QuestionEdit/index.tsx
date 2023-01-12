@@ -10,6 +10,7 @@ import { checkSpacePermission, Permission } from "@/util/permission";
 import { MemberContext } from "@/util/memberContext";
 import { QuestionProperty, QuestionUpdateProperty } from "@/types/question";
 import IconButton from "../Button/IconButton";
+import dayjs from "dayjs";
 
 const QuestionOptions = lazy(() => import("./Options"));
 
@@ -53,7 +54,8 @@ const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update}: Questio
                                  questionnaireId={questionnaireId}/>
             </Suspense>
             <div className="mt-5 h-px bg-gray-200 w-full"/>
-            <div className="flex justify-end w-full my-2">
+            <div className="flex justify-between items-center w-full my-2">
+                <span className="text-xs">Last edited: {dayjs(question.updated).format('DD/MM/YYYY H:mm')}</span>    
                 <div>
                     <label htmlFor={`required-${question.id}`} className="mr-2">Required</label>
                     <Checkbox name={`required-${question.id}`} checked={required} update={updateRequired}/>

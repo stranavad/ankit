@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useState, lazy, Suspense} from "react";
+import {lazy, Suspense} from "react";
 import {
     deleteQuestionnaire,
     updateQuestionnaire,
@@ -13,28 +13,15 @@ import SwitchInput from "@/components/Inputs/Switch";
 import StatusPicker from "@/components/Pickers/StatusPicker";
 import {useRouter} from "next/navigation";
 import Button from "@/components/Button";
+import QuestionnaireSecurity from "@/components/QuestionnaireSecurity";
 
 const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"))
 const PublishedQuestionnairesList = lazy(() => import("@/components/Lists/PublishedQuestionnairesList"))
 
 const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
-    const {data: questionnaire, mutate, isLoading} = useQuestionnaire(questionnaireId);
+    const {data: questionnaire, mutate} = useQuestionnaire(questionnaireId);
     const router = useRouter();
-
-    /* PASSWORD FIELD */
-    const [passwordProtected, setPasswordProtected] = useState<boolean>(false);
-    const [password, setPassword] = useState<string>("");
-    const passwordSaveDisabled = !password || password.length > 50 || questionnaire?.password === password;
-
-
-    useEffect(() => {
-        // Will run only after first questionnaire is fetched
-        if (questionnaire && !isLoading) {
-            setPasswordProtected(questionnaire.passwordProtected);
-            setPassword(questionnaire.password || "");
-        }
-    }, [isLoading]);
 
     const updateFunction = async (data: UpdateQuestionnaireData) => {
         return (await updateQuestionnaire(data, questionnaireId)).data;
@@ -43,9 +30,7 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
     if (!questionnaire) {
         return;
     }
-    const updatePasswordProtected = (passwordProtected: boolean) => {
-        setPasswordProtected(passwordProtected);
-
+    const updatePasswordProtected = (passwordProtected: boolean, password: string) => {
         if (!passwordProtected) {
             mutate(() => updateFunction({passwordProtected}), {
                 revalidate: false,
@@ -54,12 +39,8 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
             return;
         }
 
-        if (!password || password.length > 50) {
-            return;
-        }
-
         mutate(() => updateFunction({passwordProtected, password}),
-            {revalidate: false, optimisticData: {...questionnaire, password, passwordProtected}});
+            {revalidate: false, optimisticData: {...questionnaire, passwordProtected}});
     };
 
 
@@ -109,42 +90,12 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
                 </div>
 
                 {/* SECURITY */}
-                <h2 className="mt-10 text-lg font-medium">Security</h2>
-                <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
-                <div className="my-3">
-                    <div className="flex items-center">
-                        <span className="mr-5 text-sm">Password Protected</span>
-                        <SwitchInput value={passwordProtected}
-                                     update={updatePasswordProtected}/>
-                    </div>
-                    {passwordProtected ? (
-                        <div className="flex items-center mt-5">
-                            <span className="mr-5 text-sm">Password</span>
-                            <input type="password"
-                                   value={password}
-                                   onChange={(e) => setPassword(e.target.value)}
-                                   className="block w-72 p-1 rounded-md border border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm mr-3"
-                                   placeholder="New password"/>
-
-                            <Button disabled={passwordSaveDisabled} className="px-2 py-[3px] text-sm"
-                                    onClick={() => updatePasswordProtected(true)}>Save</Button>
-                        </div>
-                    ) : (<></>)}
-                </div>
+                <QuestionnaireSecurity passwordProtected={questionnaire.passwordProtected} update={updatePasswordProtected}/>
 
                 {/* ADVANCED */}
                 <h2 className="mt-10 text-lg font-medium">Advanced</h2>
                 <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
-                {/*<div className="flex items-center my-3">*/}
-                {/*    <span className="mr-5 text-sm">Transfer to another space</span>*/}
-                {/*    <ConfirmationModal title={"Do you really want to transfer this questionnaire to another space?"}*/}
-                {/*                       description={"This action is irreversible"}*/}
-                {/*                       submit={() => console.log("Deleting questionnaire")}*/}
-                {/*                       renderItem={openModal => <Button secondary type="warning"*/}
-                {/*                                                        className="py-1 px-2 text-xs"*/}
-                {/*                                                        onClick={openModal}>Transfer to another*/}
-                {/*                           space</Button>}/>*/}
-                {/*</div>*/}
+
                 <div className="flex items-center my-3">
                     <span className="mr-5 text-sm">Delete this questionnaire</span>
                     <Suspense>
