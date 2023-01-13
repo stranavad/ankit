@@ -106,7 +106,7 @@ const Options = ({
         const maxId = Math.max(...items.map(({id}) => id));
         const value = "Option " + maxId + 1;
         createOption(questionnaireId, questionId, {value}).then((response) => setItems(response.data.options));
-        setItems(items => ([...items, {id: maxId + 1, value, position: 3}]));
+        setItems(items => ([...items, {id: maxId + 1, value, position: 3, deleted: false}]));
         // I don't want to use refs
         setTimeout(() => document.getElementById(`option-${maxId + 1}`)?.focus(), 0);
     };
