@@ -16,7 +16,6 @@ import PublishQuestionnaire from "@/components/PublishQuestionnaire";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
-    const [published, setPublished] = useState(false);
     const {data, mutate} = useQuestions(questionnaireId);
     const questions = data || [];
 
@@ -42,7 +41,6 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         };
         mutate(async () => {
             const response = await createQuestion(questionnaireId, data);
-            setPublished(false);
             return response.data;
         }, {revalidate: false});
     };
@@ -50,7 +48,6 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     const cloneQuestion = (questionId: number) => {
         mutate(async () => {
             const response = await duplicateQuestion(questionnaireId, questionId);
-            setPublished(false);
             return response.data;
         }, {revalidate: false});
     };
@@ -62,7 +59,6 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     const removeQuestion = (questionId: number) => {
         mutate(async(questions) => {
             await deleteQuestion(questionnaireId,questionId);
-            setPublished(false);
             return questions?.filter(({id}) => id !== questionId);
         })
     }
@@ -74,7 +70,6 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
             if(!questions){
                 return questions;
             }
-            setPublished(false);
             return questions.map((question, questionIndex) => questionIndex === index ? updatedQuestion : question);
         }, {revalidate: false, optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({...question, [data[0]]: data[1]}) : question)});
     }
@@ -85,7 +80,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                 <div className="mb-10 flex justify-between items-center">
                     <h2 className="text-2xl font-semibold mr-5">Questions</h2>
                     <div>
-                        <PublishQuestionnaire questionnaireId={questionnaireId} disabled={published} setPublished={setPublished}/>
+                        <PublishQuestionnaire questionnaireId={questionnaireId}/>
                     </div>
                 </div>
                 {questions.map((question, index) => (
