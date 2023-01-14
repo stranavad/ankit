@@ -3,7 +3,7 @@ import { getQuestionnaire } from "@/routes/answer";
 import { AnswerQuestionnaire } from "@/types/answer";
 
 export default async function AnswerPage({params: {hash}, searchParams: {password}}: {params: {hash: string}, searchParams: {password?: string}}){
-    const data: AnswerQuestionnaire = await getQuestionnaire(hash, password);
+    const data: AnswerQuestionnaire | boolean = await getQuestionnaire(hash, password);
 
 
     return (
