@@ -37,7 +37,7 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                     <div className="table-row" key={questionnaire.id}>
                         <div
                             className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500 font-medium">
-                            <Link href={`/spaces/${space.id}/questionnaires/${questionnaire.id}`}
+                            <Link href={`/app/spaces/${space.id}/questionnaires/${questionnaire.id}`}
                                   className="block w-full cursor-pointer">{questionnaire.name}</Link>
                         </div>
                         <div

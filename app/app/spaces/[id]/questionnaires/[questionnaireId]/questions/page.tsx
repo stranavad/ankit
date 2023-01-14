@@ -5,14 +5,12 @@ import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, useQu
 const Widgets = lazy(() => import("@/components/Widgets"));
 const QuestionEdit = lazy(() => import("@/components/QuestionEdit"))
 const AddQuestion = lazy(() => import("@/components/AddQuestion"))
-const RenderIfVisible = lazy(() => import("react-render-if-visible"))
 
 import {QuestionsWidgetContext} from "@/util/context";
-import Button from "@/components/Button";
-import {useState, lazy, Suspense, Fragment} from "react";
-import { publishQuestionnaire } from "@/routes/publish";
+import {lazy, Suspense} from "react";
 import { QuestionUpdateProperty } from "@/types/question";
 import PublishQuestionnaire from "@/components/PublishQuestionnaire";
+import Loading from "./loading";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -84,23 +82,11 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                     </div>
                 </div>
                 {questions.map((question, index) => (
-                    <Fragment key={question.id}>
-                        {index < 5 ? (
-                            <div style={{width: "100%", maxWidth: "800px"}}>
-                                <QuestionEdit question={question}
-                                            cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
-                                <AddQuestion add={(type) => addQuestion(type, index)}/>
-                            </div>
-                        ) : (
-                            <RenderIfVisible key={question.id}>
-                                <div style={{width: "100%", maxWidth: "800px"}}>
-                                    <QuestionEdit question={question}
-                                                cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
-                                    <AddQuestion add={(type) => addQuestion(type, index)}/>
-                                </div>
-                            </RenderIfVisible>
-                        )}
-                    </Fragment>
+                    <div style={{width: "100%", maxWidth: "800px"}}>
+                        <QuestionEdit question={question}
+                                    cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
+                        <AddQuestion add={(type) => addQuestion(type, index)}/>
+                    </div>
                 ))}
             </div>
             <QuestionsWidgetContext.Provider value={{questions, setQuestions}}>

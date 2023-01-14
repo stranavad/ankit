@@ -25,7 +25,7 @@ const items: SidebarItem[] = [
     },
     {
         title: "Spaces",
-        path: "/spaces",
+        path: "/app/spaces",
         icon: <UsersIcon className="w-7 h-7 text-white"/>
     },
 ];
@@ -39,6 +39,7 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
 
     const arr = pathname.split("/");
     arr.shift(); // First element is empty string
+    arr.shift();
 
     if (arr[0] === "spaces") {
         if (arr[1] && arr[1] !== "invited") {
@@ -46,17 +47,17 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
                 return [
                     {
                         title: "Dashboard",
-                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}`,
+                        path: `/app/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}`,
                         search: false,
                     },
                     {
                         title: "Questions",
-                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/questions`,
+                        path: `/app/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/questions`,
                         search: false,
                     },
                     {
                         title: "settings",
-                        path: `/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/settings`,
+                        path: `/app/${arr[0]}/${arr[1]}/${arr[2]}/${arr[3]}/settings`,
                         search: false,
                     },
                 ];
@@ -69,7 +70,7 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
                 },
                 {
                     title: "Questionnaires",
-                    path: `/${arr[0]}/${arr[1]}/questionnaires`,
+                    path: `/app/${arr[0]}/${arr[1]}/questionnaires`,
                     search: true,
                 }
             ];
@@ -77,12 +78,12 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
         return [
             {
                 title: "Your spaces",
-                path: `/${arr[0]}`,
+                path: `/app/${arr[0]}`,
                 search: true,
             },
             {
                 title: "Invited spaces",
-                path: `/${arr[0]}/invited`,
+                path: `/app/${arr[0]}/invited`,
                 search: true,
             }
         ];

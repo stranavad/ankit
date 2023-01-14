@@ -44,7 +44,7 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                     <div className="table-row" key={space.id}>
                         <div
                             className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500 font-medium">
-                            <Link href={`/spaces/${space.id}`}
+                            <Link href={`/app/spaces/${space.id}`}
                                   className="block w-full cursor-pointer">{space.name}</Link>
                         </div>
                         <div
