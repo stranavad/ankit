@@ -128,14 +128,17 @@ const Options = ({
                 >
                     {items.map((option, index) => <OptionComponent key={option.id}
                                                                    option={option}
+                                                                   disabled={updateOptionsDisabled}
                                                                    updateValue={(value) => updateOptionValue(value, index, option.id)}
                                                                    remove={() => removeOption(index, option.id)}/>)}
                 </SortableContext>
             </DndContext>
-            <div className="flex items-center my-2 w-full ">
-                <ChevronUpDownIcon className="w-6 h-6 text-gray-300"/>
-                <input className="mx-2 bg-transparent" placeholder="Add new" onFocus={addOption}/>
-            </div>
+            {!updateOptionsDisabled && (
+                <div className="flex items-center my-2 w-full ">
+                    <ChevronUpDownIcon className="w-6 h-6 text-gray-300"/>
+                    <input className="mx-2 bg-transparent" placeholder="Add new" onFocus={addOption}/>
+                </div>
+            )}
         </div>
     );
 };

@@ -3,11 +3,12 @@ import {useState, ChangeEvent} from "react";
 interface EntityDescriptionProps {
     value: string | null;
     update: (data: string) => void;
+    disabled?: boolean;
 }
 
 let updateTimeout: NodeJS.Timeout;
 
-const EntityDescription = ({value, update}: EntityDescriptionProps) => {
+const EntityDescription = ({value, update, disabled=false}: EntityDescriptionProps) => {
     const [description, setDescription] = useState<string>(value || "");
 
 
@@ -28,6 +29,7 @@ const EntityDescription = ({value, update}: EntityDescriptionProps) => {
                 onChange={updateDescription}
                 id="description"
                 name="description"
+                disabled={disabled}
                 className="block w-full bg-transparent rounded-md max-h-[200px] min-h-[45px] border border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Add description (optional)"/>
         </div>

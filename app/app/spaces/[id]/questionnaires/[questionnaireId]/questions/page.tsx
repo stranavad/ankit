@@ -7,14 +7,16 @@ const QuestionEdit = lazy(() => import("@/components/QuestionEdit"))
 const AddQuestion = lazy(() => import("@/components/AddQuestion"))
 const PublishQuestionnaire = lazy(() => import('@/components/PublishQuestionnaire'));
 
-import {QuestionsWidgetContext} from "@/util/context";
-import {lazy, Suspense} from "react";
+import {MemberContext, QuestionsWidgetContext} from "@/util/context";
+import {lazy, Suspense, useContext} from "react";
 import { QuestionUpdateProperty } from "@/types/question";
 import { Loading } from "./loading";
+import { checkSpacePermission, Permission } from "@/util/permission";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
     const {data, mutate} = useQuestions(questionnaireId);
+    const {member} = useContext(MemberContext);
     const questions = data || [];
 
     const addQuestion = (type: QuestionType, index: number) => {
@@ -77,11 +79,13 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
             <div className="content">
                 <div className="mb-10 flex justify-between items-center">
                     <h2 className="text-2xl font-semibold mr-5">Questions</h2>
-                    <div>
-                        <Suspense>
-                            <PublishQuestionnaire questionnaireId={questionnaireId}/>
-                        </Suspense>
-                    </div>
+                    {checkSpacePermission(Permission.PUBLISH_QUESTIONNAIRE, member.role) && (
+                        <div>
+                            <Suspense>
+                                <PublishQuestionnaire questionnaireId={questionnaireId}/>
+                            </Suspense>
+                        </div>
+                    )}
                 </div>
                 {questions.map((question, index) => (
                     <div style={{width: "100%", maxWidth: "800px"}} key={question.id}>
