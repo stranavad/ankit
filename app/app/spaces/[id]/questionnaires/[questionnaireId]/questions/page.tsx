@@ -5,12 +5,12 @@ import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, useQu
 const Widgets = lazy(() => import("@/components/Widgets"));
 const QuestionEdit = lazy(() => import("@/components/QuestionEdit"))
 const AddQuestion = lazy(() => import("@/components/AddQuestion"))
+const PublishQuestionnaire = lazy(() => import('@/components/PublishQuestionnaire'));
 
 import {QuestionsWidgetContext} from "@/util/context";
 import {lazy, Suspense} from "react";
 import { QuestionUpdateProperty } from "@/types/question";
-import PublishQuestionnaire from "@/components/PublishQuestionnaire";
-import Loading from "./loading";
+import { Loading } from "./loading";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -78,14 +78,18 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                 <div className="mb-10 flex justify-between items-center">
                     <h2 className="text-2xl font-semibold mr-5">Questions</h2>
                     <div>
-                        <PublishQuestionnaire questionnaireId={questionnaireId}/>
+                        <Suspense>
+                            <PublishQuestionnaire questionnaireId={questionnaireId}/>
+                        </Suspense>
                     </div>
                 </div>
                 {questions.map((question, index) => (
-                    <div style={{width: "100%", maxWidth: "800px"}}>
-                        <QuestionEdit question={question}
-                                    cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
-                        <AddQuestion add={(type) => addQuestion(type, index)}/>
+                    <div style={{width: "100%", maxWidth: "800px"}} key={question.id}>
+                        <Suspense fallback={<Loading/>}>
+                            <QuestionEdit question={question}
+                                        cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
+                            <AddQuestion add={(type) => addQuestion(type, index)}/>
+                        </Suspense>
                     </div>
                 ))}
             </div>

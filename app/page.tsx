@@ -1,4 +1,3 @@
-import Link from "next/link";
 import AnkitLogo from "@/public/ankit_logo.png";
 import Image from "next/image";
 

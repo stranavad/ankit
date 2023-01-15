@@ -1,5 +1,5 @@
 "use client";
-import {lazy, Suspense, useContext} from "react";
+import {lazy, useContext} from "react";
 import {DocumentDuplicateIcon, EyeIcon, TrashIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
 import {Question} from "@/types/questionnaire";
 import {QuestionnaireContext} from "@/util/questionnaireContext";
@@ -49,10 +49,8 @@ const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update}: Questio
                 </div>
             </div>
             <EntityDescription value={description} update={updateDescription}/>
-            <Suspense>
-                <QuestionOptions type={question.type} options={question.options} questionId={question.id}
+            <QuestionOptions type={question.type} options={question.options} questionId={question.id}
                                  questionnaireId={questionnaireId}/>
-            </Suspense>
             <div className="mt-5 h-px bg-gray-200 w-full"/>
             <div className="flex justify-between items-center w-full my-2">
                 <span className="text-xs">Last edited: {dayjs(question.updated).format('DD/MM/YYYY H:mm')}</span>    

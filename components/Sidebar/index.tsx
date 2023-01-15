@@ -65,7 +65,7 @@ const getTopMenuItems = (pathname: string | null): MenuItem[] => {
             return [
                 {
                     title: "Dashboard",
-                    path: `/${arr[0]}/${arr[1]}`,
+                    path: `/app/${arr[0]}/${arr[1]}`,
                     search: false,
                 },
                 {
