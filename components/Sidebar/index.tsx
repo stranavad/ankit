@@ -1,7 +1,7 @@
 import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";
-import {ReactElement, useMemo} from "react";
+import {ReactElement} from "react";
 import {usePathname} from "next/navigation";
 import {AdjustmentsVerticalIcon, UsersIcon, HomeIcon, Bars3Icon} from "@heroicons/react/24/outline";
 
@@ -100,7 +100,7 @@ interface SidebarProps {
 const Sidebar = ({children}: SidebarProps) => {
     const pathname = usePathname();
 
-    const topMenuItems = useMemo(() => getTopMenuItems(pathname), [pathname]);
+    const topMenuItems = getTopMenuItems(pathname);
 
     return (
         <div>

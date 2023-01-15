@@ -36,15 +36,14 @@ service.interceptors.response.use((response) => {
     // Do something with response data
     return response;
 }, async (error) => {
-    if (error.response?.status === 403) {
+    if (error.response?.status === 420) {
         document.location = "/";
         Cookies.set("token", "");
     }
     if (error.response?.status === 405) { // FOR 404 pages
         return {data: null};
     }
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+
     return Promise.reject(error);
 });
 export default service;
