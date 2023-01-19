@@ -24,18 +24,18 @@ const Options = ({options, answer, type, setAnswer}: OptionsProps) => {
         optionsToAnswer = [id];
     }
 
-    setAnswer({type, options: optionsToAnswer})
+    setAnswer({options: optionsToAnswer})
   }
 
   return (
     <div className="w-full">
       <div className="w-full">
         {options.map((option) => (
-            <div key={option.optionId} onClick={() => setOption(option.optionId)} className={`text-slate-200 cursor-pointer ${answer.options.includes(option.optionId) ? 'bg-slate-800': 'bg-transparent'} px-4 py-3 hover:bg-slate-800 border-2 border-slate-800 rounded-md my-3 flex justify-between transition-colors duration-100`}>
+            <div key={option.optionId} onClick={() => setOption(option.optionId)} className={`text-slate-800 dark:text-slate-200 cursor-pointer ${answer.options.includes(option.optionId) ? 'bg-slate-200 dark:bg-slate-800': 'bg-transparent'} px-4 py-3 hover:bg-slate-200 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-slate-800 rounded-md my-3 flex justify-between transition-colors duration-100`}>
                 {option.value}
                 <div className="h-4 w-4 px-5">
                   {answer.options.includes(option.optionId) && (
-                    <CheckCircleIcon className="text-slate-200 h-7 w-7"/>
+                    <CheckCircleIcon className="text-slate-800 dark:text-slate-200 h-7 w-7"/>
                   )}
                 </div>
             </div>

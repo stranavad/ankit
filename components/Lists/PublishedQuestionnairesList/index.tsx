@@ -81,7 +81,7 @@ const PublishedQuestionnairesList = ({questionnaireId}: {questionnaireId: number
                                                submitButtonText="Delete"
                                                submit={() => deleteQuestionnaire(questionnaire.id)}
                                                renderItem={openModal => 
-                                                <IconButton icon={TrashIcon} size="medium" color="error" onClick={openModal} className="mr-2"/>
+                                                <IconButton disabled={deleteButtonDisabled} icon={TrashIcon} size="medium" color="error" onClick={openModal} className="mr-2"/>
                                                 }/>
                                                 <IconButton icon={FolderArrowDownIcon} size="medium" color="primary" onClick={() => downloadPublishedQuestionnaire(questionnaire.id)}/>
                         </div>

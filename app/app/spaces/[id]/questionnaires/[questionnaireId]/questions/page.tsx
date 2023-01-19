@@ -19,6 +19,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     const {member} = useContext(MemberContext);
     const questions = data || [];
 
+    // Extract this logic
     const addQuestion = (type: QuestionType, index: number) => {
         // Generating nextId and previousId
         let nextId: number | null = null;
@@ -74,6 +75,8 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         }, {revalidate: false, optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({...question, [data[0]]: data[1]}) : question)});
     }
 
+    const addQuestionDisabled = !checkSpacePermission(Permission.ADD_QUESTION, member.role);
+
     return (
         <>
             <div className="content">
@@ -92,7 +95,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                         <Suspense fallback={<Loading/>}>
                             <QuestionEdit question={question}
                                         cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
-                            <AddQuestion add={(type) => addQuestion(type, index)}/>
+                            <AddQuestion add={(type) => addQuestion(type, index)} disabled={addQuestionDisabled}/>
                         </Suspense>
                     </div>
                 ))}

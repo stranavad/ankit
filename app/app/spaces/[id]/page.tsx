@@ -20,6 +20,7 @@ import MembersList from "@/components/Lists/MembersList";
 import {updateMemberRole} from "@/routes/member";
 import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
+import { checkSpacePermission, Permission } from "@/util/permission";
 
 interface Props {
     params: {
@@ -96,19 +97,23 @@ const SpacePage = ({params: {id}}: Props) => {
         }, {revalidate: false});
     };
 
+    const updateSpaceDisabled = !checkSpacePermission(Permission.UPDATE_SPACE, currentMember.role);
     const leaveButtonDisabled = currentMember.role === RoleType.OWNER;
     const deleteButtonDisabled = currentMember.role !== RoleType.OWNER;
+    const addMemberDisabled = !checkSpacePermission(Permission.ADD_MEMBER, currentMember.role);
 
     return (
         <div className="content">
             <div className="bg-white p-5 rounded-md">
-                <EntityName value={space.name} update={updateName}/>
-                <EntityDescription value={space.description} update={updateDescription}/>
+                <EntityName value={space.name} update={updateName} disabled={updateSpaceDisabled}/>
+                <EntityDescription value={space.description} update={updateDescription} disabled={updateSpaceDisabled}/>
 
                 {/* MEMBERS */}
                 <div className="mt-10 mb-5 flex items-center justify-between">
                     <h2 className="text-lg font-medium mr-5">Members</h2>
-                    <MemberSearch addUser={addUser}/>
+                    {!addMemberDisabled && (
+                        <MemberSearch addUser={addUser}/>
+                    )}
                 </div>
                 {/*<div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>*/}
                 <MembersList members={space.members} removeMember={removeMember} updateRole={updateRole}/>

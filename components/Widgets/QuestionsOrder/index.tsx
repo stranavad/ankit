@@ -21,6 +21,9 @@ import {QuestionnaireContext} from "@/util/questionnaireContext";
 import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
 import {updateQuestionPosition} from "@/routes/question";
 import {Dialog} from "@headlessui/react";
+import { SpaceContext } from "@/util/spaceContext";
+import { checkSpacePermission, Permission } from "@/util/permission";
+import { MemberContext } from "@/util/memberContext";
 
 export interface SimpleQuestion {
     id: number;
@@ -65,6 +68,9 @@ const QuestionsOrder = () => {
         }
     };
 
+    const {member} = useContext(MemberContext);
+    const disabled = !checkSpacePermission(Permission.UPDATE_QUESTION_OPTION, member.role);
+
     return (
         <div>
             <div>
@@ -80,6 +86,7 @@ const QuestionsOrder = () => {
                     <SortableContext
                         items={questions}
                         strategy={verticalListSortingStrategy}
+                        disabled={disabled}
                     >
                         {questions.map((question) => (
                             <Question key={question.id} question={question}/>

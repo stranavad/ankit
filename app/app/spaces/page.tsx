@@ -11,7 +11,7 @@ const CreateSpaceForm = lazy(() => import("@/components/Modals/CreateSpace"))
 
 const Spaces = () => {
     const {data, mutate} = useSpaces();
-    const spaces = data || [];
+    const spaces = data?.filter(({accepted}) => accepted) || [];
 
     const [createSpaceModal, setCreateSpaceModal] = useState<boolean>(false);
 

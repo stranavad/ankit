@@ -1,21 +1,24 @@
-import {ApplicationQuestionnaire} from "@/types/questionnaire";
+import {ApplicationQuestionnaire, Status} from "@/types/questionnaire";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import Link from "next/link";
 import {SpaceContext} from "@/util/spaceContext";
 import {useContext} from "react";
-import {TrashIcon} from "@heroicons/react/24/outline";
+import {TrashIcon, ShareIcon} from "@heroicons/react/24/outline";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import StatusPicker from "@/components/Pickers/StatusPicker";
 import IconButton from "@/components/Button/IconButton";
+import { copyQuestionnaireLink } from "@/util/questionnaire";
 
 interface QuestionnairesListProps {
     questionnaires: ApplicationQuestionnaire[];
     removeQuestionnaire: (id: number) => void;
+    updateStatus: (status: Status, id: number) => void;
 }
 
-const QuestionnairesList = ({questionnaires, removeQuestionnaire}: QuestionnairesListProps) => {
+const QuestionnairesList = ({questionnaires, removeQuestionnaire, updateStatus}: QuestionnairesListProps) => {
     const {space} = useContext(SpaceContext);
     const deleteButtonDisabled = !checkSpacePermission(Permission.DELETE_QUESTIONNAIRE, space.role);
+    const updateStatusDisabled = !checkSpacePermission(Permission.UPDATE_QUESTIONNAIRE_STATUS, space.role);
 
     return (
         <div className="table border-collapse table-auto w-full text-sm mt-5">
@@ -42,10 +45,11 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire}: Questionnaire
                         </div>
                         <div
                             className="table-cell border-b border-slate-100 p-4 text-slate-500 ">
-                            <StatusPicker status={questionnaire.status}/>
+                            <StatusPicker status={questionnaire.status} disabled={updateStatusDisabled} updateStatus={(status) => updateStatus(status, questionnaire.id)}/>
                         </div>
                         <div
                             className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500 align-middle">
+                            <IconButton className="mr-3" icon={ShareIcon} color="primary" size="medium" onClick={() => copyQuestionnaireLink(questionnaire)}/>
                             <ConfirmationModal title="Do you really want to delete this questionnaire?"
                                                description="This action is irreversible and you will loose all your data"
                                                submitButtonText="Delete"

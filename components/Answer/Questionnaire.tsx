@@ -1,7 +1,6 @@
 "use client";
-import { getQuestionnaire } from "@/routes/answer";
-import { Answer, AnswerEvent, AnswerQuestion, AnswerQuestionnaire, QuestionWithAnswer } from "@/types/answer";
-import { QuestionType } from "@/types/questionnaire";
+import { answerQuestionnaire, getQuestionnaire } from "@/routes/answer";
+import { AnswerEvent, AnswerQuestion, AnswerQuestionnaire, QuestionWithAnswer } from "@/types/answer";
 import { useEffect, useState } from "react";
 import PasswordProtection from "./PasswordProtected";
 import Question from "./Question";
@@ -39,13 +38,10 @@ const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnairePr
 
     const setAnswer = (e: AnswerEvent, index: number) => {
         const newQuestions = questions;
-        if(e.type === QuestionType.TEXT){
-            newQuestions[index].answer.value = e.value;
-        } else if (e.type === QuestionType.MULTI_SELECT || e.type === QuestionType.SELECT){
-            newQuestions[index].answer.options = e.options;
-        }
+        newQuestions[index].answer = {...newQuestions[index].answer, ...e}
         setQuestions([...newQuestions]);
     }
+
 
     if(passwordProtected){
         return <PasswordProtection unlock={unlockQuestionnaire}/>
@@ -55,12 +51,22 @@ const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnairePr
         return null;
     }
 
+    const answer = () => {
+        const data = {
+            questionnaireId: questionnaire.questionnaireId,
+            publishedQuestionnaireId: questionnaire.id,
+            answers: questions.map((question) => ({questionId: question.question.questionId, value: question.answer.value, options: question.answer.options}))
+        }
+        answerQuestionnaire(hash, data);
+    }
+
     return (
         <div className="max-w-xl w-full">
         <QuestionnaireInfo questionnaire={questionnaire}/>
                 {questions.map((question, index) => (
                     <Question bundle={question} key={index} setAnswer={(e) => setAnswer(e, index)}/>
                 ))}
+                <button onClick={answer}>ANSWER</button>
         </div>
     )
 }

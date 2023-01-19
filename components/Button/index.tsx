@@ -74,6 +74,7 @@ export const Button = ({
     return (
         <button
             onClick={onClick}
+            disabled={disabled}
             className={`bg-white font-semibold rounded-md border focus:outline-none focus:ring-2 focus:ring-opacity-75 ${colorType} ${className}`}>
             {children}
         </button>

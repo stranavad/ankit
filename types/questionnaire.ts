@@ -8,6 +8,8 @@ export enum Status {
     PAUSED = "PAUSED",
 }
 
+export const statuses: Status[] = [Status.ACTIVE, Status.PAUSED];
+
 export enum QuestionType {
     SELECT = "SELECT",
     MULTI_SELECT = "MULTI_SELECT",

@@ -3,7 +3,13 @@ import {QuestionType} from "@/types/questionnaire";
 import {Menu, Transition} from "@headlessui/react";
 import {PencilSquareIcon, PlusIcon, CheckCircleIcon, ListBulletIcon} from "@heroicons/react/24/outline";
 
-const AddQuestion = ({add}: { add: (type: QuestionType) => void }) => {
+
+interface AddQuestionProps {
+    add: (type: QuestionType) => void;
+    disabled?: boolean;
+}
+
+const AddQuestion = ({add, disabled=false}: AddQuestionProps) => {
 
     const onSelect = (type: QuestionType) => {
         add(type);
@@ -32,7 +38,8 @@ const AddQuestion = ({add}: { add: (type: QuestionType) => void }) => {
             <Menu as="div" className="relative inline-block text-left">
                 <div>
                     <Menu.Button
-                        className="inline-flex text-sm p-1 rounded-full hover:text-white hover:bg-indigo-500 bg-white transition-colors duration-100">
+                        disabled={disabled}
+                        className={`${disabled ? 'cursor-not-allowed': 'cursor-pointer hover:text-white hover:bg-indigo-500'} inline-flex text-sm p-1 rounded-full bg-white transition-colors duration-100`}>
                         <PlusIcon className="h-6 w-6"/>
                     </Menu.Button>
                 </div>
