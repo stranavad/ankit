@@ -8,6 +8,7 @@ import {checkSpacePermission, Permission} from "@/util/permission";
 import StatusPicker from "@/components/Pickers/StatusPicker";
 import IconButton from "@/components/Button/IconButton";
 import { copyQuestionnaireLink } from "@/util/questionnaire";
+import { getQuestionnaireLink } from "@/util/url";
 
 interface QuestionnairesListProps {
     questionnaires: ApplicationQuestionnaire[];
@@ -40,7 +41,7 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire, updateStatus}:
                     <div className="table-row" key={questionnaire.id}>
                         <div
                             className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500 font-medium">
-                            <Link href={`/app/spaces/${space.id}/questionnaires/${questionnaire.id}`}
+                            <Link href={getQuestionnaireLink(space.id, questionnaire.id)}
                                   className="block w-full cursor-pointer">{questionnaire.name}</Link>
                         </div>
                         <div

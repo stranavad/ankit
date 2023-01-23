@@ -16,6 +16,7 @@ import Button from "@/components/Button";
 import QuestionnaireSecurity from "@/components/QuestionnaireSecurity";
 import { checkSpacePermission, Permission } from "@/util/permission";
 import { MemberContext } from "@/util/memberContext";
+import { getSpaceLink } from "@/util/url";
 
 const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"))
 const PublishedQuestionnairesList = lazy(() => import("@/components/Lists/PublishedQuestionnairesList"))
@@ -76,7 +77,7 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
     const removeQuestionnaire = async () => {
         const spaceId = questionnaire.spaceId;
         await deleteQuestionnaire(questionnaireId);
-        router.push(`/app/spaces/${spaceId}`);
+        router.push(getSpaceLink(spaceId));
     };
 
     const updateNameDisabled = !checkSpacePermission(Permission.UPDATE_QUESTIONNAIRE_NAME, member.role);

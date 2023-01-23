@@ -5,6 +5,7 @@ import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
 import IconButton from "@/components/Button/IconButton";
+import { getSpaceLink } from "@/util/url";
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];
@@ -44,7 +45,7 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                     <div className="table-row" key={space.id}>
                         <div
                             className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500 font-medium">
-                            <Link href={`/app/spaces/${space.id}`}
+                            <Link href={getSpaceLink(space.id)}
                                   className="block w-full cursor-pointer">{space.name}</Link>
                         </div>
                         <div

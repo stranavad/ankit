@@ -1,16 +1,19 @@
-import {ReactElement, useEffect, useState} from "react";
+"use client";
+import {ReactElement, useContext, useEffect, useState} from "react";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
 import {getCurrentSpace} from "@/routes/space";
 import {defaultMember, defaultSpace, MemberContext, SpaceContext} from "@/util/context";
+import { TopBarContext } from "@/util/topBarContext";
+import { getSpaceLink } from "@/util/url";
 
 interface CurrentSpaceProviderProps {
     children: ReactElement;
     spaceId: number;
 }
 
-
 const CurrentSpaceProvider = ({children, spaceId}: CurrentSpaceProviderProps) => {
+    const {setSpace: setTopBarSpace, setQuestionnaire: setTopBarQuestionnaire} = useContext(TopBarContext);
     const [space, setSpace] = useState<ApplicationSpace>(defaultSpace);
     const [member, setMember] = useState<ApplicationMember>(defaultMember);
 
@@ -20,7 +23,11 @@ const CurrentSpaceProvider = ({children, spaceId}: CurrentSpaceProviderProps) =>
         spaceId && getCurrentSpace(spaceId)
             .then((response) => {
                 if (response?.data) {
-                    setSpace(response.data.space);
+                    const spaceData = response.data.space;
+
+                    setTopBarSpace({title: spaceData.name, path: getSpaceLink(spaceData.id)});
+                    setTopBarQuestionnaire(null);
+                    setSpace(spaceData);
                     setMember(response.data.member);
                 }
             });

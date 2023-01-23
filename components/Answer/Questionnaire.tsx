@@ -66,7 +66,9 @@ const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnairePr
                 {questions.map((question, index) => (
                     <Question bundle={question} key={index} setAnswer={(e) => setAnswer(e, index)}/>
                 ))}
-                <button onClick={answer}>ANSWER</button>
+                <div className="w-full flex justify-end">
+                    <button className="bg-slate-500 text-slate-200 p-2 rounded-md font-medium" onClick={answer}>Complete</button>
+                </div>
         </div>
     )
 }
