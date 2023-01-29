@@ -86,6 +86,9 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
 
     return (
         <div className="content">
+            <div className="mb-10 flex justify-between items-center">
+                <h2 className="text-2xl font-semibold mr-5">Settings</h2>
+            </div>
             <div className="bg-white p-5 rounded-md">
                 <EntityName value={questionnaire.name}
                                    update={updateName} disabled={updateNameDisabled}/>

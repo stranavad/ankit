@@ -5,14 +5,18 @@ import { Fragment, useState } from "react";
 import Button from "../Button";
 
 
-const PublishQuestionnaire = ({questionnaireId}: {questionnaireId: number}) => {
+const PublishQuestionnaire = ({questionnaireId, callback}: {questionnaireId: number, callback?: () => void}) => {
     const [name, setName] = useState("Today's backup");
     const [canPublish, setCanPublish] = useState<boolean>(false);
     const [lastPublish, setLastPublish] = useState<Date | null>(null)
 
     const publish = () => {
         setCanPublish(false);
-        publishQuestionnaire(questionnaireId, {name});
+        publishQuestionnaire(questionnaireId, {name}).then(() => {
+            if(callback){
+                callback();
+            }
+        });
     }
 
     const fetchStatus = () => {

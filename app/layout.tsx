@@ -9,6 +9,7 @@ const inter = Inter({
 export default function RootLayout(props: any) {
     return (
         <html lang="en" className={inter.className}>
+            
         <head>
             <title>ANKIT</title>
         </head>

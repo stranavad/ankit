@@ -104,6 +104,9 @@ const SpacePage = ({params: {id}}: Props) => {
 
     return (
         <div className="content">
+            <div className="mb-10 flex justify-between items-center">
+                <h2 className="text-2xl font-semibold mr-5">Space dashboard</h2>
+            </div>
             <div className="bg-white p-5 rounded-md">
                 <EntityName value={space.name} update={updateName} disabled={updateSpaceDisabled}/>
                 <EntityDescription value={space.description} update={updateDescription} disabled={updateSpaceDisabled}/>

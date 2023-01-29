@@ -11,12 +11,13 @@ const path = require("path");
 const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
-		appDir: true
+		appDir: true,
 	},
 	swcMinify: true,
 	images: {
 		domains: ["lh3.googleusercontent.com"]
-	}
+	},
+	// transpilePackages: ['d3-time-format'],
 };
 
 module.exports = nextConfig;

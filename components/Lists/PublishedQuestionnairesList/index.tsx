@@ -1,5 +1,6 @@
 import IconButton from "@/components/Button/IconButton";
 import ConfirmationModal from "@/components/Modals/ConfirmationModal";
+import PublishQuestionnaire from "@/components/PublishQuestionnaire";
 import { deletePublishedQuestionnaire, getPublishedQuestionnaire, updatePublishedQuestionnaire, usePublishedQuestionnaires } from "@/routes/publish";
 import { MemberContext } from "@/util/memberContext";
 import { checkSpacePermission, Permission } from "@/util/permission";
@@ -44,7 +45,10 @@ const PublishedQuestionnairesList = ({questionnaireId}: {questionnaireId: number
 
     return (
         <>
-            <h2 className="mt-10 text-lg font-medium">Published Versions</h2>
+            <div className="w-full flex justify-between mt-10">
+                <h2 className="text-lg font-medium">Published Versions</h2>
+                <PublishQuestionnaire questionnaireId={questionnaireId} callback={mutate}/>
+            </div>
             <div className="table border-collapse table-auto w-full text-sm mt-5">
                 <div className="table-header-group">
                     <div className="table-row">

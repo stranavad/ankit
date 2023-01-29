@@ -21,6 +21,7 @@
     "@next/font": "canary",
     "@tailwindcss/forms": "^0.5.3",
     "axios": "1.2.1",
+    "chart.js": "^4.2.0",
     "dayjs": "^1.11.7",
     "eslint-config-next": "canary",
     "js-cookie": "^3.0.1",
@@ -29,9 +30,10 @@
     "next-auth": "latest",
     "prettier": "^2.8.1",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "sharp": "0.31.2",
-    "swr": "^2.0.1"
+    "swr": "latest"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "latest",
