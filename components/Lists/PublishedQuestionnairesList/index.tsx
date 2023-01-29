@@ -81,7 +81,7 @@ const PublishedQuestionnairesList = ({questionnaireId}: {questionnaireId: number
                             <div
                             className="table-cell border-b border-slate-100  p-4 pr-2 text-slate-500">
                             <ConfirmationModal title="Do you really want to delete this question?"
-                                               description={`This action is irreversible and you will loose this backup for eternity`}
+                                               description={`This action is irreversible and you will loose this backup for eternity. People that may be answering to this version will be forced refresh their page after submit if questions are not compatible`}
                                                submitButtonText="Delete"
                                                submit={() => deleteQuestionnaire(questionnaire.id)}
                                                renderItem={openModal => 

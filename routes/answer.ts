@@ -1,5 +1,4 @@
 import { AnswerQuestionnaire } from "@/types/answer";
-import { request } from "http";
 
 export const getQuestionnaire = async (hash: string, password?: string): Promise<AnswerQuestionnaire | boolean> => {
     const body = JSON.stringify({password: password || ""});

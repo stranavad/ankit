@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 
 const SpacesList = lazy(() => import("@/components/Lists/SpacesList"));
 const Modal = lazy(() => import("@/components/base/Modal"));
-const CreateSpaceForm = lazy(() => import("@/components/Modals/CreateSpace"))
+const CreateSpaceForm = lazy(() => import("@/components/Modals/CreateSpace"));
 
 
 const Spaces = () => {

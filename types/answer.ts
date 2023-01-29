@@ -1,4 +1,3 @@
-import { type } from "os";
 import { QuestionType, Structure } from "./questionnaire";
 
 export interface AnswerQuestionnaire {
@@ -33,8 +32,6 @@ export interface Answer {
 }
 
 export type AnswerEvent = {value?: string, options?: number[]};
-// export type AnswerEvent = {type: QuestionType.TEXT, value: string} | {type: QuestionType.SELECT | QuestionType.MULTI_SELECT, options: number[]}
-
 
 export interface QuestionWithAnswer {
     question: AnswerQuestion;
