@@ -48,6 +48,7 @@ export interface UpdateQuestionnaireData {
     allowReturn?: boolean;
     passwordProtected?: boolean;
     password?: string | null;
+    url?: string;
 }
 
 /* UPDATE QUESTIONNAIRE */
@@ -66,4 +67,13 @@ export const deleteQuestionnaire = (id: number): AxiosPromise<boolean> => {
         method: "delete"
     });
 };
+
+/* CHECK QUESTIONNAIRE URL */
+export const checkQuestionnaireUrl = (url: string): AxiosPromise<boolean> => {
+    return request({
+        url:`/check/questionnaire-url`,
+        method: 'get',
+        params: {url}
+    })
+}
 

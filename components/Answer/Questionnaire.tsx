@@ -57,7 +57,7 @@ const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnairePr
             publishedQuestionnaireId: questionnaire.id,
             answers: questions.map((question) => ({questionId: question.question.questionId, value: question.answer.value, options: question.answer.options}))
         }
-        answerQuestionnaire(hash, data);
+        answerQuestionnaire(questionnaire.questionnaireId, data);
     }
 
     return (

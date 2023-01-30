@@ -60,7 +60,7 @@ const PublishQuestionnaire = ({questionnaireId, callback}: {questionnaireId: num
                 </Popover.Panel>
             </Transition>
         </Popover>
-      )
+    )
 }
 
 export default PublishQuestionnaire;

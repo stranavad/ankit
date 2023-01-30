@@ -17,6 +17,7 @@ import QuestionnaireSecurity from "@/components/QuestionnaireSecurity";
 import { checkSpacePermission, Permission } from "@/util/permission";
 import { MemberContext } from "@/util/memberContext";
 import { getSpaceLink } from "@/util/url";
+import SharingCentre from "@/components/Sharing";
 
 const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"))
 const PublishedQuestionnairesList = lazy(() => import("@/components/Lists/PublishedQuestionnairesList"))
@@ -80,6 +81,10 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
         router.push(getSpaceLink(spaceId));
     };
 
+    const updateUrl = (url: string) => {
+        mutate(() => updateFunction({url}), {revalidate: false, optimisticData: ({...questionnaire, url})})
+    }
+
     const updateNameDisabled = !checkSpacePermission(Permission.UPDATE_QUESTIONNAIRE_NAME, member.role);
     const updateDisabled = !checkSpacePermission(Permission.UPDATE_QUESTIONNAIRE, member.role);
     const deleteDisabled = !checkSpacePermission(Permission.DELETE_QUESTIONNAIRE, member.role);
@@ -99,6 +104,8 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
                 <EntityDescription disabled={updateNameDisabled} value={questionnaire.description || ""} update={updateDescription}/>
 
                 {/* SETTINGS*/}
+                <SharingCentre questionnaire={questionnaire} updateUrl={updateUrl}/>
+
                 <h2 className="mt-10 text-lg font-medium">Settings</h2>
                 <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
                 <div className="flex items-center my-2">
