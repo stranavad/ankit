@@ -37,8 +37,8 @@ service.interceptors.response.use((response) => {
     return response;
 }, async (error) => {
     if (error.response?.status === 420) {
-        document.location = "/";
-        Cookies.set("token", "");
+        // document.location = "/";
+        // Cookies.set("token", "");
     }
     if (error.response?.status === 405) { // FOR 404 pages
         return {data: null};

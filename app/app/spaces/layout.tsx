@@ -4,7 +4,7 @@ import Sidebar from "@/components/Sidebar";
 
 const SpaceLayout = ({children}: { children: ReactNode }) => {
     return (
-        <Sidebar items={[]}>
+        <Sidebar>
             <>
                 {children}
             </>

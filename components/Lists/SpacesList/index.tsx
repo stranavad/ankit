@@ -6,12 +6,34 @@ import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
 import IconButton from "@/components/Button/IconButton";
 import { getSpaceLink } from "@/util/url";
+import TableHeader, { TableHeaderItem } from "../Utils/Header";
+import Table from "../Utils/Table";
+import TableContent from "../Utils/Context";
+import TableRow from "../Utils/Row";
+import TableItem from "../Utils/Item";
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];
     removeSpace: (id: number) => void;
     leaveSpace: (id: number) => void;
 }
+
+const headerItems: TableHeaderItem[] = [
+    {
+        text: 'Name',
+    },
+    { 
+        text: 'Username',
+        breakpoint: 'md',
+    },
+    { 
+        text: 'Role',
+        breakpoint: 'sm',
+    },
+    {
+        text: 'Actions'
+    }
+]
 
 const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
     const deleteButtonDisabled = (space: ApplicationSpace) => {
@@ -23,58 +45,39 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
     };
 
     return (
-        <div className="table border-collapse table-auto w-full text-sm mt-5">
-            <div className="table-header-group">
-                <div className="table-row">
-                    <div
-                        className="table-cell border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400  text-left">Name
-                    </div>
-                    <div
-                        className="hidden md:table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Username
-                    </div>
-                    <div
-                        className="hidden sm:table-cell border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Role
-                    </div>
-                    <div
-                        className="table-cell border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Actions
-                    </div>
-                </div>
-            </div>
-            <div className="table-row-group bg-white">
-                {spaces.map((space) => (
-                    <div className="table-row" key={space.id}>
-                        <div
-                            className="table-cell border-b border-slate-100 p-4 pl-8 text-slate-500 font-medium">
+        <Table>
+            <TableHeader items={headerItems}/>
+            <TableContent>
+            {spaces.map((space) => (
+                    <TableRow key={space.id}>
+                        <TableItem className="font-medium">
                             <Link href={getSpaceLink(space.id)}
                                   className="block w-full cursor-pointer">{space.name}</Link>
-                        </div>
-                        <div
-                            className="hidden md:table-cell border-b border-slate-100 p-4 text-slate-500 ">
+                        </TableItem>
+                        <TableItem md>
                             {space.username}
-                        </div>
-                        <div
-                            className="hidden sm:table-cell border-b border-slate-100 p-4 text-slate-500 ">
+                        </TableItem>
+                        <TableItem sm>
                             {space.role}
-                        </div>
-                        <div
-                            className="table-cell border-b border-slate-100  p-4 pr-8 text-slate-500">
+                        </TableItem>
+                        <TableItem>
                             <ConfirmationModal title="Do you really want to delete this space?"
-                                               description="This action is irreversible and you will loose all your data"
-                                               submitButtonText="Delete"
-                                               submit={() => removeSpace(space.id)}
-                                               renderItem={openModal => 
-                                               <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={openModal} disabled={deleteButtonDisabled(space)}/>}/>
+                                description="This action is irreversible and you will loose all your data"
+                                submitButtonText="Delete"
+                                submit={() => removeSpace(space.id)}
+                                renderItem={openModal => 
+                                <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={openModal} disabled={deleteButtonDisabled(space)}/>}/>
                             <ConfirmationModal title="Do you really want to leave this space?"
-                                               description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
-                                               submitButtonText="Leave"
-                                               submit={() => leaveSpace(space.id)}
-                                               renderItem={openModal => 
-                                                <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={openModal} disabled={leaveButtonDisabled(space)}/>}/>
-                        </div>
-                    </div>
+                                description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
+                                submitButtonText="Leave"
+                                submit={() => leaveSpace(space.id)}
+                                renderItem={openModal => 
+                                <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={openModal} disabled={leaveButtonDisabled(space)}/>}/>
+                        </TableItem>
+                    </TableRow>
                 ))}
-            </div>
-        </div>
+            </TableContent>
+        </Table>
     );
 };
 

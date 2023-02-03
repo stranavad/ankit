@@ -13,12 +13,9 @@ import { MemberContext } from "@/util/memberContext";
 import { Status } from "@/types/questionnaire";
 
 const QuestionnairesList = lazy(() => import("@/components/Lists/QuestionnairesList"))
-const Modal = lazy(() => import("@/components/base/Modal"))
-const CreateQuestionnaireModal = lazy(() => import("@/components/CreateQuestionnaire"))
+const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"))
 
 const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => {
-    const [createQuestionnaireModal, setCreateQuestionnaireModal] = useState<boolean>(false);
-
     const {
         data,
         mutate
@@ -52,19 +49,18 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
 
     return (
         <>
-        {!createQuestionnaireDisabled && (
-            <Suspense>
-                <Modal open={createQuestionnaireModal} setOpen={setCreateQuestionnaireModal}>
-                    <CreateQuestionnaireModal store={create} setOpen={setCreateQuestionnaireModal}/>
-                </Modal>
-            </Suspense>
-        )}
             <div className="content">
                 <div className="flex align-center">
                     <h2 className="text-2xl font-bold mr-5">Questionnaires</h2>
                     {!createQuestionnaireDisabled && (
-                        <Button className="text-xs py-0.5 px-2" onClick={() => setCreateQuestionnaireModal(true)}>Create
-                        questionnaire</Button>
+                        <Suspense>
+                            <CreateQuestionnaireModal store={create} withSpace={false}>
+                                {(open) => (
+                                    <Button className="text-xs py-0.5 px-2" onClick={open}>Create
+                                    questionnaire</Button>
+                                )}
+                            </CreateQuestionnaireModal>
+                        </Suspense>
                     )}
                 </div>
                 <Suspense>

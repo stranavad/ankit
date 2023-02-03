@@ -13,7 +13,7 @@ interface SidebarItem {
 const items: SidebarItem[] = [
     {
         title: "Dashboard",
-        path: "/",
+        path: "/app/dashboard",
         icon: <HomeIcon className="w-7 h-7 text-white"/>
     },
     {
@@ -24,7 +24,6 @@ const items: SidebarItem[] = [
 ];
 
 interface SidebarProps {
-    items: SidebarItem[];
     children: ReactElement;
 }
 

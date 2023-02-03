@@ -8,7 +8,7 @@ const fetcher = <T, RequestParams extends any = any>(url: string, params?: Reque
     params
 });
 
-export const useRequest = <ResponseType extends any = any, RequestParams extends any = any>(url: string, params?: RequestParams) => {
+export const useRequest = <ResponseType extends any = any, RequestParams extends any = any>(url: string | null, params?: RequestParams) => {
     const {data, error, mutate} = useSWR(url, async (url) => {
         const response = await fetcher<ResponseType>(url, params);
         return response.data;

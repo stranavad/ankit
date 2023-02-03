@@ -10,6 +10,8 @@ export interface ApplicationSpace {
     accepted: boolean;
 }
 
+export type SimplePickerSpace = Pick<ApplicationSpace, 'id' | 'name' | 'personal' | 'role'>;
+
 export interface DetailSpace extends ApplicationSpace {
     description: string,
     members: ApplicationMember[];

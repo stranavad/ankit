@@ -1,3 +1,5 @@
+import { RoleType } from "./role";
+
 export enum Structure {
     LIST = "LIST",
     INDIVIDUAL = "INDIVIDUAL",
@@ -22,6 +24,12 @@ export interface ApplicationQuestionnaire {
     url: string | null;
     status: Status;
     spaceId: number;
+}
+
+export interface DashboardQuestionnaire extends ApplicationQuestionnaire {
+    spaceName: string;
+    role: RoleType;
+    answerCount: number;
 }
 
 export interface DetailQuestionnaire extends ApplicationQuestionnaire {

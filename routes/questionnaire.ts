@@ -1,12 +1,15 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
-import {ApplicationQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
+import {ApplicationQuestionnaire, DashboardQuestionnaire, DetailQuestionnaire, Status, Structure} from "@/types/questionnaire";
 import {ApplicationSpace} from "@/types/space";
 import {ApplicationMember} from "@/types/member";
 import {useRequest} from "@/routes";
 
 /* GET QUESTIONNAIRES */
 export const useQuestionnaires = (spaceId: number) => useRequest<ApplicationQuestionnaire[]>(`/questionnaire/space/${spaceId}`);
+
+/* GET DASHBOARD QUESTIONNAIRES */
+export const useDashboardQuestionnaires = () => useRequest<DashboardQuestionnaire[]>(`/questionnaire/dashboard`);
 
 /* CREATE QUESTIONNAIRE */
 export interface CreateQuestionnaireData {

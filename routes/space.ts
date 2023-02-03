@@ -1,6 +1,6 @@
 import request from "@/util/request";
 import {AxiosPromise} from "axios";
-import {ApplicationSpace, DetailSpace} from "@/types/space";
+import {ApplicationSpace, DetailSpace, SimplePickerSpace} from "@/types/space";
 import {RoleType} from "@/types/role";
 import {ApplicationMember} from "@/types/member";
 import {useRequest} from "@/routes";
@@ -12,6 +12,7 @@ export interface GetSpacesParams {
 }
 
 export const useSpaces = () => useRequest<ApplicationSpace[]>("/spaces");
+export const usePickerSpaces = (shouldFetch: boolean) => useRequest<SimplePickerSpace[]>(shouldFetch ? "/spaces/picker" : null);
 
 export interface CreateSpaceData {
     spaceName: string;
