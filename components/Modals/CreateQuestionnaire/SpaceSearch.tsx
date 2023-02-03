@@ -19,7 +19,7 @@ const SpaceSearch = ({spaces, space, select}: SpaceSearchProps) => {
                 <div
                     className="relative w-full cursor-default  rounded-lg bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
-                        placeholder="Add new member"
+                        placeholder="Create in space"
                         className="w-full border border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-md p-2 pr-10 text-sm leading-5 text-gray-900"
                         onChange={(e) =>  setSearch(e.target.value)}
                         displayValue={(space: SimplePickerSpace | null) => space?.name || ""}
