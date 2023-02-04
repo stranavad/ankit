@@ -9,7 +9,7 @@ export const defaultQuestionnaire: ApplicationQuestionnaire = {
     id: 0,
     name: "",
     status: Status.PAUSED,
-    url: null,
+    url: "",
     spaceId: 0,
 };
 

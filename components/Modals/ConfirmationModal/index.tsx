@@ -3,6 +3,8 @@ import Button from "@/components/Button";
 import {ReactElement, useState} from "react";
 import {Dialog} from "@headlessui/react";
 import Modal from "@/components/base/Modal";
+import ModalActions from "@/components/base/Modal/actions";
+import ModalContent from "@/components/base/Modal/content";
 
 interface ConfirmationModalProps {
     title: string;
@@ -29,7 +31,7 @@ const ConfirmationModal = ({
         <>
             {renderItem(() => setOpen(true))}
             <Modal open={open} setOpen={setOpen}>
-                <div className="bg-white px-2 pt-3 pb-2 sm:p-6 sm:pb-4">
+                <ModalContent>
                     <div className="sm:flex sm:items-start">
                         <div
                             className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -45,8 +47,8 @@ const ConfirmationModal = ({
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                </ModalContent>
+                <ModalActions>
                     <Button
                         type="error"
                         className="inline-flex w-full sm:ml-3 sm:w-auto justify-center  mb-2 py-1 px-3"
@@ -59,7 +61,7 @@ const ConfirmationModal = ({
                             onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
-                </div>
+                </ModalActions>
             </Modal>
         </>
     );

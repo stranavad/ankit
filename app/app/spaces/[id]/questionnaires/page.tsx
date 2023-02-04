@@ -1,5 +1,5 @@
 "use client";
-import {useState, lazy, Suspense, useContext} from "react";
+import {lazy, Suspense, useContext} from "react";
 import {
     createQuestionnaire,
     CreateQuestionnaireData,
@@ -8,12 +8,13 @@ import {
     useQuestionnaires
 } from "@/routes/questionnaire";
 import Button from "@/components/Button";
-import { checkSpacePermission, Permission } from "@/util/permission";
-import { MemberContext } from "@/util/memberContext";
-import { Status } from "@/types/questionnaire";
+import {checkSpacePermission, Permission} from "@/util/permission";
+import {MemberContext} from "@/util/memberContext";
+import {Status} from "@/types/questionnaire";
+import PageHeader from "@/components/Utils/PageHeader";
 
-const QuestionnairesList = lazy(() => import("@/components/Lists/QuestionnairesList"))
-const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"))
+const QuestionnairesList = lazy(() => import("@/components/Lists/QuestionnairesList"));
+const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"));
 
 const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => {
     const {
@@ -36,13 +37,18 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
     };
 
     const updateQuestionnaireStatus = (status: Status, id: number) => {
-        mutate(async(questionnaires) => {
+        mutate(async (questionnaires) => {
             const updatedQuestionnaire = (await updateQuestionnaire({status}, id)).data;
 
             return questionnaires?.map((questionnaire) => questionnaire.id === id ? updatedQuestionnaire : questionnaire);
-        }, {revalidate: false,
-        optimisticData: questionnaires.map((questionnaire) => questionnaire.id === id ? {...questionnaire, status} : questionnaire)})
-    }
+        }, {
+            revalidate: false,
+            optimisticData: questionnaires.map((questionnaire) => questionnaire.id === id ? {
+                ...questionnaire,
+                status
+            } : questionnaire)
+        });
+    };
 
     const {member} = useContext(MemberContext);
     const createQuestionnaireDisabled = !checkSpacePermission(Permission.CREATE_QUESTIONNAIRE, member.role);
@@ -50,21 +56,21 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
     return (
         <>
             <div className="content">
-                <div className="flex align-center">
-                    <h2 className="text-2xl font-bold mr-5">Questionnaires</h2>
+                <PageHeader title="Questionnaires">
                     {!createQuestionnaireDisabled && (
                         <Suspense>
                             <CreateQuestionnaireModal store={create} withSpace={false}>
                                 {(open) => (
-                                    <Button className="text-xs py-0.5 px-2" onClick={open}>Create
-                                    questionnaire</Button>
+                                    <Button className="text-sm p-2" onClick={open}>Create
+                                        questionnaire</Button>
                                 )}
                             </CreateQuestionnaireModal>
                         </Suspense>
                     )}
-                </div>
+                </PageHeader>
                 <Suspense>
-                    <QuestionnairesList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire} updateStatus={updateQuestionnaireStatus}/>
+                    <QuestionnairesList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}
+                                        updateStatus={updateQuestionnaireStatus}/>
                 </Suspense>
             </div>
         </>

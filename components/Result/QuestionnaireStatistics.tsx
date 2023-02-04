@@ -1,6 +1,7 @@
-import { QuestionnaireStatistics } from "@/types/result";
-import { Line } from "react-chartjs-2";
-import 'chart.js/auto';
+import {QuestionnaireStatistics} from "@/types/result";
+import {Line} from "react-chartjs-2";
+import "chart.js/auto";
+import PageCard from "@/components/Utils/PageCard";
 
 interface QuestionnaireStatisticsProps {
     data: QuestionnaireStatistics;
@@ -8,11 +9,11 @@ interface QuestionnaireStatisticsProps {
 
 const QuestionnaireStatistics = ({data}: QuestionnaireStatisticsProps) => {
     return (
-        <div className="w-full bg-white p-5 rounded-md mb-10 max-h-[550px] h-full">
+        <PageCard className="mb-10 max-h-[550px] h-full mt-5">
             <h3 className="font-medium text-lg">Statistics</h3>
             <Line data={data}/>
-        </div>
-    )
-} 
+        </PageCard>
+    );
+};
 
 export default QuestionnaireStatistics;

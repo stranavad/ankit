@@ -3,20 +3,23 @@ import {Question, QuestionType} from "@/types/questionnaire";
 import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, useQuestions} from "@/routes/question";
 
 const Widgets = lazy(() => import("@/components/Widgets"));
-const QuestionEdit = lazy(() => import("@/components/QuestionEdit"))
-const AddQuestion = lazy(() => import("@/components/AddQuestion"))
-const PublishQuestionnaire = lazy(() => import('@/components/PublishQuestionnaire'));
+const QuestionEdit = lazy(() => import("@/components/QuestionEdit"));
+const AddQuestion = lazy(() => import("@/components/AddQuestion"));
+const PublishQuestionnaire = lazy(() => import("@/components/PublishQuestionnaire"));
 
-import {MemberContext, QuestionsWidgetContext} from "@/util/context";
+import {MemberContext, QuestionnaireContext, QuestionsWidgetContext} from "@/util/context";
 import {lazy, Suspense, useContext} from "react";
-import { QuestionUpdateProperty } from "@/types/question";
-import { Loading } from "./loading";
-import { checkSpacePermission, Permission } from "@/util/permission";
+import {QuestionUpdateProperty} from "@/types/question";
+import {Loading} from "./loading";
+import {checkSpacePermission, Permission} from "@/util/permission";
+import PageHeader from "@/components/Utils/PageHeader";
+import ShareButton from "@/components/Sharing/ShareButton";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
     const {data, mutate} = useQuestions(questionnaireId);
     const {member} = useContext(MemberContext);
+    const {questionnaire} = useContext(QuestionnaireContext);
     const questions = data || [];
 
     // Extract this logic
@@ -58,47 +61,58 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
     };
 
     const removeQuestion = (questionId: number) => {
-        mutate(async(questions) => {
-            await deleteQuestion(questionnaireId,questionId);
+        mutate(async (questions) => {
+            await deleteQuestion(questionnaireId, questionId);
             return questions?.filter(({id}) => id !== questionId);
-        })
-    }
+        });
+    };
 
-    const update = (index: number, id:number, data: QuestionUpdateProperty) => {
-        mutate(async(questions) => {
+    const update = (index: number, id: number, data: QuestionUpdateProperty) => {
+        mutate(async (questions) => {
             const updatedQuestion = (await updateQuestion(questionnaireId, id, {[data[0]]: data[1]})).data;
 
-            if(!questions){
+            if (!questions) {
                 return questions;
             }
             return questions.map((question, questionIndex) => questionIndex === index ? updatedQuestion : question);
-        }, {revalidate: false, optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({...question, [data[0]]: data[1]}) : question)});
-    }
+        }, {
+            revalidate: false,
+            optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({
+                ...question,
+                [data[0]]: data[1]
+            }) : question)
+        });
+    };
 
     const addQuestionDisabled = !checkSpacePermission(Permission.ADD_QUESTION, member.role);
 
     return (
         <>
             <div className="content">
-                <div className="mb-10 flex justify-between items-center">
-                    <h2 className="text-2xl font-semibold mr-5">Questions</h2>
-                    {checkSpacePermission(Permission.PUBLISH_QUESTIONNAIRE, member.role) && (
-                        <div>
-                            <Suspense>
-                                <PublishQuestionnaire questionnaireId={questionnaireId}/>
+                <PageHeader title="Questions">
+                    <div className="flex gap-3">
+                        <ShareButton questionnaire={questionnaire}/>
+                        {checkSpacePermission(Permission.PUBLISH_QUESTIONNAIRE, member.role) && (
+                            <div>
+                                <Suspense>
+                                    <PublishQuestionnaire questionnaireId={questionnaireId}/>
+                                </Suspense>
+                            </div>
+                        )}
+                    </div>
+                </PageHeader>
+                <div className="mt-5">
+                    {questions.map((question, index) => (
+                        <div style={{width: "100%", maxWidth: "800px"}} key={question.id}>
+                            <Suspense fallback={<Loading/>}>
+                                <QuestionEdit question={question}
+                                              cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion}
+                                              update={(...data) => update(index, ...data)}/>
+                                <AddQuestion add={(type) => addQuestion(type, index)} disabled={addQuestionDisabled}/>
                             </Suspense>
                         </div>
-                    )}
+                    ))}
                 </div>
-                {questions.map((question, index) => (
-                    <div style={{width: "100%", maxWidth: "800px"}} key={question.id}>
-                        <Suspense fallback={<Loading/>}>
-                            <QuestionEdit question={question}
-                                        cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion} update={(...data) => update(index, ...data)}/>
-                            <AddQuestion add={(type) => addQuestion(type, index)} disabled={addQuestionDisabled}/>
-                        </Suspense>
-                    </div>
-                ))}
             </div>
             <QuestionsWidgetContext.Provider value={{questions, setQuestions}}>
                 <Suspense>

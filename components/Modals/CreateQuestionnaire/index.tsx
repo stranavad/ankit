@@ -1,12 +1,13 @@
-import Modal from "@/components/base/Modal"
+import Modal from "@/components/base/Modal";
 import Button from "@/components/Button";
-import { CreateQuestionnaireData } from "@/routes/questionnaire";
-import { usePickerSpaces } from "@/routes/space";
-import { SimplePickerSpace } from "@/types/space";
-import { checkSpacePermission, Permission } from "@/util/permission";
-import { Dialog } from "@headlessui/react";
-import { ReactElement, useEffect, useState } from "react";
+import {CreateQuestionnaireData} from "@/routes/questionnaire";
+import {usePickerSpaces} from "@/routes/space";
+import {SimplePickerSpace} from "@/types/space";
+import {checkSpacePermission, Permission} from "@/util/permission";
+import {ReactElement, useEffect, useState} from "react";
 import SpaceSearch from "./SpaceSearch";
+import ModalContent from "@/components/base/Modal/content";
+import ModalActions from "@/components/base/Modal/actions";
 
 interface CreateQuestionnaireModalProps {
     store: (data: CreateQuestionnaireData, spaceId?: number) => void;
@@ -14,7 +15,7 @@ interface CreateQuestionnaireModalProps {
     withSpace?: boolean;
 }
 
-const CreateQuestionnaireModal = ({store, children, withSpace=false}: CreateQuestionnaireModalProps) => {
+const CreateQuestionnaireModal = ({store, children, withSpace = false}: CreateQuestionnaireModalProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const [name, setName] = useState<string>("New Amazing Questionnaire");
     const [selectedSpace, setSelectedSpace] = useState<SimplePickerSpace | null>(null);
@@ -22,17 +23,17 @@ const CreateQuestionnaireModal = ({store, children, withSpace=false}: CreateQues
     const spaces = (data || []).filter((space) => checkSpacePermission(Permission.CREATE_QUESTIONNAIRE, space.role));
 
     const submit = () => {
-        if(!name || (!selectedSpace && withSpace)){
+        if (!name || (!selectedSpace && withSpace)) {
             return;
         }
 
         setOpen(false);
         store({name}, selectedSpace?.id || undefined);
-    }
+    };
 
     useEffect(() => {
-        setSelectedSpace(data?.find((space) => space.personal) || null)
-    }, [isLoading])
+        setSelectedSpace(data?.find((space) => space.personal) || null);
+    }, [isLoading]);
 
     const createButtonDisabled = !name || (withSpace && !selectedSpace);
 
@@ -41,10 +42,10 @@ const CreateQuestionnaireModal = ({store, children, withSpace=false}: CreateQues
         <>
             {children(() => setOpen(true))}
             <Modal open={open} setOpen={setOpen}>
-                <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <Dialog.Title as="h3" className="text-2xl mb-3 font-semibold">
+                <ModalContent>
+                    <h3 className="text-2xl mb-3 font-semibold">
                         Create Questionnaire
-                    </Dialog.Title>
+                    </h3>
                     <div className="mb-5">
                         <label htmlFor="questionnairename" className="block text-sm font-medium text-gray-700 mb-1">
                             Questionnaire name
@@ -60,13 +61,14 @@ const CreateQuestionnaireModal = ({store, children, withSpace=false}: CreateQues
                         />
                         {data && (
                             <div className="mt-3">
-                                <span className="block text-sm font-medium text-gray-700 mb-1">Questionnaire space</span>
+                                <span
+                                    className="block text-sm font-medium text-gray-700 mb-1">Questionnaire space</span>
                                 <SpaceSearch spaces={spaces} space={selectedSpace} select={setSelectedSpace}/>
                             </div>
                         )}
                     </div>
-                </div>
-                <div className="bg-gray-50 rounded-b-2xl px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                </ModalContent>
+                <ModalActions>
                     <Button
                         type="success"
                         disabled={createButtonDisabled}
@@ -80,10 +82,10 @@ const CreateQuestionnaireModal = ({store, children, withSpace=false}: CreateQues
                             onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
-                </div>
+                </ModalActions>
             </Modal>
         </>
-    )
-}
+    );
+};
 
 export default CreateQuestionnaireModal;

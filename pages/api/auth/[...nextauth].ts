@@ -1,8 +1,6 @@
-import request from "@/util/request";
 import GoogleProvider from "next-auth/providers/google";
 import {login} from "@/routes/auth";
 import NextAuth from "next-auth";
-
 
 export default NextAuth({
     providers: [
@@ -13,17 +11,6 @@ export default NextAuth({
     ],
     pages: {
         signIn: "/",
-    },
-    events: {
-        async createUser(user: { user: { id: any; }; }) {
-            await request({
-                url: "/member",
-                method: "post",
-                data: {
-                    userId: user.user.id,
-                }
-            });
-        },
     },
     callbacks: {
         async signIn({account, user}) {

@@ -10,17 +10,20 @@ import {
     useSpace
 } from "@/routes/space";
 import EntityDescription from "@/components/Inputs/EntityDescription";
-import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import Button from "@/components/Button";
 import {MemberContext} from "@/util/memberContext";
-import {useContext} from "react";
+import {lazy, useContext} from "react";
 import {RoleType} from "@/types/role";
 import {useRouter} from "next/navigation";
-import MembersList from "@/components/Lists/MembersList";
 import {updateMemberRole} from "@/routes/member";
-import MemberSearch from "@/components/MemberSearch";
 import {ApplicationUser} from "@/types/user";
-import { checkSpacePermission, Permission } from "@/util/permission";
+import {checkSpacePermission, Permission} from "@/util/permission";
+import PageHeader from "@/components/Utils/PageHeader";
+import PageCard from "@/components/Utils/PageCard";
+
+const MembersList = lazy(() => import("@/components/Lists/MembersList"));
+const MemberSearch = lazy(() => import("@/components/MemberSearch"));
+const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"));
 
 interface Props {
     params: {
@@ -104,47 +107,53 @@ const SpacePage = ({params: {id}}: Props) => {
 
     return (
         <div className="content">
-            <div className="mb-10 flex justify-between items-center">
-                <h2 className="text-2xl font-semibold mr-5">Space dashboard</h2>
-            </div>
-            <div className="bg-white p-5 rounded-md">
+            <PageHeader title="Space dashboard"/>
+            <PageCard>
                 <EntityName value={space.name} update={updateName} disabled={updateSpaceDisabled}/>
                 <EntityDescription value={space.description} update={updateDescription} disabled={updateSpaceDisabled}/>
 
                 {/* MEMBERS */}
-                <div className="mt-10 mb-5 flex items-center justify-between">
-                    <h2 className="text-lg font-medium mr-5">Members</h2>
-                    {!addMemberDisabled && (
-                        <MemberSearch addUser={addUser}/>
-                    )}
-                </div>
-                {/*<div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>*/}
-                <MembersList members={space.members} removeMember={removeMember} updateRole={updateRole}/>
+                {!space.personal && (
+                    <>
+                        <div className="mt-10 mb-5 flex items-center justify-between">
+                            <h2 className="text-lg font-medium mr-5">Members</h2>
+                            {!addMemberDisabled && (
+                                <MemberSearch addUser={addUser}/>
+                            )}
+                        </div>
+                        <MembersList members={space.members} removeMember={removeMember} updateRole={updateRole}/>
+                    </>
+                )}
                 {/* ADVANCED */}
-                <h2 className="mt-10 text-lg font-medium">Advanced</h2>
-                <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
-                <div className="flex items-center my-3">
-                    <span className="mr-5 text-sm">Leave this space</span>
-                    <ConfirmationModal title={"Do you really want to transfer this questionnaire to another space?"}
-                                       description={"This action is irreversible"}
-                                       submit={leave}
-                                       renderItem={openModal => <Button secondary type="warning"
-                                                                        disabled={leaveButtonDisabled}
-                                                                        className="py-1 px-2 text-xs"
-                                                                        onClick={leaveButtonDisabled ? undefined : openModal}>Leave
-                                       </Button>}/>
-                </div>
-                <div className="flex items-center my-3">
-                    <span className="mr-5 text-sm">Delete this space</span>
-                    <ConfirmationModal title={"Do you really want to delete this space?"}
-                                       description={"This action is irreversible and you will loose all your data"}
-                                       submit={removeSpace}
-                                       renderItem={openModal => <Button secondary type="error"
-                                                                        disabled={deleteButtonDisabled}
-                                                                        className="py-1 px-2 text-xs"
-                                                                        onClick={deleteButtonDisabled ? undefined : openModal}>Delete</Button>}/>
-                </div>
-            </div>
+                {!space.personal && (
+                    <>
+                        <h2 className="mt-10 text-lg font-medium">Advanced</h2>
+                        <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
+                        <div className="flex items-center my-3">
+                            <span className="mr-5 text-sm">Leave this space</span>
+                            <ConfirmationModal
+                                title={"Do you really want to transfer this questionnaire to another space?"}
+                                description={"This action is irreversible"}
+                                submit={leave}
+                                renderItem={openModal => <Button secondary type="warning"
+                                                                 disabled={leaveButtonDisabled}
+                                                                 className="py-1 px-2 text-xs"
+                                                                 onClick={leaveButtonDisabled ? undefined : openModal}>Leave
+                                </Button>}/>
+                        </div>
+                        <div className="flex items-center my-3">
+                            <span className="mr-5 text-sm">Delete this space</span>
+                            <ConfirmationModal title={"Do you really want to delete this space?"}
+                                               description={"This action is irreversible and you will loose all your data"}
+                                               submit={removeSpace}
+                                               renderItem={openModal => <Button secondary type="error"
+                                                                                disabled={deleteButtonDisabled}
+                                                                                className="py-1 px-2 text-xs"
+                                                                                onClick={deleteButtonDisabled ? undefined : openModal}>Delete</Button>}/>
+                        </div>
+                    </>
+                )}
+            </PageCard>
         </div>
     );
 };

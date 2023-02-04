@@ -1,5 +1,3 @@
-import { ApplicationQuestionnaire, DetailQuestionnaire } from "@/types/questionnaire";
-
-export const copyQuestionnaireLink = (questionnaire: ApplicationQuestionnaire | DetailQuestionnaire) => {
+export const copyQuestionnaireLink = (questionnaire: { url: string }) => {
     navigator.clipboard.writeText(`${window.location.origin}/answer/${questionnaire.url}`);
-}
+};

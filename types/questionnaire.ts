@@ -1,4 +1,4 @@
-import { RoleType } from "./role";
+import {RoleType} from "./role";
 
 export enum Structure {
     LIST = "LIST",
@@ -21,7 +21,7 @@ export enum QuestionType {
 export interface ApplicationQuestionnaire {
     id: number;
     name: string;
-    url: string | null;
+    url: string;
     status: Status;
     spaceId: number;
 }

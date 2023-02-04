@@ -1,21 +1,14 @@
 "use client";
-import {ReactNode, useContext, useEffect, useState} from "react";
-import {getCurrentQuestionnaire} from "@/routes/questionnaire";
-import {ApplicationMember} from "@/types/member";
+import {ReactNode, useContext, useEffect} from "react";
+import {useQuestionnaire} from "@/routes/questionnaire";
 import {
-    defaultMember,
     defaultQuestionnaire,
-    defaultSpace,
-    MemberContext,
     QuestionnaireContext,
-    SpaceContext
 } from "@/util/context";
-import {ApplicationSpace} from "@/types/space";
-import {ApplicationQuestionnaire} from "@/types/questionnaire";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import Tabs from "@/components/Navigation/Tabs";
-import { TopBarContext } from "@/util/topBarContext";
-import { getQuestionnaireLink, getSpaceLink } from "@/util/url";
+import {TopBarContext} from "@/util/topBarContext";
+import {getQuestionnaireLink} from "@/util/url";
 
 const routes = [
     {
@@ -35,55 +28,35 @@ const routes = [
 
 const QuestionnaireLayout = ({
     children,
-    params: {questionnaireId}
-}: { children: ReactNode, params: { questionnaireId: number } }) => {
-    const {setSpace: setTopBarSpace, setQuestionnaire: setTopBarQuestionnaire} = useContext(TopBarContext);
-    const [member, setMember] = useState<ApplicationMember>(defaultMember);
-    const [space, setSpace] = useState<ApplicationSpace>(defaultSpace);
-    const [questionnaire, setQuestionnaire] = useState<ApplicationQuestionnaire>(defaultQuestionnaire);
+    params: {questionnaireId, id: spaceIdProp}
+}: { children: ReactNode, params: { questionnaireId: string, id: string } }) => {
+    const id = Number(questionnaireId);
+    const spaceId = Number(spaceIdProp);
+    const {data, isError} = useQuestionnaire(id);
 
+    const {setQuestionnaire: setTopBarQuestionnaire} = useContext(TopBarContext);
     const router = useRouter();
 
-    const fetch = () => {
-        questionnaireId && getCurrentQuestionnaire(questionnaireId)
-            .then((response) => {
-                if (response.data) {
-                    response.data.member && setMember(response.data.member);
-                    
-                    if(response.data.space){
-                        const space = response.data.space;
-                        
-                        setSpace(space);
-                        setTopBarSpace({title: space.name, path: getSpaceLink(space.id)});
+    if (isError) {
+        router.push(`/app/spaces/${spaceId}/questionnaires/not-found`);
+    }
 
-                        if(response.data.questionnaire){
-                            const questionnaire = response.data.questionnaire;
-    
-                            setQuestionnaire(questionnaire);
-                            setTopBarQuestionnaire({title: questionnaire.name, path: getQuestionnaireLink(space.id, questionnaire.id)})
-                        }
-                    }
+    useEffect(() => {
+        if (!data) {
+            return;
+        }
 
-                    
-                    response.data.questionnaire && setQuestionnaire(response.data.questionnaire);
-                } else {
-                    router.push("/questionnaire/not-found");
-                }
-            });
-    };
-
-    useEffect(fetch, [questionnaireId]);
-
+        setTopBarQuestionnaire({
+            title: data.name,
+            path: getQuestionnaireLink(spaceId, data.id)
+        });
+    }, [data?.name, data?.id]);
 
     return (
-        <MemberContext.Provider value={{member}}>
-            <SpaceContext.Provider value={{space}}>
-                <QuestionnaireContext.Provider value={{questionnaire}}>
-                        <Tabs routes={routes}/>
-                        {children}
-                </QuestionnaireContext.Provider>
-            </SpaceContext.Provider>
-        </MemberContext.Provider>
+        <QuestionnaireContext.Provider value={{questionnaire: data || defaultQuestionnaire}}>
+            <Tabs routes={routes}/>
+            {children}
+        </QuestionnaireContext.Provider>
     );
 };
 

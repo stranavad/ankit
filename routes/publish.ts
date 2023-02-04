@@ -1,41 +1,41 @@
-import { PublishedQuestionnaire } from '@/types/publish';
-import request from '@/util/request';
-import { useRequest } from '@/routes';
-import { AxiosPromise } from 'axios';
+import {PublishedQuestionnaire} from "@/types/publish";
+import request from "@/util/request";
+import {useRequest} from "@/routes";
+import {AxiosPromise} from "axios";
 
-const KEYWORD = 'publish';
+const KEYWORD = "publish";
 
 export const usePublishedQuestionnaires = (id: number) => useRequest<PublishedQuestionnaire[]>(`/${KEYWORD}/${id}`);
 
-export const publishQuestionnaire = (questionnaireId: number, data: {name: string}) => {
+export const publishQuestionnaire = (questionnaireId: number, data: { name: string }) => {
     return request({
         url: `/${KEYWORD}/${questionnaireId}`,
-        method: 'post',
+        method: "post",
         data
-    })
-}
+    });
+};
 
-export const updatePublishedQuestionnaire = (questionnaireId: number, publishedId: number, data: {name: string}): AxiosPromise<PublishedQuestionnaire> => {
+export const updatePublishedQuestionnaire = (questionnaireId: number, publishedId: number, data: { name: string }): AxiosPromise<PublishedQuestionnaire> => {
     return request({
         url: `/${KEYWORD}/${questionnaireId}/${publishedId}`,
-        method: 'put',
+        method: "put",
         data
-    })
-}
+    });
+};
 
 export const deletePublishedQuestionnaire = (questionnaireId: number, publishedId: number): AxiosPromise<boolean> => {
     return request({
         url: `/${KEYWORD}/${questionnaireId}/${publishedId}`,
-        method: 'delete',
-    })
-}
+        method: "delete",
+    });
+};
 
 export const getPublishedQuestionnaire = (questionnaireId: number, publishedId: number): AxiosPromise<any> => {
     return request({
         url: `/${KEYWORD}/${questionnaireId}/${publishedId}`,
-        method: 'get',
-    })
-}
+        method: "get",
+    });
+};
 
 interface CheckQuestionnairePublish {
     lastPublished: Date;
@@ -45,6 +45,6 @@ interface CheckQuestionnairePublish {
 export const checkQuestionnairePublish = (questionnaireId: number): AxiosPromise<CheckQuestionnairePublish> => {
     return request({
         url: `/${KEYWORD}/${questionnaireId}/status`,
-        method: 'get'
-    })
-}
+        method: "get"
+    });
+};

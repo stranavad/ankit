@@ -1,11 +1,10 @@
 "use client";
-import {ReactElement, useContext, useEffect, useState} from "react";
-import {ApplicationSpace} from "@/types/space";
-import {ApplicationMember} from "@/types/member";
-import {getCurrentSpace} from "@/routes/space";
+import {ReactElement, useContext, useEffect} from "react";
+import {useCurrentSpace} from "@/routes/space";
 import {defaultMember, defaultSpace, MemberContext, SpaceContext} from "@/util/context";
-import { TopBarContext } from "@/util/topBarContext";
-import { getSpaceLink } from "@/util/url";
+import {TopBarContext} from "@/util/topBarContext";
+import {getSpaceLink} from "@/util/url";
+import {useRouter} from "next/navigation";
 
 interface CurrentSpaceProviderProps {
     children: ReactElement;
@@ -13,30 +12,23 @@ interface CurrentSpaceProviderProps {
 }
 
 const CurrentSpaceProvider = ({children, spaceId}: CurrentSpaceProviderProps) => {
-    const {setSpace: setTopBarSpace, setQuestionnaire: setTopBarQuestionnaire} = useContext(TopBarContext);
-    const [space, setSpace] = useState<ApplicationSpace>(defaultSpace);
-    const [member, setMember] = useState<ApplicationMember>(defaultMember);
+    const {setSpace: setTopBarSpace} = useContext(TopBarContext);
+    const {data, isError} = useCurrentSpace(spaceId);
 
-    let oldSpaceId: null | number = null;
+    const space = data?.space || defaultSpace;
+    const member = data?.member || defaultMember;
 
-    const fetch = () => {
-        spaceId && getCurrentSpace(spaceId)
-            .then((response) => {
-                if (response?.data) {
-                    const spaceData = response.data.space;
+    const router = useRouter();
 
-                    setTopBarSpace({title: spaceData.name, path: getSpaceLink(spaceData.id)});
-                    setTopBarQuestionnaire(null);
-                    setSpace(spaceData);
-                    setMember(response.data.member);
-                }
-            });
-    };
+    if (isError) {
+        router.push("/app/spaces");
+    }
+
 
     useEffect(() => {
-        oldSpaceId !== spaceId && fetch();
-        oldSpaceId = spaceId;
-    }, [spaceId]);
+        setTopBarSpace({title: space.name, path: getSpaceLink(space.id)});
+    }, [space.id, space.name]);
+
 
     return (
         <SpaceContext.Provider value={{space}}>

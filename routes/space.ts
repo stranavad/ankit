@@ -89,17 +89,12 @@ export const removeMemberFromSpace = (spaceId: number, memberId: number): AxiosP
 };
 
 /* GET CURRENT SPACE INFO */
-interface GetCurrentSpaceResponse {
+interface CurrentSpaceResponse {
     space: DetailSpace,
     member: ApplicationMember
 }
 
-export const getCurrentSpace = (id: number): AxiosPromise<GetCurrentSpaceResponse> => {
-    return request({
-        url: `/spaces/${id}/current`,
-        method: "get"
-    });
-};
+export const useCurrentSpace = (id: number) => useRequest<CurrentSpaceResponse>(`/spaces/${id}/current`);
 
 /* ACCEPT SPACE INVITATION */
 export const acceptSpaceInvitation = (spaceId: number, accept: boolean): AxiosPromise => {
