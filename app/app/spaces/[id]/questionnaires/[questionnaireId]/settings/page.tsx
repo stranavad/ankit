@@ -97,7 +97,7 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
             <PageHeader title="Settings">
                 <ShareButton questionnaire={questionnaire}/>
             </PageHeader>
-            <PageCard>
+            <PageCard className="mb-10">
                 <EntityName value={questionnaire.name}
                             update={updateName} disabled={updateNameDisabled}/>
                 <div className="flex items-center py-1 my-2">

@@ -15,7 +15,7 @@ const QuestionResult = ({result, removeAnswer}: QuestionResultProps) => {
         return (
             <PageCard className="mb-10">
                 <h3 className="font-medium text-lg">{result.question.title}</h3>
-                <div className="flex flex-col max-h-96 overflow-y-scroll">
+                <div className="flex flex-col max-h-96 overflow-y-auto">
                     {result.data.map((data) => (
                         <div key={data.id} className="bg-slate-100 p-1 px-2 my-1 text-sm flex justify-between">
                             <span>{data.value}</span>
