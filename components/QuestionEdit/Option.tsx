@@ -41,7 +41,7 @@ const QuestionOption = ({option, updateValue, remove, disabled=false}: OptionsPr
     const deleteOptionDisabled = !checkSpacePermission(Permission.DELETE_QUESTION_OPTION, member.role);
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes}
+        <div ref={setNodeRef} style={{...style, touchAction: 'none'}} {...attributes}
              className="flex items-center my-2 w-full py-2">
             {!disabled && (
                 <div className="" {...listeners}>

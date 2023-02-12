@@ -2,7 +2,7 @@ import AnkitLogo from "@/public/ankitlogo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import {ReactElement} from "react";
-import {AdjustmentsVerticalIcon, UsersIcon, HomeIcon} from "@heroicons/react/24/outline";
+import { UsersIcon, HomeIcon} from "@heroicons/react/24/outline";
 
 interface SidebarItem {
     title: string;
@@ -38,9 +38,6 @@ const Sidebar = () => {
                         </Link>
                     ))}
                 </div>
-            </div>
-            <div>
-                <AdjustmentsVerticalIcon className="text-white h-8 w-8"/>
             </div>
         </div>
     );

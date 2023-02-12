@@ -22,7 +22,7 @@ const Question = ({question}: QuestionProps) => {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes}
+        <div ref={setNodeRef} style={{...style, touchAction: 'none'}} {...attributes}
              {...listeners}
              className={`flex items-center my-4 transition-colors duration-75 ${question.visible ? "text-gray-900 hover:text-indigo-500" : "text-gray-400 hover:text-indigo-300"}`}>
             <ChevronUpDownIcon

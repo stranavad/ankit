@@ -17,9 +17,14 @@ const Question = ({setAnswer, bundle}: AnswerQuestionProps) => {
 
 
     return (
-        <div className="bg-white dark:bg-slate-700 w-full rounded-xl p-5 mb-10">
-            <h1 className="text-slate-900 dark:text-slate-100 font-semibold text-lg">
+        <div className="w-full mb-10">
+            <h1 className="inline text-slate-900 dark:text-slate-100 font-semibold text-lg">
                 {question.title}
+                {question.required && (
+                    <span className="text-red-500">
+                        *
+                    </span>
+                )}
             </h1>
             <p className="mt-2 text-slate-800 dark:text-slate-200 text-sm leading-6">
                 {question.description}
@@ -33,9 +38,6 @@ const Question = ({setAnswer, bundle}: AnswerQuestionProps) => {
                     <Options setAnswer={setAnswer} type={question.type} options={question.options} answer={answer}/>
                 )
             }
-            {question.required && (
-                <span className="block text-xs font-medium text-red-500 mt-5">*Required</span>
-            )}
         </div>
     );
 };

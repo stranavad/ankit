@@ -29,6 +29,7 @@ export interface AnswerOption {
 export interface Answer {
     value: string;
     options: number[];
+    answered: boolean;
 }
 
 export type AnswerEvent = {value?: string, options?: number[]};

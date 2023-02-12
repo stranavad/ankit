@@ -51,22 +51,24 @@ const AppLayout = (props: any) => {
                     <>
                         <Sidebar/>
                         <nav
-                            className="bg-slate-900 fixed left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-start">
-                            <Bars3Icon className="sm:hidden w-6 h-6 text-white"/>
-                            {topBarData.space && (
-                                <>
-                                    <Link href={topBarData.space.path}
-                                          className="text-slate-100 text-xl font-medium">{topBarData.space.title}</Link>
+                            className="bg-slate-900 fixed z-10 left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-between sm:justify-start">
+                            <div className="flex items-center">
+                                {topBarData.space && (
+                                    <>
+                                        <Link href={topBarData.space.path}
+                                            className="text-slate-100 text-md md:text-xl font-medium">{topBarData.space.title}</Link>
 
-                                    {topBarData.questionnaire && (
-                                        <>
-                                            <ChevronDoubleRightIcon className="h-4 w-4 text-white mx-2"/>
-                                            <Link href={topBarData.questionnaire.path}
-                                                  className="text-slate-100 text-lg font-medium">{topBarData.questionnaire.title}</Link>
-                                        </>
-                                    )}
-                                </>
-                            )}
+                                        {topBarData.questionnaire && (
+                                            <>
+                                                <ChevronDoubleRightIcon className="h-4 w-4 text-white mx-2"/>
+                                                <Link href={topBarData.questionnaire.path}
+                                                    className="text-slate-100 text-sm md:text-lg font-medium">{topBarData.questionnaire.title}</Link>
+                                            </>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            <Bars3Icon className="sm:hidden w-6 h-6 text-white"/>
                         </nav>
                     </>
                 )}
