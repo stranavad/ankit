@@ -11,6 +11,7 @@ export const defaultQuestionnaire: ApplicationQuestionnaire = {
     status: Status.PAUSED,
     url: "",
     spaceId: 0,
+    manualPublish: false,
 };
 
 export const QuestionnaireContext = createContext<QuestionnaireContextData>({questionnaire: defaultQuestionnaire});

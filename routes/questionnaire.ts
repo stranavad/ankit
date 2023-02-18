@@ -52,6 +52,7 @@ export interface UpdateQuestionnaireData {
     passwordProtected?: boolean;
     password?: string | null;
     url?: string;
+    manualPublish?: boolean;
 }
 
 /* UPDATE QUESTIONNAIRE */

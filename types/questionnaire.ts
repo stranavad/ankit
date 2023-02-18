@@ -24,6 +24,7 @@ export interface ApplicationQuestionnaire {
     url: string;
     status: Status;
     spaceId: number;
+    manualPublish: boolean;
 }
 
 export interface DashboardQuestionnaire extends ApplicationQuestionnaire {

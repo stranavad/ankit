@@ -92,7 +92,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                 <PageHeader title="Questions">
                     <div className="flex gap-3">
                         <ShareButton questionnaire={questionnaire}/>
-                        {checkSpacePermission(Permission.PUBLISH_QUESTIONNAIRE, member.role) && (
+                        {checkSpacePermission(Permission.PUBLISH_QUESTIONNAIRE, member.role) && questionnaire.manualPublish && (
                             <div>
                                 <Suspense>
                                     <PublishQuestionnaire questionnaireId={questionnaireId}/>

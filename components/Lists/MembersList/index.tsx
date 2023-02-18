@@ -1,13 +1,14 @@
 import {ApplicationMember} from "@/types/member";
 import Image from "next/image";
-import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {checkSpacePermission, Permission} from "@/util/permission";
-import {useContext} from "react";
+import {useContext, lazy} from "react";
 import {MemberContext} from "@/util/memberContext";
 import {RoleType} from "@/types/role";
 import RolePicker from "@/components/Pickers/RolePicker";
 import IconButton from "@/components/Button/IconButton";
+
+const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"));
 
 interface MembersListProps {
     members: ApplicationMember[];
@@ -57,12 +58,16 @@ const MembersList = ({members, updateRole, removeMember}: MembersListProps) => {
                         </div>
                         <div
                             className="table-cell border-b border-slate-100  p-4 pr-2 text-slate-500">
-                            <ConfirmationModal title="Do you really want to delete this member?"
-                                               description={`This action is irreversible and you would have to invite ${member.name} again in case you change your mind.`}
-                                               submitButtonText="Delete"
-                                               submit={() => removeMember(member.id)}
-                                               renderItem={openModal => 
-                                               <IconButton icon={TrashIcon} disabled={deleteButtonDisabled(member)} onClick={openModal} size="medium" color="error"/>}/>
+                            <ConfirmationModal 
+                                title="Do you really want to delete this member?"
+                                description={`This action is irreversible and you would have to invite ${member.name} again in case you change your mind.`}
+                                submitButtonText="Delete"
+                                submit={() => removeMember(member.id)}
+                            >
+                                {open => (
+                                    <IconButton icon={TrashIcon} disabled={deleteButtonDisabled(member)} onClick={open} size="medium" color="error"/>
+                                )}
+                            </ConfirmationModal>
                         </div>
                     </div>
                 ))}

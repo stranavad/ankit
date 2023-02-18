@@ -78,6 +78,13 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
         });
     };
 
+    const updateManualPublish = (manualPublish: boolean) => {
+        mutate(() => updateFunction({manualPublish}), {
+            revalidate: false,
+            optimisticData: {...questionnaire, manualPublish}
+        })
+    }
+
     const removeQuestionnaire = async () => {
         const spaceId = questionnaire.spaceId;
         await deleteQuestionnaire(questionnaireId);
@@ -127,22 +134,35 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
                 <div className="mt-1 mb-3 h-px bg-gray-200 w-full"/>
 
                 <div className="flex items-center my-3">
+                    <span className="mr-5 text-sm">Manual staging control</span>
+                    <SwitchInput value={questionnaire.manualPublish}
+                                 update={updateManualPublish} disabled={updateDisabled}/>
+                </div>
+
+                <div className="flex items-center my-3">
                     <span className="mr-5 text-sm">Delete this questionnaire</span>
                     <Suspense>
-                        <ConfirmationModal title={"Do you really want to delete this questionnaire?"}
-                                           description={"This action is irreversible and you will loose all your data"}
-                                           submit={removeQuestionnaire}
-                                           renderItem={openModal => <Button secondary type="error"
-                                                                            disabled={deleteDisabled}
-                                                                            className="py-1 px-2 text-xs"
-                                                                            onClick={openModal}>Delete</Button>}/>
+                        <ConfirmationModal 
+                            title={"Do you really want to delete this questionnaire?"}
+                            description={"This action is irreversible and you will loose all your data"}
+                            submit={removeQuestionnaire}
+                        >
+                            {open => (
+                                <Button secondary type="error"
+                                disabled={deleteDisabled}
+                                className="py-1 px-2 text-xs"
+                                onClick={open}>Delete</Button>
+                            )}                      
+                        </ConfirmationModal>
                     </Suspense>
                 </div>
 
                 {/* SETTINGS*/}
-                <Suspense>
-                    <PublishedQuestionnairesList questionnaireId={questionnaireId}/>
-                </Suspense>
+                {questionnaire.manualPublish && (
+                    <Suspense>
+                        <PublishedQuestionnairesList questionnaireId={questionnaireId}/>
+                    </Suspense>
+                )}
             </PageCard>
         </div>
     );

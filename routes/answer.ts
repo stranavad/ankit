@@ -1,16 +1,26 @@
-import { AnswerQuestionnaire } from "@/types/answer";
+import { Answer, AnswerError, AnswerQuestionnaire } from "@/types/answer";
 
-export const getQuestionnaire = async (hash: string, password?: string): Promise<AnswerQuestionnaire | boolean> => {
+const HEADERS = {'Content-Type': 'application/json'}
+
+export const getQuestionnaire = async (hash: string, password?: string): Promise<{data: AnswerQuestionnaire | null, error: AnswerError | null}> => {
     const body = JSON.stringify({password: password || ""});
     
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}answer/${hash}`,
     {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: HEADERS,
         body
     })
 
-    return response.json();
+    const responseJson = await response.json(); 
+
+    if(response.status !== 201) {
+        // @ts-ignore
+        return {data: null, error: responseJson}
+    }
+
+    // @ts-ignore
+    return {data: responseJson, error: null};
 }
 
 export const answerQuestionnaire = async (id: number, data: any) => {
@@ -18,7 +28,7 @@ export const answerQuestionnaire = async (id: number, data: any) => {
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}answer/${id}/answer`,{
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: HEADERS,
         body
     })
     return response;

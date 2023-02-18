@@ -1,7 +1,7 @@
 import { QuestionType, Structure } from "./questionnaire";
 
 export interface AnswerQuestionnaire {
-    id: number;
+    id: number | null;
     questionnaireId: number;
     name: string;
     description: string;
@@ -37,4 +37,9 @@ export type AnswerEvent = {value?: string, options?: number[]};
 export interface QuestionWithAnswer {
     question: AnswerQuestion;
     answer: Answer;
+}
+
+export interface AnswerError {
+    status: number;
+    error: string;
 }

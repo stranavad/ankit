@@ -1,13 +1,17 @@
+import {lazy} from 'react';
 import IconButton from "@/components/Button/IconButton";
 import PublishQuestionnaire from "@/components/PublishQuestionnaire";
 import {
+    deletePublishedQuestionnaire,
     getPublishedQuestionnaire,
     updatePublishedQuestionnaire,
     usePublishedQuestionnaires
 } from "@/routes/publish";
-import {FolderArrowDownIcon} from "@heroicons/react/24/outline";
+import {FolderArrowDownIcon, TrashIcon} from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import Name from "./name";
+
+const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"));
 
 const PublishedQuestionnairesList = ({questionnaireId}: { questionnaireId: number }) => {
     const {data, mutate} = usePublishedQuestionnaires(questionnaireId);
@@ -23,6 +27,11 @@ const PublishedQuestionnairesList = ({questionnaireId}: { questionnaireId: numbe
             return questionnaires?.map(questionnaire => questionnaire.id === id ? updated : questionnaire);
         }, {revalidate: false});
     };
+
+    const removePublishedQuestionnaire = async (id: number) => {
+        await deletePublishedQuestionnaire(questionnaireId, id);
+        mutate();
+    }
 
     const downloadPublishedQuestionnaire = async (id: number) => {
         const data = (await getPublishedQuestionnaire(questionnaireId, id)).data;
@@ -73,6 +82,9 @@ const PublishedQuestionnairesList = ({questionnaireId}: { questionnaireId: numbe
                                 className="table-cell border-b border-slate-100  p-4 pr-2 text-slate-500">
                                 <IconButton icon={FolderArrowDownIcon} size="medium" color="primary"
                                             onClick={() => downloadPublishedQuestionnaire(questionnaire.id)}/>
+                                <ConfirmationModal title="Do you really want to delete this questionnaire?" description="This action is irreversible" submit={() => removePublishedQuestionnaire(questionnaire.id)}>
+                                    {open => <IconButton icon={TrashIcon} onClick={open} color="error" size="medium" className="ml-2"/> }
+                                </ConfirmationModal>
                             </div>
                         </div>
                     ))}

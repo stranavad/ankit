@@ -1,7 +1,7 @@
+import {lazy} from 'react';
 import {ApplicationSpace} from "@/types/space";
 import Link from "next/link";
 import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/outline";
-import ConfirmationModal from "@/components/Modals/ConfirmationModal";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import {RoleType} from "@/types/role";
 import IconButton from "@/components/Button/IconButton";
@@ -11,6 +11,8 @@ import Table from "../Utils/Table";
 import TableContent from "../Utils/Context";
 import TableRow from "../Utils/Row";
 import TableItem from "../Utils/Item";
+
+const ConfirmationModal = lazy(() => import("@/components/Modals/ConfirmationModal"));
 
 interface SpacesListProps {
     spaces: ApplicationSpace[];
@@ -61,18 +63,26 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                             {space.role}
                         </TableItem>
                         <TableItem>
-                            <ConfirmationModal title="Do you really want to delete this space?"
+                            <ConfirmationModal 
+                                title="Do you really want to delete this space?"
                                 description="This action is irreversible and you will loose all your data"
                                 submitButtonText="Delete"
                                 submit={() => removeSpace(space.id)}
-                                renderItem={openModal => 
-                                <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={openModal} disabled={deleteButtonDisabled(space)}/>}/>
-                            <ConfirmationModal title="Do you really want to leave this space?"
+                            >
+                                {open => (
+                                    <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={open} disabled={deleteButtonDisabled(space)}/>
+                                )}
+                            </ConfirmationModal>
+                            <ConfirmationModal 
+                                title="Do you really want to leave this space?"
                                 description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
                                 submitButtonText="Leave"
                                 submit={() => leaveSpace(space.id)}
-                                renderItem={openModal => 
-                                <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={openModal} disabled={leaveButtonDisabled(space)}/>}/>
+                            >
+                                {open => (
+                                    <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={open} disabled={leaveButtonDisabled(space)}/>
+                                )}
+                                </ConfirmationModal>
                         </TableItem>
                     </TableRow>
                 ))}

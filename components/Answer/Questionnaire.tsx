@@ -1,8 +1,7 @@
 "use client";
-import {answerQuestionnaire, getQuestionnaire} from "@/routes/answer";
+import {answerQuestionnaire} from "@/routes/answer";
 import {AnswerEvent, AnswerQuestion, AnswerQuestionnaire, QuestionWithAnswer} from "@/types/answer";
-import {useEffect, useState} from "react";
-import PasswordProtection from "./PasswordProtected";
+import {useMemo, useState} from "react";
 import Question from "./Question";
 import QuestionnaireInfo from "./QuestionnaireInfo";
 import AnswerButton from "@/components/Answer/Button";
@@ -10,8 +9,7 @@ import QuestionnaireEnd from "@/components/Answer/QuestionnaireEnd";
 import AnswerScreen from "@/components/Answer/AnswerScreen";
 
 interface QuestionnaireProps {
-    questionnaire: AnswerQuestionnaire | boolean;
-    hash: string;
+    questionnaire: AnswerQuestionnaire;
 }
 
 interface RequiredQuestion {
@@ -40,32 +38,12 @@ enum AnswerState {
     END
 }
 
-const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnaireProps) => {
-    const [questionnaire, setQuestionnaire] = useState<AnswerQuestionnaire | null>(typeof questionnaireProp === "boolean" ? null : questionnaireProp);
-    const [passwordProtected, setPasswordProtected] = useState<boolean>(typeof questionnaireProp === "boolean");
-    const [questions, setQuestions] = useState<QuestionWithAnswer[]>([]);
+const Questionnaire = ({questionnaire}: QuestionnaireProps) => {
+    const {questions: questionsProp, required} = useMemo(() => getQuestionsWithAnswers(questionnaire.questions), [questionnaire.questions]);
+
+    const [questions, setQuestions] = useState<QuestionWithAnswer[]>(questionsProp);
     const [currentState, setCurrentState] = useState<AnswerState>(AnswerState.START);
-    const [requiredQuestions, setRequiredQuestions] = useState<RequiredQuestion[]>([]);
-
-    useEffect(() => {
-        if (typeof questionnaireProp !== "boolean") {
-            const {questions, required} = getQuestionsWithAnswers(questionnaireProp.questions)
-            setQuestions(questions);
-            setRequiredQuestions(required);
-        }
-    }, []);
-
-    const unlockQuestionnaire = async (password: string) => {
-        const data = await getQuestionnaire(hash, password);
-        if (typeof data !== "boolean") {
-            setQuestionnaire(data);
-            setPasswordProtected(false);
-
-            const {questions, required} = getQuestionsWithAnswers(data.questions)
-            setQuestions(questions);
-            setRequiredQuestions(required);
-        }
-    };
+    const [requiredQuestions, setRequiredQuestions] = useState<RequiredQuestion[]>(required);
 
     const setAnswer = (e: AnswerEvent, index: number, questionId: number) => {
         // Answer
@@ -82,11 +60,6 @@ const Questionnaire = ({questionnaire: questionnaireProp, hash}: QuestionnairePr
             setRequiredQuestions(newRequiredQuestions);
         }
     };
-
-
-    if (passwordProtected) {
-        return <PasswordProtection unlock={unlockQuestionnaire}/>;
-    }
 
     if (!questionnaire) {
         return null;

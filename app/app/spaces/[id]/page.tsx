@@ -134,22 +134,30 @@ const SpacePage = ({params: {id}}: Props) => {
                             <ConfirmationModal
                                 title={"Do you really want to transfer this questionnaire to another space?"}
                                 description={"This action is irreversible"}
-                                submit={leave}
-                                renderItem={openModal => <Button secondary type="warning"
-                                                                 disabled={leaveButtonDisabled}
-                                                                 className="py-1 px-2 text-xs"
-                                                                 onClick={leaveButtonDisabled ? undefined : openModal}>Leave
-                                </Button>}/>
+                                submit={leave}>
+                                    {open => (
+                                        <Button secondary type="warning"
+                                        disabled={leaveButtonDisabled}
+                                        className="py-1 px-2 text-xs"
+                                        onClick={open}>Leave
+                                        </Button>
+                                    )}
+                                </ConfirmationModal>
                         </div>
                         <div className="flex items-center my-3">
                             <span className="mr-5 text-sm">Delete this space</span>
-                            <ConfirmationModal title={"Do you really want to delete this space?"}
-                                               description={"This action is irreversible and you will loose all your data"}
-                                               submit={removeSpace}
-                                               renderItem={openModal => <Button secondary type="error"
-                                                                                disabled={deleteButtonDisabled}
-                                                                                className="py-1 px-2 text-xs"
-                                                                                onClick={deleteButtonDisabled ? undefined : openModal}>Delete</Button>}/>
+                            <ConfirmationModal 
+                                title={"Do you really want to delete this space?"}
+                                description={"This action is irreversible and you will loose all your data"}
+                                submit={removeSpace}
+                            >
+                                {open => (
+                                    <Button secondary type="error"
+                                    disabled={deleteButtonDisabled}
+                                    className="py-1 px-2 text-xs"
+                                    onClick={open}>Delete</Button>
+                                )}
+                            </ConfirmationModal>
                         </div>
                     </>
                 )}
