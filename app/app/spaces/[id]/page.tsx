@@ -20,6 +20,7 @@ import {ApplicationUser} from "@/types/user";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import PageHeader from "@/components/Utils/PageHeader";
 import PageCard from "@/components/Utils/PageCard";
+import Content from "@/components/Utils/Content";
 
 const MembersList = lazy(() => import("@/components/Lists/MembersList"));
 const MemberSearch = lazy(() => import("@/components/MemberSearch"));
@@ -106,7 +107,7 @@ const SpacePage = ({params: {id}}: Props) => {
     const addMemberDisabled = !checkSpacePermission(Permission.ADD_MEMBER, currentMember.role);
 
     return (
-        <div className="content">
+        <Content>
             <PageHeader title="Space dashboard"/>
             <PageCard>
                 <EntityName value={space.name} update={updateName} disabled={updateSpaceDisabled}/>
@@ -162,7 +163,7 @@ const SpacePage = ({params: {id}}: Props) => {
                     </>
                 )}
             </PageCard>
-        </div>
+        </Content>
     );
 };
 

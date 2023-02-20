@@ -8,6 +8,7 @@ import {
 } from "@/routes/questionnaire";
 import {Suspense, lazy} from "react";
 import PageHeader from "@/components/Utils/PageHeader";
+import Content from "@/components/Utils/Content";
 
 const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"));
 const DashboardList = lazy(() => import("@/components/Lists/DashboardList"));
@@ -31,7 +32,7 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="content">
+        <Content>
             <PageHeader title="Dashboard">
                 <Suspense>
                     <CreateQuestionnaireModal store={create} withSpace={true}>
@@ -46,7 +47,7 @@ const UserDashboard = () => {
             <Suspense>
                 <DashboardList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}/>
             </Suspense>
-        </div>
+        </Content>
     );
 };
 

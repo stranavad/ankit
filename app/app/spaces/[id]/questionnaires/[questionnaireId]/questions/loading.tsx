@@ -1,25 +1,6 @@
-export const Loading = () => {
-    return (
-        <div className="border bg-white rounded-md p-4 w-full mx-auto max-w-[800px] h-56 mb-10">
-                <div className="animate-pulse flex space-x-4">
-                    <div className="flex-1 space-y-5 py-1">
-                        <div className="h-2 bg-slate-400 rounded"/>
-                        <div className="h-2 bg-slate-400 rounded mr-24"/>
-
-                        <div className="h-2 bg-slate-400 w-1/3 rounded"/>
-                        <div className="h-2 bg-slate-400 w-1/3 rounded"/>
-                        <div className="h-2 bg-slate-400 w-1/3 rounded"/>
-                        <div className="h-2 bg-slate-400 w-1/3 rounded"/>
-
-                        <div className="h-2 bg-slate-400 rounded"/>
-                </div>
-            </div>
-        </div>
-    )
-};
-
-
+import { LoadingBunch } from "@/components/Skeleton";
+import { skeletonQuestions } from "@/components/Skeleton/data";
 
 export default function(){
-    return <>{[1, 2, 3, 4].map((index) => <Loading key={index}/>)}</>
+    return <LoadingBunch lines={skeletonQuestions} count={4}/>
 }

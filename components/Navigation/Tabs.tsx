@@ -30,7 +30,7 @@ const Tabs = ({routes}: TabsProps) => {
     }
 
     return (
-            <div className="!mb-5 content flex justify-between">
+            <div className="!mb-5 px-3 max-w-4xl mx-auto flex justify-between">
                 {routes.map((route, index) => (
                         <Tab key={index} first={index === 0} last={index === routes.length - 1}  href={getLink(route.path)} width={100/routes.length} text={route.name}/>
                 ))}

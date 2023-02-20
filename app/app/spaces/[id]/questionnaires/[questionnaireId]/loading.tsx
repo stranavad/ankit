@@ -1,4 +1,6 @@
-import Loader from "@/components/base/Loader";
+import { LoadingSkeleton } from "@/components/Skeleton";
+import { skeletonQuestionnaireDashboard } from "@/components/Skeleton/data";
 
-export const Loading = () => <Loader message="Loading settings"/>
-export default Loading;
+export default function(){
+    return <LoadingSkeleton lines={skeletonQuestionnaireDashboard}/>
+}

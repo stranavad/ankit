@@ -5,6 +5,7 @@ import Loading from "./questions/loading";
 import PageHeader from "@/components/Utils/PageHeader";
 import ShareButton from "@/components/Sharing/ShareButton";
 import {QuestionnaireContext} from "@/util/questionnaireContext";
+import Content from "@/components/Utils/Content";
 
 const QuestionResult = lazy(() => import("@/components/Result/QuestionResult"));
 const QuestionnaireStatistics = lazy(() => import("@/components/Result/QuestionnaireStatistics"));
@@ -45,20 +46,29 @@ const Questionnaire = ({params: {questionnaireId}}: { params: { questionnaireId:
     }
 
     return (
-        <div className="content">
+        <Content>
             <PageHeader title="Statistics">
                 <ShareButton questionnaire={questionnaire}/>
             </PageHeader>
-            <Suspense fallback={<Loading/>}>
-                <QuestionnaireStatistics data={statistics}/>
-            </Suspense>
-            <PageHeader title="Questions" className="mb-5"/>
-            {results.map((result) => (
-                <Suspense fallback={<Loading/>} key={result.question.id}>
-                    <QuestionResult key={result.question.id} result={result} removeAnswer={removeAnswer}/>
-                </Suspense>
-            ))}
-        </div>
+            {statistics.labels.length ? (
+                <>
+                    <Suspense fallback={<Loading/>}>
+                        <QuestionnaireStatistics data={statistics}/>
+                    </Suspense>
+
+                    <PageHeader title="Questions" className="mb-5"/>
+                    {results.map((result) => (
+                        <Suspense fallback={<Loading/>} key={result.question.id}>
+                            <QuestionResult key={result.question.id} result={result} removeAnswer={removeAnswer}/>
+                        </Suspense>
+                    ))}
+                </>
+            ) : (
+                <>
+                    <span className="text-sm">There are no answers...yet</span>
+                </>
+            )}
+        </Content>
     );
 };
 

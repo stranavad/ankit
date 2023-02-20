@@ -12,6 +12,7 @@ import {checkSpacePermission, Permission} from "@/util/permission";
 import {MemberContext} from "@/util/memberContext";
 import {Status} from "@/types/questionnaire";
 import PageHeader from "@/components/Utils/PageHeader";
+import Content from '@/components/Utils/Content';
 
 const QuestionnairesList = lazy(() => import("@/components/Lists/QuestionnairesList"));
 const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"));
@@ -55,7 +56,7 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
 
     return (
         <>
-            <div className="content">
+            <Content>
                 <PageHeader title="Questionnaires">
                     {!createQuestionnaireDisabled && (
                         <Suspense>
@@ -72,7 +73,7 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
                     <QuestionnairesList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}
                                         updateStatus={updateQuestionnaireStatus}/>
                 </Suspense>
-            </div>
+            </Content>
         </>
     );
 };

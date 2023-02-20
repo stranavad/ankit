@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    background-color: #ececec;
+    background-color: #f0f0f3;
 }
 
 .content {
@@ -19,8 +19,3 @@ body {
 .status-ACTIVE {
     background-color: #22c55e;
 }
-
-/* .ReactChart {
-    max-height: 350px !important;
-    min-height: 350px !important;
-} */

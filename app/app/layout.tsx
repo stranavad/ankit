@@ -51,18 +51,18 @@ const AppLayout = (props: any) => {
                     <>
                         <Sidebar/>
                         <nav
-                            className="bg-slate-900 fixed z-10 left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-between sm:justify-start">
+                            className="fixed z-10 left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-between sm:justify-start">
                             <div className="flex items-center">
                                 {topBarData.space && (
                                     <>
                                         <Link href={topBarData.space.path}
-                                            className="text-slate-100 text-md md:text-xl font-medium">{topBarData.space.title}</Link>
+                                            className="text-slate-900 text-md md:text-xl font-medium">{topBarData.space.title}</Link>
 
                                         {topBarData.questionnaire && (
                                             <>
-                                                <ChevronDoubleRightIcon className="h-4 w-4 text-white mx-2"/>
+                                                <ChevronDoubleRightIcon className="h-4 w-4 text-slate-800 mx-2"/>
                                                 <Link href={topBarData.questionnaire.path}
-                                                    className="text-slate-100 text-sm md:text-lg font-medium">{topBarData.questionnaire.title}</Link>
+                                                    className="text-slate-800 text-sm md:text-lg font-medium">{topBarData.questionnaire.title}</Link>
                                             </>
                                         )}
                                     </>

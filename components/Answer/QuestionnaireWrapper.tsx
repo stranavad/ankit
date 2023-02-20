@@ -10,7 +10,7 @@ const QuestionnaireWrapper = ({hash}: {hash:string}) => {
     const [data, setData] = useState<AnswerQuestionnaire | null>(null);
 
     const unlockQuestionnaire = async (password: string) => {
-        const {data, error} = await getQuestionnaire(hash, password);
+        const {data} = await getQuestionnaire(hash, password);
 
         if(data){
             setData(data);

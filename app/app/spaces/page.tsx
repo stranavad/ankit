@@ -5,6 +5,7 @@ import {useSession} from "next-auth/react";
 import Button from "@/components/Button";
 import PageHeader from "@/components/Utils/PageHeader";
 import InvitedSpaces from "@/components/Lists/SpacesList/invited";
+import Content from "@/components/Utils/Content";
 
 const SpacesList = lazy(() => import("@/components/Lists/SpacesList"));
 const CreateSpaceForm = lazy(() => import("@/components/Modals/CreateSpace"));
@@ -50,7 +51,7 @@ const Spaces = () => {
     };
 
     return (
-        <div className="content">
+        <Content>
             <PageHeader title="Your spaces">
                 <Suspense>
                     <CreateSpaceForm memberName={user?.name || ""} store={storeSpace}>
@@ -67,7 +68,7 @@ const Spaces = () => {
             <Suspense>
                 <InvitedSpaces spaces={invitedSpaces} acceptInvitation={acceptInvitation}/>
             </Suspense>
-        </div>
+        </Content>
     );
 };
 

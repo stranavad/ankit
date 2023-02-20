@@ -10,10 +10,12 @@ const PublishQuestionnaire = lazy(() => import("@/components/PublishQuestionnair
 import {MemberContext, QuestionnaireContext, QuestionsWidgetContext} from "@/util/context";
 import {lazy, Suspense, useContext} from "react";
 import {QuestionUpdateProperty} from "@/types/question";
-import {Loading} from "./loading";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import PageHeader from "@/components/Utils/PageHeader";
 import ShareButton from "@/components/Sharing/ShareButton";
+import Content from "@/components/Utils/Content";
+import { LoadingSkeleton } from "@/components/Skeleton";
+import { skeletonQuestions } from "@/components/Skeleton/data";
 
 const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { questionnaireId: string } }) => {
     const questionnaireId = parseInt(id);
@@ -88,7 +90,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
 
     return (
         <>
-            <div className="content">
+            <Content>
                 <PageHeader title="Questions">
                     <div className="flex gap-3">
                         <ShareButton questionnaire={questionnaire}/>
@@ -103,8 +105,8 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                 </PageHeader>
                 <div className="mt-5">
                     {questions.map((question, index) => (
-                        <div style={{width: "100%", maxWidth: "800px"}} key={question.id}>
-                            <Suspense fallback={<Loading/>}>
+                        <div key={question.id}>
+                            <Suspense fallback={<LoadingSkeleton lines={skeletonQuestions}/>}>
                                 <QuestionEdit question={question}
                                               cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion}
                                               update={(...data) => update(index, ...data)}/>
@@ -113,7 +115,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                         </div>
                     ))}
                 </div>
-            </div>
+            </Content>
             <QuestionsWidgetContext.Provider value={{questions, setQuestions}}>
                 <Suspense>
                     <Widgets/>

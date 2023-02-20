@@ -1,5 +1,5 @@
 "use client";
-import {lazy, Suspense, useContext} from "react";
+import {lazy, useContext} from "react";
 import {
     deleteQuestionnaire,
     updateQuestionnaire,
@@ -18,6 +18,7 @@ import {getSpaceLink} from "@/util/url";
 import PageHeader from "@/components/Utils/PageHeader";
 import PageCard from "@/components/Utils/PageCard";
 import ShareButton from "@/components/Sharing/ShareButton";
+import Content from "@/components/Utils/Content";
 
 const StatusPicker = lazy(() => import("@/components/Pickers/StatusPicker"));
 const SharingCentre = lazy(() => import("@/components/Sharing"));
@@ -100,7 +101,7 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
     const deleteDisabled = !checkSpacePermission(Permission.DELETE_QUESTIONNAIRE, member.role);
 
     return (
-        <div className="content">
+        <Content>
             <PageHeader title="Settings">
                 <ShareButton questionnaire={questionnaire}/>
             </PageHeader>
@@ -141,30 +142,26 @@ const QuestionnaireSettings = ({params: {questionnaireId: id}}: { params: { ques
 
                 <div className="flex items-center my-3">
                     <span className="mr-5 text-sm">Delete this questionnaire</span>
-                    <Suspense>
-                        <ConfirmationModal 
-                            title={"Do you really want to delete this questionnaire?"}
-                            description={"This action is irreversible and you will loose all your data"}
-                            submit={removeQuestionnaire}
-                        >
-                            {open => (
-                                <Button secondary type="error"
-                                disabled={deleteDisabled}
-                                className="py-1 px-2 text-xs"
-                                onClick={open}>Delete</Button>
-                            )}                      
-                        </ConfirmationModal>
-                    </Suspense>
+                    <ConfirmationModal 
+                        title={"Do you really want to delete this questionnaire?"}
+                        description={"This action is irreversible and you will loose all your data"}
+                        submit={removeQuestionnaire}
+                    >
+                        {open => (
+                            <Button secondary type="error"
+                            disabled={deleteDisabled}
+                            className="py-1 px-2 text-xs"
+                            onClick={open}>Delete</Button>
+                        )}                      
+                    </ConfirmationModal>
                 </div>
 
                 {/* SETTINGS*/}
                 {questionnaire.manualPublish && (
-                    <Suspense>
-                        <PublishedQuestionnairesList questionnaireId={questionnaireId}/>
-                    </Suspense>
+                    <PublishedQuestionnairesList questionnaireId={questionnaireId}/>
                 )}
             </PageCard>
-        </div>
+        </Content>
     );
 };
 
