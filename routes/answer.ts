@@ -9,7 +9,8 @@ export const getQuestionnaire = async (hash: string, password?: string): Promise
     {
         method: 'POST',
         headers: HEADERS,
-        body
+        body,
+        cache: 'no-store'
     })
 
     const responseJson = await response.json(); 
