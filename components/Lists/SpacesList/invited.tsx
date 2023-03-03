@@ -2,7 +2,7 @@ import {ApplicationSpace} from "@/types/space";
 import PageHeader from "@/components/Utils/PageHeader";
 import Table from "@/components/Lists/Utils/Table";
 import TableHeader, {TableHeaderItem} from "@/components/Lists/Utils/Header";
-import TableContent from "@/components/Lists/Utils/Context";
+import TableContent from "@/components/Lists/Utils/Content";
 import TableRow from "@/components/Lists/Utils/Row";
 import TableItem from "@/components/Lists/Utils/Item";
 import Button from "@/components/Button";

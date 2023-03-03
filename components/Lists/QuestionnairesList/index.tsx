@@ -7,7 +7,7 @@ import StatusPicker from "@/components/Pickers/StatusPicker";
 import { getQuestionnaireLink } from "@/util/url";
 import TableHeader, { TableHeaderItem } from "../Utils/Header";
 import Table from "../Utils/Table";
-import TableContent from "../Utils/Context";
+import TableContent from "../Utils/Content";
 import TableRow from "../Utils/Row";
 import TableItem from "../Utils/Item";
 import QuestionnaireActions from "./QuestionnaireActions";

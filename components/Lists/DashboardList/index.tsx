@@ -3,7 +3,7 @@ import {checkSpacePermission, Permission} from "@/util/permission";
 import {getQuestionnaireLink} from "@/util/url";
 import Link from "next/link";
 import QuestionnaireActions from "../QuestionnairesList/QuestionnaireActions";
-import TableContent from "../Utils/Context";
+import TableContent from "../Utils/Content";
 import TableHeader, {TableHeaderItem} from "../Utils/Header";
 import TableRow from "../Utils/Row";
 import Table from "../Utils/Table";

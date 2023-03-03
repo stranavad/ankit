@@ -24,7 +24,7 @@ export const createQuestion = (id: number, data: CreateQuestionData): AxiosPromi
 };
 
 /* UPDATE QUESTION */
-interface UpdateQuestionData {
+export interface UpdateQuestionData {
     title?: string;
     description?: string;
     required?: boolean;

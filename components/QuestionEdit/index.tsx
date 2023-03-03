@@ -12,6 +12,7 @@ import {QuestionProperty, QuestionUpdateProperty} from "@/types/question";
 import IconButton from "../Button/IconButton";
 import dayjs from "dayjs";
 import PageCard from "@/components/Utils/PageCard";
+import { UpdateQuestionData } from "@/routes/question";
 
 const QuestionOptions = lazy(() => import("./Options"));
 
@@ -19,11 +20,12 @@ interface QuestionEditProps {
     question: Question;
     cloneQuestion: (questionId: number) => void;
     deleteQuestion: (id: number) => void;
-    update: (id: number, data: QuestionUpdateProperty) => void;
+    update: (id: number, data: UpdateQuestionData) => void;
+    setQuestion: (question: Question) => void;
 }
 
 
-const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update}: QuestionEditProps) => {
+const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update, setQuestion}: QuestionEditProps) => {
     const {questionnaire: {id: questionnaireId}} = useContext(QuestionnaireContext);
     const {member} = useContext(MemberContext);
 
@@ -32,10 +34,10 @@ const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update}: Questio
     const required = question.required;
     const visible = question.visible;
 
-    const updateTitle = (value: string) => update(question.id, [QuestionProperty.TITLE, value]);
-    const updateVisible = (value: boolean) => update(question.id, [QuestionProperty.VISIBLE, value]);
-    const updateDescription = (value: string) => update(question.id, [QuestionProperty.DESCRIPTION, value]);
-    const updateRequired = (value: boolean) => update(question.id, [QuestionProperty.REQUIRED, value]);
+    const updateTitle = (title: string) => update(question.id, {title});
+    const updateVisible = (visible: boolean) => update(question.id, {visible});
+    const updateDescription = (description: string) => update(question.id, {description});
+    const updateRequired = (required: boolean) => update(question.id, {required});
 
     const deleteButtonDisabled = !checkSpacePermission(Permission.DELETE_QUESTION, member.role);
     const updateQuestionDisabled = !checkSpacePermission(Permission.UPDATE_QUESTION_TITLE, member.role);
@@ -57,7 +59,7 @@ const QuestionEdit = ({question, cloneQuestion, deleteQuestion, update}: Questio
             </div>
             <EntityDescription value={description} disabled={updateQuestionDisabled} update={updateDescription}/>
             <QuestionOptions type={question.type} options={question.options} questionId={question.id}
-                             questionnaireId={questionnaireId}/>
+                             questionnaireId={questionnaireId} setQuestion={setQuestion}/>
             <div className="mt-5 h-px bg-gray-200 w-full"/>
             <div className="flex justify-between items-center w-full my-2">
                 <span className="text-xs">Last edited: {dayjs(question.updated).format("DD/MM/YYYY H:mm")}</span>

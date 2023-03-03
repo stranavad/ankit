@@ -8,7 +8,7 @@ import {
 } from "@/routes/questionnaire";
 import {Suspense, lazy} from "react";
 import PageHeader from "@/components/Utils/PageHeader";
-import Content from "@/components/Utils/Content";
+import PageWrapper from "@/components/Utils/PageWrapper";
 
 const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"));
 const DashboardList = lazy(() => import("@/components/Lists/DashboardList"));
@@ -32,7 +32,7 @@ const UserDashboard = () => {
     };
 
     return (
-        <Content>
+        <PageWrapper>
             <PageHeader title="Dashboard">
                 <Suspense>
                     <CreateQuestionnaireModal store={create} withSpace={true}>
@@ -47,7 +47,7 @@ const UserDashboard = () => {
             <Suspense>
                 <DashboardList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}/>
             </Suspense>
-        </Content>
+        </PageWrapper>
     );
 };
 

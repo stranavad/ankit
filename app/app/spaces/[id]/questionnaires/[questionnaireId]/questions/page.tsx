@@ -1,6 +1,6 @@
 "use client";
 import {Question, QuestionType} from "@/types/questionnaire";
-import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, useQuestions} from "@/routes/question";
+import {createQuestion, deleteQuestion, duplicateQuestion, updateQuestion, UpdateQuestionData, useQuestions} from "@/routes/question";
 
 const Widgets = lazy(() => import("@/components/Widgets"));
 const QuestionEdit = lazy(() => import("@/components/QuestionEdit"));
@@ -69,9 +69,9 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
         });
     };
 
-    const update = (index: number, id: number, data: QuestionUpdateProperty) => {
+    const update = (index: number, id: number, data: UpdateQuestionData) => {
         mutate(async (questions) => {
-            const updatedQuestion = (await updateQuestion(questionnaireId, id, {[data[0]]: data[1]})).data;
+            const updatedQuestion = (await updateQuestion(questionnaireId, id, {...data})).data;
 
             if (!questions) {
                 return questions;
@@ -81,10 +81,16 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
             revalidate: false,
             optimisticData: questions.map((question, questionIndex) => questionIndex === index ? ({
                 ...question,
-                [data[0]]: data[1]
+                ...data
             }) : question)
         });
     };
+
+    const setQuestion = (index: number, question: Question) => {
+        const newQuestions = questions;
+        newQuestions[index] = question;
+        mutate(() => newQuestions, {revalidate: false, optimisticData: newQuestions})
+    }
 
     const addQuestionDisabled = !checkSpacePermission(Permission.ADD_QUESTION, member.role);
 
@@ -109,7 +115,7 @@ const QuestionnaireQuestions = ({params: {questionnaireId: id}}: { params: { que
                             <Suspense fallback={<LoadingSkeleton lines={skeletonQuestions}/>}>
                                 <QuestionEdit question={question}
                                               cloneQuestion={cloneQuestion} deleteQuestion={removeQuestion}
-                                              update={(...data) => update(index, ...data)}/>
+                                              update={(...data) => update(index, ...data)} setQuestion={(newQuestion) => setQuestion(index, newQuestion)}/>
                                 <AddQuestion add={(type) => addQuestion(type, index)} disabled={addQuestionDisabled}/>
                             </Suspense>
                         </div>

@@ -8,7 +8,7 @@ import IconButton from "@/components/Button/IconButton";
 import { getSpaceLink } from "@/util/url";
 import TableHeader, { TableHeaderItem } from "../Utils/Header";
 import Table from "../Utils/Table";
-import TableContent from "../Utils/Context";
+import TableContent from "../Utils/Content";
 import TableRow from "../Utils/Row";
 import TableItem from "../Utils/Item";
 

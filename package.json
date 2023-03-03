@@ -26,7 +26,7 @@
     "eslint-config-next": "canary",
     "js-cookie": "^3.0.1",
     "lodash": "4.17.21",
-    "next": "^13.1.7-canary.5",
+    "next": "canary",
     "next-auth": "latest",
     "prettier": "^2.8.1",
     "react": "^18.2.0",

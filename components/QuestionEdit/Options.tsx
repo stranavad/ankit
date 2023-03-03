@@ -10,7 +10,7 @@ import {
 } from "@dnd-kit/core";
 import {arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy,} from "@dnd-kit/sortable";
 import OptionComponent from "./Option";
-import {Option, QuestionType} from "@/types/questionnaire";
+import {Option, Question, QuestionType} from "@/types/questionnaire";
 import {createOption, deleteOption, updateOption, updateOptionPosition} from "@/routes/question";
 import {ChevronUpDownIcon} from "@heroicons/react/24/outline";
 import { checkSpacePermission, Permission } from "@/util/permission";
@@ -24,13 +24,15 @@ interface OptionsProps {
     questionnaireId: number;
     questionId: number;
     type: QuestionType;
+    setQuestion: (question: Question) => void;
 }
 
 const Options = ({
     type,
     options,
     questionId,
-    questionnaireId
+    questionnaireId,
+    setQuestion
 }: OptionsProps) => {
     if (!questionTypesWithOptions.includes(type)) {
         return <></>;
@@ -73,6 +75,7 @@ const Options = ({
                     activeIndex,
                     overIndex,
                 }).then((response) => {
+                    setQuestion(response.data);
                     setItems(response.data.options);
                 });
             }

@@ -13,6 +13,7 @@ import {MemberContext} from "@/util/memberContext";
 import {Status} from "@/types/questionnaire";
 import PageHeader from "@/components/Utils/PageHeader";
 import Content from '@/components/Utils/Content';
+import PageWrapper from "@/components/Utils/PageWrapper";
 
 const QuestionnairesList = lazy(() => import("@/components/Lists/QuestionnairesList"));
 const CreateQuestionnaireModal = lazy(() => import("@/components/Modals/CreateQuestionnaire"));
@@ -56,7 +57,7 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
 
     return (
         <>
-            <Content>
+            <PageWrapper>
                 <PageHeader title="Questionnaires">
                     {!createQuestionnaireDisabled && (
                         <Suspense>
@@ -73,7 +74,7 @@ const Questionnaires = ({params: {id: spaceId}}: { params: { id: number } }) => 
                     <QuestionnairesList questionnaires={questionnaires} removeQuestionnaire={removeQuestionnaire}
                                         updateStatus={updateQuestionnaireStatus}/>
                 </Suspense>
-            </Content>
+            </PageWrapper>
         </>
     );
 };
