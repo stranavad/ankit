@@ -9,7 +9,6 @@ const PublishQuestionnaire = lazy(() => import("@/components/PublishQuestionnair
 
 import {MemberContext, QuestionnaireContext, QuestionsWidgetContext} from "@/util/context";
 import {lazy, Suspense, useContext} from "react";
-import {QuestionUpdateProperty} from "@/types/question";
 import {checkSpacePermission, Permission} from "@/util/permission";
 import PageHeader from "@/components/Utils/PageHeader";
 import ShareButton from "@/components/Sharing/ShareButton";

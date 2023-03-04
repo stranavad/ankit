@@ -1,4 +1,4 @@
-import { Answer, AnswerError, AnswerQuestionnaire } from "@/types/answer";
+import { AnswerError, AnswerQuestionnaire } from "@/types/answer";
 
 const HEADERS = {'Content-Type': 'application/json'}
 

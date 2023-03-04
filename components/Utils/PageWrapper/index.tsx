@@ -4,7 +4,7 @@ interface PageWrapperProps {
 
 const PageWrapper = ({children}: PageWrapperProps) => {
     return (
-        <div className="max-w-4xl m-autobg-white px-5 py-3 rounded-md">
+        <div className="max-w-4xl m-auto px-5 py-3 rounded-md bg-white">
             {children}
         </div>
     )
