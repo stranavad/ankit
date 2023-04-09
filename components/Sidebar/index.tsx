@@ -1,8 +1,6 @@
-import AnkitLogo from "@/public/ankitlogo.svg";
-import Image from "next/image";
 import Link from "next/link";
-import {ReactElement} from "react";
-import { UsersIcon, HomeIcon} from "@heroicons/react/24/outline";
+import { ReactElement } from "react";
+import { UsersIcon, HomeIcon } from "@heroicons/react/24/outline";
 
 interface SidebarItem {
     title: string;
@@ -14,13 +12,13 @@ const items: SidebarItem[] = [
     {
         title: "Dashboard",
         path: "/app/dashboard",
-        icon: <HomeIcon className="w-7 h-7 text-white"/>
+        icon: <HomeIcon className="w-7 h-7 text-white" />
     },
     {
         title: "Spaces",
         path: "/app/spaces",
-        icon: <UsersIcon className="w-7 h-7 text-white"/>
-    },
+        icon: <UsersIcon className="w-7 h-7 text-white" />
+    }
 ];
 
 
@@ -31,7 +29,7 @@ const Sidebar = () => {
             <div className="flex flex-col w-full items-center">
                 {items.map((item, index) => (
                     <Link href={item.path} key={index}
-                            className="mt-4">
+                          className="mt-4">
                         {item.icon}
                     </Link>
                 ))}

@@ -1,7 +1,8 @@
 "use client";
-import {ReactNode} from "react";
+import { ReactNode, lazy } from "react";
 import CurrentSpaceProvider from "@/components/CurrentSpaceProvider";
-import Tabs from "@/components/Navigation/Tabs";
+
+const Tabs = lazy(() => import("@/components/Navigation/Tabs"));
 
 const routes = [
     {
@@ -23,7 +24,7 @@ const CurrentSpaceLayout = ({
     return (
         <CurrentSpaceProvider spaceId={params.id}>
             <>
-                <Tabs routes={routes}/>
+                <Tabs routes={routes} />
                 {children}
             </>
         </CurrentSpaceProvider>

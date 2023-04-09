@@ -1,7 +1,7 @@
-import {Fragment} from "react";
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon} from "@heroicons/react/20/solid";
-import {Status, statuses} from "@/types/questionnaire";
+import { Fragment } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { Status, statuses } from "@/types/questionnaire";
 
 interface StatusPickerProps {
     status: Status;
@@ -13,7 +13,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-const StatusPicker = ({status, disabled=false, updateStatus}: StatusPickerProps) => {
+const StatusPicker = ({ status, disabled = false, updateStatus }: StatusPickerProps) => {
 
     const getColor = (selected: Status) => {
         return `status-${selected}`;
@@ -21,11 +21,11 @@ const StatusPicker = ({status, disabled=false, updateStatus}: StatusPickerProps)
 
     return (
         <Listbox value={status} onChange={updateStatus} disabled={disabled}>
-            {({open}) => (
+            {({ open }) => (
                 <>
                     <div className="relative">
                         <Listbox.Button
-                            className={`relative w-full text-left sm:text-sm ${disabled ? 'cursor-not-allowed': 'cursor-pointer'}`}>
+                            className={`relative w-full text-left sm:text-sm ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>
                             <div
                                 className={classNames("capitalize inline-block py-1 px-2 rounded-xl text-xs text-white", getColor(status))}>
                                 {status.toLowerCase()}
@@ -43,7 +43,7 @@ const StatusPicker = ({status, disabled=false, updateStatus}: StatusPickerProps)
                                 className="absolute z-10 mt-1 max-h-56 w-100 overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                 {statuses.map((status, statusIndex) => (
                                     <Listbox.Option
-                                        className={({active}) =>
+                                        className={({ active }) =>
                                             classNames(
                                                 active ? "text-white bg-indigo-600" : "text-gray-900",
                                                 "relative cursor-default select-none py-2 pl-3 pr-9"
@@ -52,7 +52,7 @@ const StatusPicker = ({status, disabled=false, updateStatus}: StatusPickerProps)
                                         key={statusIndex}
                                         value={status}
                                     >
-                                        {({selected, active}) => (
+                                        {({ selected, active }) => (
                                             <>
                                                 <div
                                                     className={classNames("capitalize inline-block py-1 px-2 rounded-xl text-xs text-white cursor-pointer", getColor(status))}>
@@ -66,7 +66,7 @@ const StatusPicker = ({status, disabled=false, updateStatus}: StatusPickerProps)
                                                             "absolute inset-y-0 right-0 flex items-center pr-4"
                                                         )}
                                                     >
-                                                        <CheckIcon className="h-5 w-5" aria-hidden="true"/>
+                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                                      </span>
                                                 ) : null}
                                             </>

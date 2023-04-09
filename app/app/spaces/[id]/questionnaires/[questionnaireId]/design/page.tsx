@@ -1,14 +1,16 @@
 "use client";
-import Content from "@/components/Utils/Content";
+import { lazy } from "react";
 import { defaultDesign, Design } from "@/types/design";
-import AnswerQuestion from "@/components/Answer/Question";
 import { usePreviewQuestions } from "@/routes/answerPreview";
-import QuestionnaireInfo from "@/components/Answer/QuestionnaireInfo";
 import { DesignContext } from "@/util/context/design";
-import ColorPicker from "@/components/Pickers/ColorPicker";
 import { updateQuestionnaireDesign, useQuestionnaireDesign } from "@/routes/design";
-import "./index.css";
 import useDesign from "@/util/design";
+import "./index.css";
+import Content from "@/components/Utils/Content";
+
+const AnswerQuestion = lazy(() => import("@/components/Answer/Question"));
+const QuestionnaireInfo = lazy(() => import("@/components/Answer/QuestionnaireInfo"));
+const ColorPicker = lazy(() => import("@/components/Pickers/ColorPicker"));
 
 const colorPickers: { type: keyof Design, label: string }[] = [
     {

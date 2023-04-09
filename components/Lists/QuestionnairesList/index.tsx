@@ -1,8 +1,8 @@
-import {ApplicationQuestionnaire, Status} from "@/types/questionnaire";
+import { ApplicationQuestionnaire, Status } from "@/types/questionnaire";
 import Link from "next/link";
-import {SpaceContext} from "@/util/spaceContext";
-import {useContext} from "react";
-import {checkSpacePermission, Permission} from "@/util/permission";
+import { SpaceContext } from "@/util/spaceContext";
+import { useContext } from "react";
+import { checkSpacePermission, Permission } from "@/util/permission";
 import StatusPicker from "@/components/Pickers/StatusPicker";
 import { getQuestionnaireLink } from "@/util/url";
 import TableHeader, { TableHeaderItem } from "../Utils/Header";
@@ -20,24 +20,24 @@ interface QuestionnairesListProps {
 
 const headerItems: TableHeaderItem[] = [
     {
-        text: 'Name',
+        text: "Name"
     },
     {
-        text: 'Status'
+        text: "Status"
     },
     {
-        text: 'Actions'
+        text: "Actions"
     }
-]
+];
 
-const QuestionnairesList = ({questionnaires, removeQuestionnaire, updateStatus}: QuestionnairesListProps) => {
-    const {space} = useContext(SpaceContext);
+const QuestionnairesList = ({ questionnaires, removeQuestionnaire, updateStatus }: QuestionnairesListProps) => {
+    const { space } = useContext(SpaceContext);
     const deleteButtonDisabled = !checkSpacePermission(Permission.DELETE_QUESTIONNAIRE, space.role);
     const updateStatusDisabled = !checkSpacePermission(Permission.UPDATE_QUESTIONNAIRE_STATUS, space.role);
 
     return (
         <Table>
-            <TableHeader items={headerItems}/>
+            <TableHeader items={headerItems} />
             <TableContent>
                 {questionnaires.map((questionnaire) => (
                     <TableRow key={questionnaire.id}>
@@ -46,10 +46,13 @@ const QuestionnairesList = ({questionnaires, removeQuestionnaire, updateStatus}:
                                   className="block w-full cursor-pointer">{questionnaire.name}</Link>
                         </TableItem>
                         <TableItem>
-                        <StatusPicker status={questionnaire.status} disabled={updateStatusDisabled} updateStatus={(status) => updateStatus(status, questionnaire.id)}/>
+                            <StatusPicker status={questionnaire.status} disabled={updateStatusDisabled}
+                                          updateStatus={(status) => updateStatus(status, questionnaire.id)} />
                         </TableItem>
                         <TableItem className="align-middle">
-                            <QuestionnaireActions questionnaire={questionnaire} removeQuestionnaire={removeQuestionnaire} removeDisabled={deleteButtonDisabled}/>
+                            <QuestionnaireActions questionnaire={questionnaire}
+                                                  removeQuestionnaire={removeQuestionnaire}
+                                                  removeDisabled={deleteButtonDisabled} />
                         </TableItem>
                     </TableRow>
                 ))}

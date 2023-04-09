@@ -16,7 +16,7 @@ export const Button = ({
     className,
     type = "default",
     secondary = false,
-    disabled = false,
+    disabled = false
 }: ButtonProps) => {
     let colorType;
 

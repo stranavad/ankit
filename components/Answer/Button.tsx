@@ -1,6 +1,3 @@
-"use client";
-import { DesignContext } from "@/util/context/design";
-import { useContext } from "react";
 import useDesign from "@/util/design";
 
 interface AnswerButtonProps {

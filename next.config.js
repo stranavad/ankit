@@ -9,15 +9,15 @@ const path = require("path");
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
-	experimental: {
-		appDir: true,
-	},
-	swcMinify: true,
-	images: {
-		domains: ["lh3.googleusercontent.com"]
-	},
-	// transpilePackages: ['d3-time-format'],
+    reactStrictMode: true,
+    experimental: {
+        appDir: true
+    },
+    swcMinify: true,
+    images: {
+        domains: ["lh3.googleusercontent.com"]
+    }
+    // transpilePackages: ['d3-time-format'],
 };
 
 module.exports = nextConfig;

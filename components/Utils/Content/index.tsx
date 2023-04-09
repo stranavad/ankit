@@ -1,7 +1,8 @@
+import { type ReactNode } from "react";
 import PageHeader from "@/components/Utils/PageHeader";
 
 const Content = ({ children, twoColumn = false, header = null }: {
-    children: any,
+    children: ReactNode | ReactNode[],
     twoColumn?: boolean,
     header?: string | null
 }) => {

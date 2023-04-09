@@ -1,4 +1,4 @@
-import {JSXElementConstructor} from "react";
+import { JSXElementConstructor } from "react";
 
 interface IconButtonProps {
     icon: JSXElementConstructor<any>;
@@ -50,7 +50,7 @@ const IconButton = ({
     return (
         <button className={className} disabled={disabled} onClick={onClick}>
             <Icon
-                className={`${iconSize} ${disabled ? "text-gray-600" : iconColor} ${disabled ? "cursor-not-allowed" : hoverColor} transition-colors duration-75`}/>
+                className={`${iconSize} ${disabled ? "text-gray-600" : iconColor} ${disabled ? "cursor-not-allowed" : hoverColor} transition-colors duration-75`} />
         </button>
     );
 };

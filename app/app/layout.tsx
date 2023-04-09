@@ -1,11 +1,13 @@
 "use client";
-import {SessionProvider} from "next-auth/react";
-import {TopBarContext, TopBarContextData, TopBarItem} from "@/util/topBarContext";
-import {useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
-import {Bars3Icon, ChevronDoubleRightIcon} from "@heroicons/react/24/outline";
+import { SessionProvider } from "next-auth/react";
+import { TopBarContext, TopBarContextData, TopBarItem } from "@/util/topBarContext";
+import { useEffect, useState, lazy } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Sidebar from "@/components/Sidebar";
+
+const Bars3Icon = lazy(() => import("@heroicons/react/24/outline/Bars3Icon"));
+const ChevronDoubleRightIcon = lazy(() => import("@heroicons/react/24/outline/ChevronDoubleRightIcon"));
+const Sidebar = lazy(() => import("@/components/Sidebar"));
 
 const AppLayout = (props: any) => {
     const [topBarData, setTopBarData] = useState<Omit<TopBarContextData, "setSpace" | "setQuestionnaire">>({
@@ -16,12 +18,12 @@ const AppLayout = (props: any) => {
     const pathname = usePathname();
 
     const setSpace = (space: TopBarItem) => {
-        setTopBarData(data => ({...data, space}));
+        setTopBarData(data => ({ ...data, space }));
     };
 
 
     const setQuestionnaire = (questionnaire: TopBarItem) => {
-        setTopBarData(data => ({...data, questionnaire}));
+        setTopBarData(data => ({ ...data, questionnaire }));
     };
 
     // Watch pathname changed
@@ -33,9 +35,9 @@ const AppLayout = (props: any) => {
 
         if (pathLength <= 4) {
             if (pathname?.includes("dashboard")) {
-                setSpace({title: "Dashboard", path: `/app/dashboard`});
+                setSpace({ title: "Dashboard", path: `/app/dashboard` });
             } else if (pathname?.includes("spaces")) {
-                setSpace({title: "Spaces", path: "/app/spaces"});
+                setSpace({ title: "Spaces", path: "/app/spaces" });
             } else {
                 setSpace(null);
             }
@@ -45,30 +47,30 @@ const AppLayout = (props: any) => {
     const showOverlays = (pathname?.split("/").length || 0) > 2;
 
     return (
-        <TopBarContext.Provider value={{...topBarData, setSpace, setQuestionnaire}}>
+        <TopBarContext.Provider value={{ ...topBarData, setSpace, setQuestionnaire }}>
             <SessionProvider session={props.session}>
                 {showOverlays && (
                     <>
-                        <Sidebar/>
+                        <Sidebar />
                         <nav
                             className="fixed z-10 left-0 sm:left-14 top-0 right-0 h-14 py-1 px-4 flex items-center justify-between sm:justify-start">
                             <div className="flex items-center">
                                 {topBarData.space && (
                                     <>
                                         <Link href={topBarData.space.path}
-                                            className="text-slate-900 text-md md:text-xl font-medium">{topBarData.space.title}</Link>
+                                              className="text-slate-900 text-md md:text-xl font-medium">{topBarData.space.title}</Link>
 
                                         {topBarData.questionnaire && (
                                             <>
-                                                <ChevronDoubleRightIcon className="h-4 w-4 text-slate-800 mx-2"/>
+                                                <ChevronDoubleRightIcon className="h-4 w-4 text-slate-800 mx-2" />
                                                 <Link href={topBarData.questionnaire.path}
-                                                    className="text-slate-800 text-sm md:text-lg font-medium">{topBarData.questionnaire.title}</Link>
+                                                      className="text-slate-800 text-sm md:text-lg font-medium">{topBarData.questionnaire.title}</Link>
                                             </>
                                         )}
                                     </>
                                 )}
                             </div>
-                            <Bars3Icon className="sm:hidden w-6 h-6 text-white"/>
+                            <Bars3Icon className="sm:hidden w-6 h-6 text-white" />
                         </nav>
                     </>
                 )}

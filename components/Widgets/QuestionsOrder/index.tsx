@@ -6,22 +6,21 @@ import {
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors, DragEndEvent,
+    useSensors, DragEndEvent
 } from "@dnd-kit/core";
 import {
     arrayMove,
     SortableContext,
     sortableKeyboardCoordinates,
-    verticalListSortingStrategy,
+    verticalListSortingStrategy
 } from "@dnd-kit/sortable";
-import {useContext} from "react";
+import { useContext } from "react";
 import Question from "./Question";
-import {QuestionsWidgetContext} from "@/util/questionsWidgetContext";
-import {QuestionnaireContext} from "@/util/questionnaireContext";
-import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
-import {updateQuestionPosition} from "@/routes/question";
-import {Dialog} from "@headlessui/react";
-import { SpaceContext } from "@/util/spaceContext";
+import { QuestionsWidgetContext } from "@/util/questionsWidgetContext";
+import { QuestionnaireContext } from "@/util/questionnaireContext";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { updateQuestionPosition } from "@/routes/question";
+import { Dialog } from "@headlessui/react";
 import { checkSpacePermission, Permission } from "@/util/permission";
 import { MemberContext } from "@/util/memberContext";
 
@@ -33,22 +32,22 @@ export interface SimpleQuestion {
 }
 
 const QuestionsOrder = () => {
-    const {questions, setQuestions} = useContext(QuestionsWidgetContext);
-    const {questionnaire} = useContext(QuestionnaireContext);
+    const { questions, setQuestions } = useContext(QuestionsWidgetContext);
+    const { questionnaire } = useContext(QuestionnaireContext);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
+            coordinateGetter: sortableKeyboardCoordinates
         })
     );
 
     const handleDragEnd = (event: DragEndEvent) => {
-        const {active, over} = event;
+        const { active, over } = event;
 
         if (active.id !== over?.id) {
-            const oldItem = questions.find(({id}) => id === active.id);
-            const newItem = questions.find(({id}) => id === over?.id);
+            const oldItem = questions.find(({ id }) => id === active.id);
+            const newItem = questions.find(({ id }) => id === over?.id);
 
             if (!oldItem || !newItem) {
                 return questions;
@@ -68,7 +67,7 @@ const QuestionsOrder = () => {
         }
     };
 
-    const {member} = useContext(MemberContext);
+    const { member } = useContext(MemberContext);
     const disabled = !checkSpacePermission(Permission.UPDATE_QUESTION_OPTION, member.role);
 
     return (
@@ -89,7 +88,7 @@ const QuestionsOrder = () => {
                         disabled={disabled}
                     >
                         {questions.map((question) => (
-                            <Question key={question.id} question={question}/>
+                            <Question key={question.id} question={question} />
                         ))}
 
                     </SortableContext>

@@ -1,5 +1,7 @@
+import { type ReactNode } from "react";
+
 interface PageWrapperProps {
-    children: any;
+    children: ReactNode | ReactNode[];
 }
 
 const PageWrapper = ({ children }: PageWrapperProps) => {

@@ -1,11 +1,11 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 
-const TableContent = ({children}: {children: ReactNode | ReactNode[]}) => {
+const TableContent = ({ children }: { children: ReactNode | ReactNode[] }) => {
     return (
         <div className="table-row-group">
             {children}
         </div>
-    )
-}
+    );
+};
 
-export default TableContent
+export default TableContent;

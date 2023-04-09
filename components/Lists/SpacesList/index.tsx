@@ -1,9 +1,9 @@
-import {lazy} from 'react';
-import {ApplicationSpace} from "@/types/space";
+import { lazy } from "react";
+import { ApplicationSpace } from "@/types/space";
 import Link from "next/link";
-import {ArrowLeftOnRectangleIcon, TrashIcon} from "@heroicons/react/24/outline";
-import {checkSpacePermission, Permission} from "@/util/permission";
-import {RoleType} from "@/types/role";
+import { ArrowLeftOnRectangleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { checkSpacePermission, Permission } from "@/util/permission";
+import { RoleType } from "@/types/role";
 import IconButton from "@/components/Button/IconButton";
 import { getSpaceLink } from "@/util/url";
 import TableHeader, { TableHeaderItem } from "../Utils/Header";
@@ -22,22 +22,22 @@ interface SpacesListProps {
 
 const headerItems: TableHeaderItem[] = [
     {
-        text: 'Name',
-    },
-    { 
-        text: 'Username',
-        breakpoint: 'md',
-    },
-    { 
-        text: 'Role',
-        breakpoint: 'sm',
+        text: "Name"
     },
     {
-        text: 'Actions'
+        text: "Username",
+        breakpoint: "md"
+    },
+    {
+        text: "Role",
+        breakpoint: "sm"
+    },
+    {
+        text: "Actions"
     }
-]
+];
 
-const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
+const SpacesList = ({ spaces, removeSpace, leaveSpace }: SpacesListProps) => {
     const deleteButtonDisabled = (space: ApplicationSpace) => {
         return !checkSpacePermission(Permission.DELETE_SPACE, space.role) || space.personal;
     };
@@ -48,9 +48,9 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
 
     return (
         <Table>
-            <TableHeader items={headerItems}/>
+            <TableHeader items={headerItems} />
             <TableContent>
-            {spaces.map((space) => (
+                {spaces.map((space) => (
                     <TableRow key={space.id}>
                         <TableItem className="font-medium">
                             <Link href={getSpaceLink(space.id)}
@@ -63,26 +63,28 @@ const SpacesList = ({spaces, removeSpace, leaveSpace}: SpacesListProps) => {
                             {space.role}
                         </TableItem>
                         <TableItem>
-                            <ConfirmationModal 
+                            <ConfirmationModal
                                 title="Do you really want to delete this space?"
                                 description="This action is irreversible and you will loose all your data"
                                 submitButtonText="Delete"
                                 submit={() => removeSpace(space.id)}
                             >
                                 {open => (
-                                    <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error" onClick={open} disabled={deleteButtonDisabled(space)}/>
+                                    <IconButton className="mr-1" icon={TrashIcon} size="medium" color="error"
+                                                onClick={open} disabled={deleteButtonDisabled(space)} />
                                 )}
                             </ConfirmationModal>
-                            <ConfirmationModal 
+                            <ConfirmationModal
                                 title="Do you really want to leave this space?"
                                 description="This action is irreversible. You will have to contact the administrator of this space to get gain access "
                                 submitButtonText="Leave"
                                 submit={() => leaveSpace(space.id)}
                             >
                                 {open => (
-                                    <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium" color="primary" onClick={open} disabled={leaveButtonDisabled(space)}/>
+                                    <IconButton className="mr-1" icon={ArrowLeftOnRectangleIcon} size="medium"
+                                                color="primary" onClick={open} disabled={leaveButtonDisabled(space)} />
                                 )}
-                                </ConfirmationModal>
+                            </ConfirmationModal>
                         </TableItem>
                     </TableRow>
                 ))}
