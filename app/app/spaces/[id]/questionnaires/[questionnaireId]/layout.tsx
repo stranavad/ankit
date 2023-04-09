@@ -1,40 +1,44 @@
 "use client";
-import {ReactNode, useContext, useEffect} from "react";
-import {useQuestionnaire} from "@/routes/questionnaire";
+import { ReactNode, useContext, useEffect } from "react";
+import { useQuestionnaire } from "@/routes/questionnaire";
 import {
     defaultQuestionnaire,
-    QuestionnaireContext,
+    QuestionnaireContext
 } from "@/util/context";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Tabs from "@/components/Navigation/Tabs";
-import {TopBarContext} from "@/util/topBarContext";
-import {getQuestionnaireLink} from "@/util/url";
+import { TopBarContext } from "@/util/topBarContext";
+import { getQuestionnaireLink } from "@/util/url";
 
 const routes = [
     {
         name: "Dashboard",
-        path: "",
+        path: ""
     },
     {
         name: "Questions",
-        path: "questions",
+        path: "questions"
+    },
+    {
+        name: "Design",
+        path: "design"
     },
     {
         name: "Settings",
-        path: "settings",
+        path: "settings"
     }
 ];
 
 
 const QuestionnaireLayout = ({
     children,
-    params: {questionnaireId, id: spaceIdProp}
+    params: { questionnaireId, id: spaceIdProp }
 }: { children: ReactNode, params: { questionnaireId: string, id: string } }) => {
     const id = Number(questionnaireId);
     const spaceId = Number(spaceIdProp);
-    const {data, isError} = useQuestionnaire(id);
+    const { data, isError } = useQuestionnaire(id);
 
-    const {setQuestionnaire: setTopBarQuestionnaire} = useContext(TopBarContext);
+    const { setQuestionnaire: setTopBarQuestionnaire } = useContext(TopBarContext);
     const router = useRouter();
 
     if (isError) {
@@ -53,8 +57,8 @@ const QuestionnaireLayout = ({
     }, [data?.name, data?.id]);
 
     return (
-        <QuestionnaireContext.Provider value={{questionnaire: data || defaultQuestionnaire}}>
-            <Tabs routes={routes}/>
+        <QuestionnaireContext.Provider value={{ questionnaire: data || defaultQuestionnaire }}>
+            <Tabs routes={routes} />
             {children}
         </QuestionnaireContext.Provider>
     );

@@ -1,3 +1,8 @@
+"use client";
+import { DesignContext } from "@/util/context/design";
+import { useContext } from "react";
+import useDesign from "@/util/design";
+
 interface AnswerButtonProps {
     text: string;
     onClick: () => void;
@@ -5,11 +10,20 @@ interface AnswerButtonProps {
     disabled?: boolean;
 }
 
-const AnswerButton = ({text, onClick, className = "", disabled=false}: AnswerButtonProps) => {
+const AnswerButton = ({ text, onClick, className = "", disabled = false }: AnswerButtonProps) => {
+    const buttonColor = useDesign("buttonColor");
+    const buttonText = useDesign("buttonText");
+
     return (
         <button
-            className={`${disabled ? 'cursor-not-allowed text-slate-400' : 'bg-blue-500 hover:bg-blue-800 text-slate-100'} transition-colors duration-100 hover py-1 px-3 rounded-md font-medium ${className}`}
-            onClick={onClick} disabled={disabled}>
+            className={`${disabled ? "cursor-not-allowed" : "bg-blue-500"} transition-colors duration-100 hover py-1 px-3 rounded-md font-medium ${className}`}
+            style={{
+                color: disabled ? buttonColor : buttonText,
+                backgroundColor: disabled ? "transparent" : buttonColor
+            }}
+            onClick={onClick}
+            disabled={disabled}
+        >
             {text}
         </button>
     );

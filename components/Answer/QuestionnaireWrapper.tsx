@@ -2,26 +2,36 @@
 import { getQuestionnaire } from "@/routes/answer";
 import { AnswerQuestionnaire } from "@/types/answer";
 import { useState } from "react";
-import PasswordProtection from "./PasswordProtected";
-import Questionnaire from './Questionnaire';
+import PasswordProtected from "./PasswordProtected";
+import Questionnaire from "./Questionnaire";
+import DesignLayout from "@/components/Answer/DesignLayout";
+import { Design } from "@/types/design";
 
 // Used when incorrect password
-const QuestionnaireWrapper = ({hash}: {hash:string}) => {
-    const [data, setData] = useState<AnswerQuestionnaire | null>(null);
+const QuestionnaireWrapper = ({ hash, questionnaire = null, design }: {
+    hash: string,
+    questionnaire: AnswerQuestionnaire | null,
+    design: Design
+}) => {
+    const [data, setData] = useState<AnswerQuestionnaire | null>(questionnaire);
 
     const unlockQuestionnaire = async (password: string) => {
-        const {data} = await getQuestionnaire(hash, password);
+        const { data } = await getQuestionnaire(hash, password);
 
-        if(data){
+        if (data) {
             setData(data);
         }
+    };
+
+    if (data) {
+        return <DesignLayout design={design}><Questionnaire questionnaire={data} /></DesignLayout>;
     }
 
-    if(data){
-        return <Questionnaire questionnaire={data}/>
-    }
-
-    return <PasswordProtection unlock={unlockQuestionnaire}/>
-}
+    return (
+        <DesignLayout design={design}>
+            <PasswordProtected unlock={unlockQuestionnaire} />
+        </DesignLayout>
+    );
+};
 
 export default QuestionnaireWrapper;

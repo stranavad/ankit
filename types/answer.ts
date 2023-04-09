@@ -1,4 +1,5 @@
 import { QuestionType, Structure } from "./questionnaire";
+import { Design } from "@/types/design";
 
 export interface AnswerQuestionnaire {
     id: number | null;
@@ -7,6 +8,7 @@ export interface AnswerQuestionnaire {
     description: string;
     structure: Structure;
     publishedAt: Date;
+    design: Design;
     questions: AnswerQuestion[];
 }
 
@@ -32,7 +34,7 @@ export interface Answer {
     answered: boolean;
 }
 
-export type AnswerEvent = {value?: string, options?: number[]};
+export type AnswerEvent = { value?: string, options?: number[] };
 
 export interface QuestionWithAnswer {
     question: AnswerQuestion;
@@ -42,4 +44,7 @@ export interface QuestionWithAnswer {
 export interface AnswerError {
     status: number;
     error: string;
+    data: {
+        design: Design
+    };
 }

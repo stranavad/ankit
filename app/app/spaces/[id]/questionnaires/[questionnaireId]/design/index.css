@@ -1,0 +1,8 @@
+.color-picker .react-colorful {
+    width: auto;
+}
+
+.color-picker .react-colorful__saturation, .color-picker .react-colorful__hue {
+    margin-top: 8px;
+    border-radius: 12px;
+}

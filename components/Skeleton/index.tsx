@@ -11,7 +11,7 @@ export const LoadingSkeleton = ({lines, title=null}: LoadingSkeletonProps) => {
         return (
             <Content>
                 <h2 className="text-2xl font-bold mb-5">{title}</h2>
-                <div className="border bg-white rounded-md p-4 w-full mx-auto max-w-4xl h-56 mb-10">
+                <div className="border bg-white rounded-md p-4 w-full mx-auto max-w-5xl h-56 mb-10">
                     <div className="animate-pulse flex space-x-4">
                         <div className="flex-1 space-y-5 py-1">
                             {lines.map((width, index) => (
@@ -25,7 +25,7 @@ export const LoadingSkeleton = ({lines, title=null}: LoadingSkeletonProps) => {
     }
     
     return (
-        <div className="border bg-white rounded-md p-4 w-full mx-auto max-w-4xl h-56 mb-10">
+        <div className="border bg-white rounded-md p-4 w-full mx-auto max-w-5xl h-56 mb-10">
             <div className="animate-pulse flex space-x-4">
                 <div className="flex-1 space-y-5 py-1">
                     {lines.map((width, index) => (
