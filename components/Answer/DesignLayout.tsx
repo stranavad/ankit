@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { Design } from "@/types/design";
+import { defaultDesign, Design } from "@/types/design";
 import { DesignContext } from "@/util/context/design";
 
 interface DesignLayoutProps {
@@ -11,7 +11,7 @@ interface DesignLayoutProps {
 const DesignLayout = ({ children, design }: DesignLayoutProps) => {
 
     useEffect(() => {
-        document.body.style = `background: ${design.backgroundColor}`;
+        document.body.style.background = design.backgroundColor ?? defaultDesign.backgroundColor;
     }, []);
 
     return (
